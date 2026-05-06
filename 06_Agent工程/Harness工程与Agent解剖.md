@@ -1,0 +1,352 @@
+# Harness 工程与 Agent 解剖
+
+> 一句话：**Agent = Model + Harness**。大模型是"引擎"，Harness 是"引擎周围让它能真正干活的一整套基础设施"。随着开源模型追平闭源模型，**护城河正在从模型本身迁移到 Harness**。
+
+---
+
+## 目录
+
+- [1. 什么是 Harness Engineering](#1-什么是-harness-engineering)
+- [2. 三层工程的递进关系](#2-三层工程的递进关系)
+- [3. 为什么这个概念一夜爆红：Claude Code 泄露事件](#3-为什么这个概念一夜爆红claude-code-泄露事件)
+- [4. Agent 五层解剖图](#4-agent-五层解剖图)
+- [5. 核心设计原则：Guides + Sensors](#5-核心设计原则guides--sensors)
+- [6. 补强版 Harness 架构图](#6-补强版-harness-架构图)
+- [7. Harness 的典型组件清单](#7-harness-的典型组件清单)
+- [8. 为什么 Harness 是新的 AI 护城河](#8-为什么-harness-是新的-ai-护城河)
+- [9. 未来：Harness 会被模型吞并吗](#9-未来harness-会被模型吞并吗)
+- [10. 与本知识库其他章节的关联](#10-与本知识库其他章节的关联)
+- [11. 延伸阅读](#11-延伸阅读)
+
+---
+
+## 1. 什么是 Harness Engineering
+
+**Harness**（马具 / 挽具）：一个形象的比喻——马（大模型）再强壮，没有缰绳、鞍、马车的连接，也无法把力气变成有用的工作。
+
+官方定义（Martin Fowler / Thoughtworks）：
+
+> "Harness" 指 AI Agent 中**除模型本身以外**的所有东西。Harness Engineering 就是**围绕模型搭建应用与基础设施**的工程学科。
+
+它管的事：
+- 什么时候加载什么上下文
+- 有哪些工具可以调用
+- 哪些动作被允许、哪些被拦截
+- 失败了怎么恢复
+- 会话如何持久化
+- 多轮交互里的状态如何管理
+
+**一句话判断法**：如果你把这个模块里的 LLM 从 Claude 换成 GPT-5 再换成本地 Qwen，它还能工作——那这个模块就是 Harness 的一部分。
+
+---
+
+## 2. 三层工程的递进关系
+
+业界已经形成共识的三层划分，**每一层都包含前一层**：
+
+| 层次 | 管什么 | 生活类比 |
+|------|--------|---------|
+| **Prompt Engineering**（提示词工程） | 怎么写指令、怎么问问题 | 教一个员工"怎么说话" |
+| **Context Engineering**（上下文工程） | 什么内容何时进入上下文窗口 | 管理员工"每次看到的信息" |
+| **Harness Engineering**（脚手架工程） | 整个应用与基础设施：工具、记忆、权限、错误恢复 | 搭建员工"工作的整个公司" |
+
+```
+Harness Engineering
+└── Context Engineering
+    └── Prompt Engineering
+        └── 原始 API 调用
+```
+
+**这也解释了为什么提示词工程不够用**：单靠调整 prompt，解决不了"工具失败要重试"、"上下文爆掉要压缩"、"并发调用要编排"这些工程问题。
+
+---
+
+## 3. 为什么这个概念一夜爆红：Claude Code 泄露事件
+
+**2026 年 3 月**，Anthropic 在发布 Claude Code v2.1.88 npm 包时，因打包错误意外泄露了**约 51.2 万行 TypeScript 源码**（1900 个文件，完整未混淆的 source map）。几小时内相关镜像仓库飙到 5 万星。
+
+人们打开一看，震惊整个 AI 圈——**这根本不是"LLM 的薄壳调用层"**，而是一整套工程精密的系统：
+
+| 组件 | 规模 / 做法 |
+|------|-----------|
+| **权限受控工具** | 约 40 个（文件操作、Bash、网络、LSP 集成） |
+| **Query Engine** | 约 **46,000 行**，负责 API 调用、token 缓存、上下文管理、重试逻辑 |
+| **动态上下文管理** | 上下文快爆时自动压缩消息 |
+| **静默故障恢复** | 工具失败后走一套恢复策略，用户完全感觉不到 |
+| **编译时特性剔除** | 防止内部实验工具流到外部用户 |
+
+几天后，OpenAI 跟进公布：一个 3 人团队用"harness engineering"方法，产出了**百万行代码库，人均每天 3.5 个 PR，零手动敲代码**。
+
+**关键影响**：这个泄露让 "Harness Engineering" 这个术语**一夜之间成为行业通用词汇**——它只是给开发者早已在做的事命了一个名。
+
+---
+
+## 4. Agent 五层解剖图
+
+目前入门课件里最主流的切法（中文社区常见版本）：
+
+```
+┌─────────────────────────────────────────────────┐
+│                    编排层                        │
+├──────────┬────────────────────────┬────────────┤
+│          │                         │            │
+│  记忆层   │      大模型 LLM          │   执行层    │
+│          │                         │            │
+├──────────┴────────────────────────┴────────────┤
+│                    反馈层                        │
+└─────────────────────────────────────────────────┘
+                     AI Agent
+```
+
+### 4.1 每一层对应到 Harness 世界里的什么
+
+| 图中层级 | Harness 世界里的对应 | Claude Code 里的具体体现 |
+|---------|-------------------|-------------------------|
+| **编排层** | Control Loop / Query Engine（调度大脑） | 泄露代码里那 46,000 行的 query engine——决定何时调用工具、何时停止、怎么重试 |
+| **记忆层** | Memory + Context Engineering | 会话持久化、自动消息压缩、`MEMORY.md`、`CLAUDE.md`、Prompt Caching |
+| **大模型** | **Model**（唯一不属于 Harness 的部分） | Claude / GPT / Gemini 本身 |
+| **执行层** | Tools + MCP + Sandbox | ~40 个权限受控工具（Read、Write、Bash、LSP...）+ MCP servers |
+| **反馈层** | **Sensors**（反馈控制） | 测试失败回灌、lint 报错 → 模型自修复、错误恢复循环 |
+
+**一句话**：去掉中间那块"大模型"，剩下的**四层框架结构就是 Harness 的全部**。
+
+### 4.2 这个五层图的优点
+
+1. 干净地把模型和基础设施分开，避免初学者把"Agent 智能"全归功于模型
+2. "反馈层"单独拎出来——很多简化图会漏掉，但它恰恰是 Agent 质量翻倍的关键
+3. "编排层"在顶部覆盖整个系统——准确，它确实是全局调度者
+4. 结构对称，适合入门讲解
+
+### 4.3 这个五层图的局限
+
+入门图没有展开的关键机制：
+
+| 缺失的部分 | 为什么重要 |
+|-----------|-----------|
+| **Guides（前馈引导）** | 五层图只画了反馈控制，但 Harness 更关键的是**事前引导**：system prompt、Skills、工具描述都属于 Guides |
+| **权限闸门** | Claude Code 的工具是 **permission-gated** 的。执行层不应该是"直通"，中间必须有权限判定。安全攻防的具体战术见 [Agent 安全攻防](Agent安全攻防.md) |
+| **Skills / 渐进式披露** | 现代 Harness 的核心优化——按需加载指令，而不是塞满 system prompt |
+| **子代理（Sub-agents）** | 编排层实际可以派生子 Agent 跑并行 / 便宜任务 |
+| **观测 / 日志** | 反馈层只体现了"自修复"，生产级 Harness 还需要给人看的日志与回放 |
+
+---
+
+## 5. 核心设计原则：Guides + Sensors
+
+Thoughtworks 的 Birgitta Böckeler 提出的 Harness 设计框架：
+
+### 5.1 Guides（前馈控制）——事前引导
+
+> 预判 Agent 可能做错什么，**在它行动前**就引导它走对路。
+
+- **目标**：提高"首次做对"的概率
+- **手段**：system prompt、Skills、工具描述、example few-shot、角色设定
+- **类比**：员工入职手册、SOP、岗位说明书
+
+### 5.2 Sensors（反馈控制）——事后纠正
+
+> 在 Agent 行动**之后**观察结果，让它自我纠正。
+
+- **目标**：即便第一次做错，也能自动收敛到正确结果
+- **最强形式**：**为 LLM 消费优化的信号**——例如 linter 报错里直接包含"修复指令"（一种正向的 prompt injection）
+- **类比**：测试反馈、代码评审、监控告警
+
+### 5.3 两条反直觉的洞见
+
+**洞见 1：Agent 并不讨厌被微观管理**
+> 和人类开发者不同，**约束越多、检查越多、结构越清晰，Agent 表现越好**——而不是更差。对人类团队奏效的"lean & minimal"直觉，在 Agent 身上反而是减分项。
+
+**洞见 2：自我验证是最强杠杆**
+> Boris Cherny（Claude Code 作者）说：给模型一种**验证自己工作**的方式（跑测试、看 lint、调 API 验证返回），**质量直接提升 2–3 倍**。
+
+### 5.4 两种控制手段的成本光谱
+
+| 类型 | 示例 | 特点 |
+|------|------|------|
+| **Computational**（计算型） | 静态类型检查、单元测试、lint | 确定、快、便宜 |
+| **Inferential**（推断型） | AI 驱动的语义 review、LLM-as-judge | 慢、贵，但能抓住语义层面的问题 |
+
+**原则**：先用便宜的计算型控制尽可能多的情况，把贵的推断型控制留给真正需要语义判断的部分。
+
+---
+
+## 6. 补强版 Harness 架构图
+
+把前面五层图扩展成一个**更贴近真实生产级 Harness** 的结构图：
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                  编排层 (Orchestrator)                   │
+│         · 调度循环   · 子代理派生   · 并发管理             │
+├───────────┬──────────────────────────────────┬──────────┤
+│           │                                    │          │
+│           │         Guides (前馈控制)          │          │
+│           │   System Prompt · Skills · 模板   │          │
+│           │                                    │          │
+│  记忆层    │      ┌────────────────────┐       │  执行层   │
+│ Context   │      │                    │       │  Tools   │
+│ + 压缩    │      │    大模型 LLM       │◄──────┤ +权限闸门 │
+│ + Cache   │      │                    │       │ + MCP    │
+│           │      └────────────────────┘       │          │
+│           │                                    │          │
+│           │        Sensors (反馈控制)          │          │
+│           │   测试 · Lint · 错误回灌 · 重试     │          │
+│           │                                    │          │
+├───────────┴──────────────────────────────────┴──────────┤
+│              反馈层 + 观测 / 日志 / 回放                   │
+└─────────────────────────────────────────────────────────┘
+                         AI Agent
+```
+
+补强版架构图把五层图缺失的三个关键部分补上了：
+1. **Guides / Sensors 的二分**显式化
+2. **权限闸门**作为执行层的必经通道
+3. **观测层**作为反馈层的生产级配套
+
+---
+
+## 7. Harness 的典型组件清单
+
+### 7.1 Skills（技能 / 渐进式披露）
+
+**要解决的问题**：把所有指令都塞 system prompt，上下文会被提前消耗完。
+
+**做法**：
+- 把知识、指令、工具打包成"技能单元"
+- Agent 只在**判断需要时**才加载对应技能
+- 类比：人类的专业知识不是全部记在脑子里，而是"知道什么时候查什么书"
+
+### 7.2 Sub-agents（子代理）
+
+**要解决的问题**：
+- 成本：不是所有任务都值得调用 Opus
+- 上下文污染：子任务的中间过程不应该占用主会话窗口
+
+**做法**：
+- 主会话用贵模型（Opus）做规划、编排
+- 派生子代理用便宜模型（Sonnet / Haiku）做具体活儿
+- 子代理返回**摘要结果**给主会话，中间过程不回流
+
+### 7.3 MCP Servers（Model Context Protocol）
+
+**作用**：用标准协议把外部服务接进 Agent。
+
+**两种形态**：
+- **本地 MCP**：运行在本机，操作本地文件、执行命令
+- **远程 MCP**：HTTP 连接，对接 Linear、Sentry、GitHub、Notion 等 SaaS
+
+**机制要点**：MCP 把工具描述、参数 schema 注入到 Agent 的 system prompt，Agent 自动学会何时调用。
+
+### 7.4 Error Correction Loops（错误纠正循环）
+
+标准模式：
+
+```
+测试失败 → 模型读取错误 → 分析根因 → 生成修复 → 重跑测试
+     ↑                                                │
+     └────────────────────────────────────────────────┘
+                 循环直到通过 或 达到重试上限
+```
+
+**关键点**：错误信息要以 LLM 能高效消费的方式呈现（结构化、带上下文、带建议），否则循环效率很低。
+
+### 7.5 工具层的"有主见"
+
+**反例**：直接给模型裸 `bash` 访问。
+- 噪声大、结果不可预测
+- 难以并发
+- 危险操作无保护
+
+**正例**（Claude Code 的做法）：
+- 提供 40 个**经过验证、语义明确**的工具
+- 工具内部做**并发安全**处理
+- 每个工具有**明确的权限等级**（read / write / destructive）
+
+---
+
+## 8. 为什么 Harness 是新的 AI 护城河
+
+```
+同一个 Claude API key
+    │
+    ├─── 开发者 A：简单 prompt-response 循环 → 玩具级 demo
+    │
+    └─── 开发者 B：工具 + 自动测试 + 错误纠正 + 持久记忆 → 生产力工具
+```
+
+差距的全部来源于 Harness 的工程深度，**和模型本身无关**。
+
+**商业逻辑**：
+- 开源模型正在快速追平闭源模型（性能差距在缩小）
+- 多家厂商提供智力接近的模型
+- **下一个差异化的战场是"模型周围的一切"**
+
+这就是为什么 Anthropic 对 Claude Code 源码被泄露反应那么剧烈——**那 51 万行代码是真正的护城河**，不是模型权重。
+
+---
+
+## 9. 未来：Harness 会被模型吞并吗
+
+**常见疑问**：模型越来越强，Harness 里做的事（工具调用、上下文管理、自修复）会不会被模型内置掉，以至于 Harness 变得不必要？
+
+**LangChain 的 Harrison Chase 的反向观点**：
+
+> Claude Code 现在已经 **51 万行代码**，这是一个**随着模型变强而持续增长的 Harness，不是缩小的**。
+>
+> **更强的模型会扩展 Harness 需要做的事，而不是取代 Harness 的必要性。**
+
+为什么：
+- 模型越强 → 能被委托的任务更复杂 → Harness 要管理的状态/工具/约束更多
+- 模型越强 → 用户对质量要求更高 → 需要更多的 Guides 和 Sensors
+- 模型越强 → 和外部系统的集成需求越多 → MCP / 工具层越厚
+
+**结论**：Harness Engineering 是一个**随 AI 能力一起增长的长期工程学科**，不是过渡方案。
+
+---
+
+## 10. 与本知识库其他章节的关联
+
+| 相关章节 | 关联点 |
+|---------|-------|
+| [00_核心概念/上下文窗口与Token计费](../00_核心概念/上下文窗口与Token计费.md) | Harness 的"记忆层"核心就是上下文工程；Prompt Caching 是降低 Harness 运行成本的关键 |
+| [02_提示词工程/](../02_提示词工程/) | Prompt Engineering 是 Harness Engineering 的**最内层**——这篇笔记解释了为什么提示词工程是"必要但不充分"的 |
+| [03_应用实践/RAG/](../03_应用实践/RAG/) | RAG 本质是"记忆层"的一种具体实现——把外部知识喂进上下文 |
+| [05_技术基础/软件架构设计详解.md](../05_技术基础/软件架构设计详解.md) | Harness Engineering 本质是"软件架构"在 AI 时代的新分支——分层、关注点分离、可替换性等原则同样适用 |
+
+---
+
+## 11. 延伸阅读
+
+### 权威一手资料
+- Martin Fowler / Thoughtworks — [Harness engineering for coding agent users](https://martinfowler.com/articles/harness-engineering.html)（Böckeler 的 Guides/Sensors 框架原文）
+- Firecrawl — [What Is an Agent Harness?](https://www.firecrawl.dev/blog/what-is-an-agent-harness)
+- HumanLayer — [Skill Issue: Harness Engineering for Coding Agents](https://www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents)
+
+### Claude Code 泄露事件分析
+- TechTalks — [Why harness engineering is becoming the new AI moat](https://bdtechtalks.com/2026/04/06/ai-harness-engineering-claude-code-leak/)
+- Productboard — [Harness Engineering Explained: What the Claude Leak Means](https://www.productboard.com/blog/what-the-claude-clode-leak-means-for-product-managers/)
+- GitHub — [Learn Claude Code: Harness Engineering for Real Agents](https://github.com/shareAI-lab/learn-claude-code)
+
+### 中文深度解读
+- 张涵东 — [Harness Engineering: From Claude Code Internals](https://zhanghandong.github.io/harness-engineering-from-cc-to-ai-coding/en/)
+
+---
+
+## 附录：关键术语速查
+
+| 术语 | 中文 | 一句话解释 |
+|------|------|---------|
+| Harness | 脚手架 / 挽具 | 模型之外让 Agent 能工作的一切 |
+| Agent | 智能体 | Model + Harness 的整体 |
+| Orchestrator | 编排层 | 调度循环的大脑 |
+| Guides | 前馈控制 | 事前引导（system prompt、Skills、工具描述） |
+| Sensors | 反馈控制 | 事后纠正（测试、lint、错误回灌） |
+| MCP | 模型上下文协议 | Agent 接入外部工具/服务的标准协议 |
+| Skills | 技能 / 渐进式披露 | 按需加载指令，不把所有东西塞进 system prompt |
+| Sub-agent | 子代理 | 派生的、运行小任务的子 Agent |
+| Permission Gate | 权限闸门 | 工具执行前的权限判定点 |
+
+---
+
+*最后更新: 2026-04-22*
+*归属模块: 06_Agent工程*

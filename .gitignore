@@ -1,0 +1,42 @@
+# macOS 系统文件
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Claude Code 项目级私有配置（含本地权限白名单等敏感信息）
+.claude/settings.local.json
+.claude/sessions/
+.claude/todos/
+.claude/cache/
+.claude/file-history/
+
+# Python 缓存与字节码
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+env/
+
+# Jupyter 检查点
+.ipynb_checkpoints/
+
+# IDE 与编辑器
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# 日志与临时文件
+*.log
+*.tmp
+tmp/
+
+# 环境变量与密钥（重要！）
+.env
+.env.local
+*.key
+*.pem
