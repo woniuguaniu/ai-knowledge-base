@@ -1,13 +1,13 @@
 ---
 name: knowledge-base-curator
-description: Use when user wants to integrate new material (PPT screenshots, course slides, papers, articles, notes) into the personal knowledge base at /Users/xxddd/Desktop/与AI交流AI. Triggers on Chinese verbs 整理 / 沉淀 / 消化 / 归档 / 落盘 / 整合 in combination with mentions of 截图 / 图 / PPT / 课程 / 论文 / 文章 / 笔记, OR when user provides screenshots while working in this knowledge base. Provides 8-rule SOP, decision tree for placement, cross-reference rules, README sync workflow, and end-to-end consistency testing.
+description: Use when user wants to integrate new material (PPT screenshots, course slides, papers, articles, notes) into the personal knowledge base at /Users/<your-username>/Desktop/与AI交流AI. Triggers on Chinese verbs 整理 / 沉淀 / 消化 / 归档 / 落盘 / 整合 in combination with mentions of 截图 / 图 / PPT / 课程 / 论文 / 文章 / 笔记, OR when user provides screenshots while working in this knowledge base. Provides 8-rule SOP, decision tree for placement, cross-reference rules, README sync workflow, and end-to-end consistency testing.
 ---
 
 # 知识库素材消化 SOP
 
 ## 适用范围
 
-**仅适用于** `/Users/xxddd/Desktop/与AI交流AI` 这个知识库。其它项目不要套用本 Skill 的规则——它们的目录结构不同。
+**仅适用于** `/Users/<your-username>/Desktop/与AI交流AI` 这个知识库。其它项目不要套用本 Skill 的规则——它们的目录结构不同。
 
 如果用户在其它目录提到"整理笔记"，**不要**激活本 Skill。
 
@@ -142,7 +142,7 @@ Step 10│ 最终汇报：规模、章节、引用网、未来可继续方向
 # 1. 验证跨文档目标文件全部存在
 echo "=== 跨文档目标存在性 ==="
 grep -hoE "\(\.\.?/[^)]+\.md" <新文档.md> | tr -d '()' | while read p; do
-  abs="/Users/xxddd/Desktop/与AI交流AI/$(echo $p | sed 's|^\.\./||;s|^\./||')"
+  abs="/Users/<your-username>/Desktop/与AI交流AI/$(echo $p | sed 's|^\.\./||;s|^\./||')"
   [ -f "$abs" ] && echo "✅ $p" || echo "❌ MISSING: $p"
 done
 
@@ -152,8 +152,8 @@ done
 
 # 3. 验证 README 与实际目录一致
 echo "=== README 索引 vs 实际文件 ==="
-grep -oE "\([^)]+\.md\)" /Users/xxddd/Desktop/与AI交流AI/README.md | tr -d '()' | while read p; do
-  abs="/Users/xxddd/Desktop/与AI交流AI/$p"
+grep -oE "\([^)]+\.md\)" /Users/<your-username>/Desktop/与AI交流AI/README.md | tr -d '()' | while read p; do
+  abs="/Users/<your-username>/Desktop/与AI交流AI/$p"
   [ -f "$abs" ] && echo "✅ $p" || echo "❌ MISSING: $p"
 done
 

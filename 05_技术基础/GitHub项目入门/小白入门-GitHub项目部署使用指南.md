@@ -328,7 +328,7 @@ npm -v    # 类似 10.x.x
 ### 第 4 步：安装项目依赖
 
 ```bash
-cd /Users/xxddd/Desktop/仓库/gpt_image_playground
+cd /Users/<your-username>/Desktop/仓库/gpt_image_playground
 npm install
 ```
 
@@ -406,7 +406,7 @@ npm run dev
 
 #### 🟡 想自己掌控 → 选 Docker
 ```bash
-cd /Users/xxddd/Desktop/仓库/gpt_image_playground
+cd /Users/<your-username>/Desktop/仓库/gpt_image_playground
 docker build -f deploy/Dockerfile -t my-gpt-image .
 docker run -d -p 8080:80 my-gpt-image
 ```
