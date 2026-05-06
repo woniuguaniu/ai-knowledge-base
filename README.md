@@ -80,6 +80,8 @@
 | Agent 发展轨迹四阶段 | [Agent发展轨迹四阶段.md](06_Agent工程/Agent发展轨迹四阶段.md) | 小白视角史观文：Prompt → Reasoning/ReAct → Context → Harness 的"俄罗斯套娃"演进，附生动比喻、入门路径与「**Agent 架构师**」职业视角评析 |
 | Eval 测评体系 | [Eval测评体系.md](06_Agent工程/Eval测评体系.md) | Agent 工程的命根子：四类 Eval（离线 / 在线 A/B / LLM-as-Judge / 人工）、构建数据集、关键指标、实战工具、5 大经典误区、小白第一周落地路径 |
 | Agent 安全攻防 | [Agent安全攻防.md](06_Agent工程/Agent安全攻防.md) | **30 种攻击手法**（提示词注入 / 间接注入 / RAG 投毒 / MCP 投毒 / GCG 对抗后缀 / DAN 越狱…）+ **17 项防御技术**（5 层框架 + 12 项具体：Canary Token / LLM Guard / Spotlighting / DLP / HITL / 沙箱…）+ 纵深防御方法论；源自 OpenClaw 敲壳测试 |
+| Claude Code 扩展生态 | [Claude Code 扩展生态.md](06_Agent工程/Claude%20Code%20扩展生态.md) | **5 大扩展机制系统讲解**：Skill（技能/渐进式披露）+ MCP（USB 协议/装查删命令/4 个实战例子：即梦/飞书/天气/Firecrawl）+ CLI（飞书/OpenCLI/gh/Gemini）+ SubAgent（自动派生 vs `/agents` 7 步流程 + 「秋瓷团」5 角色案例）+ Hook（5 种钩子类型）+ Plugin（整合包/`/plugin`管理）；含核心金句、对比选型表、渐进学习路径 |
+| Claude Code 实战速查 | [Claude Code 实战速查.md](06_Agent工程/Claude%20Code%20实战速查.md) | **日常使用速查手册**：CC 启停 + 17 个常用指令分类速查（基础/模型/项目/扩展）+ 3 家国产模型 API 直连配置（GLM 4.5 / Kimi K2 / Qwen3 Coder）+ 4 种接入方案对比 + 「秋瓷团」5 角色一日工作流案例 + 5 类场景的 MCP 应用图鉴（视频/笔记/Word/面试/论文）+ 5 大踩坑提醒 + 高频命令一览 |
 
 ---
 
@@ -121,4 +123,4 @@
 
 ---
 
-*最后更新: 2026-05-05*
+*最后更新: 2026-05-06*
