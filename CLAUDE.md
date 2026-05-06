@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 这是一个**纯 Markdown 中文知识库**，不是代码项目：
 - 没有 build / lint / test 流程，没有 `package.json` / `pyproject.toml` 等清单文件
-- 不是 git 仓库（无 `.git/`）
+- 已纳入 git 版本管理（用于追踪笔记演进，不是协作开发）
 - 内容是作者（个人学习者）与 AI 交流学习过程中沉淀的笔记
 - 所有交流与写作使用**中文**
 
