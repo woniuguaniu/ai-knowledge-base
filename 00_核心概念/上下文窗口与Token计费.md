@@ -187,6 +187,9 @@ Claude Opus 4.7 官方价格（每 1M token，美元）：
 
 - [Transformer](Transformer.md) —— 注意力机制是上下文窗口的底层基础
 - [注意力机制](注意力机制.md) —— KV cache 正是缓存机制能实现的技术前提
+- [大模型如何"理解"文本](大模型如何理解文本.md) —— 上下文窗口边界为什么会限制"主题分析"质量(Lost in the Middle)
+- [LLM-API 选型方法论](../03_应用实践/LLM-API选型方法论.md) —— Token 计费在 API 选型 5 维度框架中的位置
+- [LLM 接口规范实战](../03_应用实践/LLM接口规范实战.md) —— Chat Completion 响应里的 `usage` 字段、`reasoning_tokens` 等计费细节
 
 ---
 

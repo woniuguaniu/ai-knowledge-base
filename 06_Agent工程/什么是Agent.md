@@ -309,6 +309,8 @@ Action: 输出最终答案
 
 > 多 Agent 不是"越多越好"——多 Agent 之间的通信成本、上下文同步、错误传播都是新问题。**90% 场景单 Agent 就够。**
 
+> 🔗 想看真实的 7 人 Multi-Agent 系统怎么协作、Persona 文件怎么写、共享真相源怎么落地?读 [Multi-Agent 工程实战与 Persona 设计](Multi-Agent工程实战与Persona设计.md)——本节抽象对比的工程化延伸。
+
 ### 8.3 被动 Agent vs 主动 Agent
 
 | 类型 | 特点 | 例子 |

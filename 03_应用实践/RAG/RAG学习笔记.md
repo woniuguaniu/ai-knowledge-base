@@ -97,3 +97,12 @@ RAG 系统中"检索"部分需要搜索能力，以下是两个常用的搜索 A
 | Exa | 语义搜索 API，质量高但需清洗数据 |
 | Multi-Agent | 多个 AI 智能体协作完成任务的架构 |
 | 语义搜索 | 按语义/含义匹配，而非纯关键词匹配 |
+
+---
+
+## 6. 与本知识库其他章节的关联
+
+- **RAG 检索"示例题"而不是"知识文档"的变种**:[Medprompt方法论解析.md](../Medprompt方法论解析.md)——动态 few-shot 本质就是 RAG 思路,只不过检索的是"最相似的历史例题"
+- **RAG 在真实业务的落地**:[宠物CT影像AI辅助诊断方案.md](../宠物CT影像AI辅助诊断方案.md)——第一阶段就是"DICOM 切片向量化 + 历史病例相似检索 + 多模态大模型生成诊断"的典型 RAG 工作流
+- **RAG 用到的多模态调用**:[LLM接口规范实战.md](../LLM接口规范实战.md)——OpenAI 兼容接口的 `content` 数组、图片 Base64 编码、Gemini `parts` 格式等
+- **自建 RAG 的三件套深度补全**:[Embedding-Reranker-向量数据库.md](../Embedding-Reranker-向量数据库.md)——Embedding 模型选型 + 7 大向量库横评 + Reranker 精排 + 完整 RAG Pipeline 示例

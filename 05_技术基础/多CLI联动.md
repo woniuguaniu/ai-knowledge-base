@@ -435,6 +435,8 @@ claude mcp add codex -s user ...  ← 所有项目都启用
 | Eval 体系 | [Eval测评体系](../06_Agent工程/Eval测评体系.md) | 玩法 C（三方投票）是 Eval 的低成本实现 |
 | Shell 基础 | [Shell与终端基础知识总结](Shell与终端基础知识总结.md) | 管道、stdin/stdout 是联动基础 |
 | Skill 工程 | [.claude/skills/knowledge-base-curator/SKILL.md](../.claude/skills/knowledge-base-curator/SKILL.md) | 未来可写 Skill 自动选择 CLI |
+| **各家模型特点** | [各家LLM模型特点速查](../03_应用实践/各家LLM模型特点速查.md) | 选 CLI 之前先认识各家模型(Claude/GPT/Gemini)的核心定位 |
+| **API 选型方法论** | [LLM-API选型方法论](../03_应用实践/LLM-API选型方法论.md) | 三方协同的成本估算与提供商选择 |
 
 ---
 

@@ -312,6 +312,8 @@ Thoughtworks 的 Birgitta Böckeler 提出的 Harness 设计框架：
 | [02_提示词工程/](../02_提示词工程/) | Prompt Engineering 是 Harness Engineering 的**最内层**——这篇笔记解释了为什么提示词工程是"必要但不充分"的 |
 | [03_应用实践/RAG/](../03_应用实践/RAG/) | RAG 本质是"记忆层"的一种具体实现——把外部知识喂进上下文 |
 | [05_技术基础/软件架构设计详解.md](../05_技术基础/软件架构设计详解.md) | Harness Engineering 本质是"软件架构"在 AI 时代的新分支——分层、关注点分离、可替换性等原则同样适用 |
+| [Multi-Agent 工程实战与 Persona 设计](Multi-Agent工程实战与Persona设计.md) | 五层架构的多 Agent 落地案例:**记忆层**对应"共享真相源",**编排层**对应"R&D 流水线",**执行层**对应"任务二分法"(脚本 vs AI) |
+| [Function Calling 与 MCP 工程指南](Function%20Calling与MCP工程指南.md) | **执行层**的具体实现——工具调用协议、御三家差异、MCP "USB 化"工具生态 |
 
 ---
 

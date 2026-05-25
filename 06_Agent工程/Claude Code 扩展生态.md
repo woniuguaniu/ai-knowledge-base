@@ -469,6 +469,7 @@ claude --dangerously-skip-permissions
 | 多 CLI 联动 | [多CLI联动.md](../05_技术基础/多CLI联动.md) | CLI 章节的深入扩展 |
 | MCP 词条 | [程序员黑话速查.md](../05_技术基础/程序员黑话速查.md) | MCP 简短定义速查 |
 | Agent 安全攻防 | [Agent安全攻防.md](Agent安全攻防.md) | MCP 投毒等攻击手法对应到本文的 MCP 章节 |
+| **Function Calling 与 MCP 工程指南** | [Function Calling与MCP工程指南.md](Function%20Calling与MCP工程指南.md) | 本文 § 四 讲 MCP 的"装/查/删 + 实战例子",那篇讲 FC 原理 + 御三家接口对比 + MCP 工程实战(写 Server / 接 LiteLLM) |
 
 ---
 

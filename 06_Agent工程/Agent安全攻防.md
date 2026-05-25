@@ -1323,6 +1323,8 @@ User Request → Agent A → 计划操作: "读取 /etc/passwd"
 | Eval 测评体系 | [Eval测评体系](Eval测评体系.md) | § 4.7 红队对抗测试是 Eval 在安全维度的特化 |
 | RAG 知识库 | [RAG学习笔记](../03_应用实践/RAG/RAG学习笔记.md) | § 2.10 #26 RAG 投毒是 RAG 系统的主要攻击面 |
 | MCP 协议 | [程序员黑话速查 - MCP](../05_技术基础/程序员黑话速查.md#mcpmodel-context-protocol) | § 2.10 #27 MCP 投毒是 MCP 生态的核心威胁 |
+| LLM 自发"假装" vs 被诱导假装 | [LLM 典型失败模式](LLM典型失败模式.md) | 本文 § 2 讲攻击者诱导 LLM 假装绕规则（DAN 越狱等），该文讲 LLM 自发的表演性完成；两种"假装"机制不同需对照 |
+| **Function Calling / MCP 攻击面** | [Function Calling与MCP工程指南 § 6.5](Function%20Calling与MCP工程指南.md) | 工具调用是 Agent 的主要攻击面:任意 shell / 任意路径读写 / 任意 SQL 等典型反模式与白名单/沙箱/HITL 防御 |
 | 多 CLI 联动 | [多CLI联动 § 6 工程坑](../05_技术基础/多CLI联动.md#6-工程坑清单) | "安全风险"那一行直接对应本文 § 4.5 沙箱隔离 |
 | 模型训练技术 | [模型训练技术速查](../00_核心概念/模型训练技术速查.md) | § 2.11 #30 训练数据投毒发生在 SFT/RLHF 阶段 |
 | 程序员黑话速查 | [程序员黑话速查](../05_技术基础/程序员黑话速查.md) | 本文用到的 GCG / Canary / DLP / HITL 等术语在那里有解释 |

@@ -323,6 +323,7 @@ Step 4: 想深入？读 Anthropic 官方博客
 | RAG 检索增强 | [RAG学习笔记](../03_应用实践/RAG/RAG学习笔记.md) | Context Engineering 的核心实现技术 |
 | Transformer 基础 | [Transformer](../00_核心概念/Transformer.md) | 所有阶段的最底层"引擎" |
 | 提示词工程子项目 | [02_提示词工程](../02_提示词工程/README.md) | 第一阶段的系统化教程 |
+| Multi-Agent 实战案例 | [Multi-Agent 工程实战与 Persona 设计](Multi-Agent工程实战与Persona设计.md) | 第四阶段 Harness Engineering 中"多 Agent 协作"的具体落地例(7 人量化团队 + Persona 文件结构 + 四大工程原则) |
 
 ---
 

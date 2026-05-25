@@ -150,6 +150,10 @@ PE(pos, 2i)   = sin(pos / 10000^(2i/d_model))
 PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))
 ```
 
+> 💡 现代大模型基本不再用上面的正弦余弦位置编码，主流方案是 **RoPE（旋转位置编码）**。
+> RoPE 还可以通过 **YaRN** 等技术外推到比训练时更长的上下文（如 32K → 128K）。
+> 详见 [Dense 与 MoE 架构对比 § YaRN](Dense与MoE架构对比.md#4-yarn把短上下文模型拉长的技术)。
+
 ### 3. 残差连接（Residual Connection）
 ```python
 output = LayerNorm(x + Sublayer(x))
@@ -207,6 +211,7 @@ Transformer (2017)
 ## 相关链接
 
 - [注意力机制详解](注意力机制.md)
+- [大模型如何"理解"文本](大模型如何理解文本.md) —— 本文讲底层结构，那篇从"任务能力"视角串起来回答"为什么 Transformer 能做主题分析、摘要"
 - [DeepSeek 的创新](../01_模型架构/DeepSeek.md)
 
 ---
