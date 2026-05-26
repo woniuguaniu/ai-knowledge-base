@@ -99,7 +99,7 @@
 | 主题 | 文件 | 简介 |
 |------|------|------|
 | 什么是 Agent（**入门必读**）| [什么是Agent.md](06_Agent工程/什么是Agent.md) | 完全没接触过 Agent 的入门科普：三段循环（Perception → Reasoning → Action）、4 大核心能力（Tool Use / Memory / Planning / Reflection）、Claude Code 修 bug 真实例子、7 大常见误区、Agent vs Workflow/LLM/Copilot 对比、ReAct 模式、术语速查 |
-| Harness 工程与 Agent 解剖 | [Harness工程与Agent解剖.md](06_Agent工程/Harness工程与Agent解剖.md) | Agent = Model + Harness；三层工程递进、Claude Code 泄露事件、**Agent 五层架构图（编排层 / 记忆层 / 大模型 / 执行层 / 反馈层）**与补强版、Guides/Sensors 框架 |
+| Harness 工程与 Agent 解剖 | [Harness工程与Agent解剖.md](06_Agent工程/Harness工程与Agent解剖.md) | Agent = Model + Harness；三层工程递进、Claude Code 泄露事件、**Agent 五层架构图（编排层 / 记忆层 / 大模型 / 执行层 / 反馈层）**与补强版、Guides/Sensors 框架；**§ 5.5 实操速查（社区六层视角对照）**：上下文三层组织（规则/状态/证据）+ 记忆 3 类生命周期 + 失败类型→恢复策略对照表 |
 | Agent 发展轨迹四阶段 | [Agent发展轨迹四阶段.md](06_Agent工程/Agent发展轨迹四阶段.md) | 小白视角史观文：Prompt → Reasoning/ReAct → Context → Harness 的"俄罗斯套娃"演进，附生动比喻、入门路径与「**Agent 架构师**」职业视角评析 |
 | Eval 测评体系 | [Eval测评体系.md](06_Agent工程/Eval测评体系.md) | Agent 工程的命根子：四类 Eval（离线 / 在线 A/B / LLM-as-Judge / 人工）、构建数据集、关键指标、实战工具、5 大经典误区、小白第一周落地路径 |
 | Agent 安全攻防 | [Agent安全攻防.md](06_Agent工程/Agent安全攻防.md) | **30 种攻击手法**（提示词注入 / 间接注入 / RAG 投毒 / MCP 投毒 / GCG 对抗后缀 / DAN 越狱…）+ **17 项防御技术**（5 层框架 + 12 项具体：Canary Token / LLM Guard / Spotlighting / DLP / HITL / 沙箱…）+ 纵深防御方法论；源自 OpenClaw 敲壳测试 |
@@ -108,6 +108,7 @@
 | Claude Code 实战速查 | [Claude Code 实战速查.md](06_Agent工程/Claude%20Code%20实战速查.md) | **日常使用速查手册**：CC 启停 + 17 个常用指令分类速查（基础/模型/项目/扩展）+ 3 家国产模型 API 直连配置（GLM 4.5 / Kimi K2 / Qwen3 Coder）+ 4 种接入方案对比 + 「秋瓷团」5 角色一日工作流案例 + 5 类场景的 MCP 应用图鉴（视频/笔记/Word/面试/论文）+ 5 大踩坑提醒 + 高频命令一览 |
 | Multi-Agent 工程实战与 Persona 设计 | [Multi-Agent工程实战与Persona设计.md](06_Agent工程/Multi-Agent工程实战与Persona设计.md) | **7 人 AI 团队全自动炒股案例**(LINUX DO @Oking 2026-05-17 文章 + 2026-05-19 整合):**Persona 文件**结构化定义(YAML 模板 + 词源记忆法 `per-`+`-sona`=戴面具变身)、R&D 流水线时间表(06:00→12:00→18:00→次日09:00)、**四大工程原则**(不问只做 / 任务二分法脚本vsAI / 模型分级 / 共享真相源 Single Source of Truth)、三大踩坑(手续费 bug 让 500 笔交易作废 / 本地状态≠真实执行的 API 鬼影 / 多 Agent 数据漂移)、Multi-Agent 入门 5 条建议;素材评分 8/10,可商榷点已批注 |
 | LLM 典型失败模式 | [LLM典型失败模式.md](06_Agent工程/LLM典型失败模式.md) | **「能讲 ≠ 能做、做了 ≠ 真做」**：4 层 14 种 failure mode 分类表（知识层 / 执行层 / 元认知层 / 推理层 / 安全层）+ 三大重点专题（**表演性完成 / 跳步 / 自我汇报偏差**）含定义/案例/根因/识别红旗/机制层防御 + Goodhart's Law 在 LLM 自我汇报场景的具象推论 + 实战 checklist；源自 2026-05-19 真实犯错复盘（同日探索日志） |
+| **Claude Code `/goal` 命令** ⭐新增 | [Claude Code goal命令.md](06_Agent工程/Claude%20Code%20goal命令.md) | **Anthropic 2026-05-12 v2.1.139 引入的长任务原语**：设可衡量的完成条件，Claude 跨多轮自动循环到达成；**独立 Haiku 评估器**每轮判断目标是否满足——"被评估者不能自评"原则的工程化落地；含**机制图**（主 Claude 干活 ↔ Haiku 评估循环）+ 4 个实战例子（测试套件 / lint 修复 / 知识库整理 / 跨文件迁移）+ 4000 字符限制 + 成本警示（一日可烧几十美元）+ 完成条件可衡量性设计原则 + **与 OpenAI Codex /goal 对比**（4 月底先发，5 月跟进）+ **与自建 agent Stop hook 对比**（主动 vs 被动 / 整任务 vs 单消息）|
 
 ---
 
@@ -134,7 +135,6 @@
 ```markdown
 参见 [Transformer](../00_核心概念/Transformer.md) 的基础概念
 ```
-
 ---
 
 ## 待探索主题
@@ -149,5 +149,5 @@
 
 ---
 
-*最后更新: 2026-05-25(填补作者 @flymyd 的 5 个待填坑,新增 5 篇 Claude 原创补充笔记:`03_应用实践/LLM推理引擎选型.md` + `03_应用实践/HomeLab到中小企业LLM部署架构.md` + `03_应用实践/Embedding-Reranker-向量数据库.md` + `05_技术基础/NVIDIA驱动-CUDA-PyTorch工程基础.md` + `06_Agent工程/Function Calling与MCP工程指南.md`;每篇均含「作者声明 + 局限性」节明确标注非作者原稿;含 9 处反向回填确保双向引用)*
-*上次更新: 2026-05-24（新增 4 篇笔记：`03_应用实践/各家LLM模型特点速查.md` + `03_应用实践/LLM-API选型方法论.md` + `03_应用实践/LLM接口规范实战.md` + `05_技术基础/NVIDIA显卡架构与AI算力.md`，整理自 LINUX DO @flymyd「简单易懂的 LLM 相关知识梳理」系列 ep.1-1 / ep.1-2 / ep.2-1 / ep.3-2 / ep.5；含 6 处反向回填：本地部署量化选型 / Dense与MoE / DeepSeek / 上下文与Token / Claude Code实战速查 / 多CLI联动）*
+*最后更新: 2026-05-26（新增 `06_Agent工程/Claude Code goal命令.md`：Anthropic v2.1.139 长任务原语完整解析，含 Haiku 独立评估器机制 / 实战 4 例 / 与 Codex 对比 / 与自建 agent hook 对比；3 处反向回填：`Claude Code 实战速查.md` 加新命令行 / `Claude Code 扩展生态.md` 加交叉引用 / `LLM典型失败模式.md` 加官方机制层防御）*
+*上次更新: 2026-05-25(填补作者 @flymyd 的 5 个待填坑,新增 5 篇 Claude 原创补充笔记:`03_应用实践/LLM推理引擎选型.md` + `03_应用实践/HomeLab到中小企业LLM部署架构.md` + `03_应用实践/Embedding-Reranker-向量数据库.md` + `05_技术基础/NVIDIA驱动-CUDA-PyTorch工程基础.md` + `06_Agent工程/Function Calling与MCP工程指南.md`;每篇均含「作者声明 + 局限性」节明确标注非作者原稿;含 9 处反向回填确保双向引用)*

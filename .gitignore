@@ -6,6 +6,7 @@
 
 # Claude Code 项目级私有配置（含本地权限白名单等敏感信息）
 .claude/settings.local.json
+.claude/*.local.md
 .claude/sessions/
 .claude/todos/
 .claude/cache/
@@ -40,3 +41,6 @@ tmp/
 .env.local
 *.key
 *.pem
+
+# Playwright MCP 浏览器自动化的运行时缓存（console log + page snapshot YAML）
+.playwright-mcp/

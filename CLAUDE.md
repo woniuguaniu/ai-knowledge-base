@@ -60,6 +60,45 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 根 `README.md` 的索引表是手工维护的——任何新增/移动笔记后，都应同步更新该表的对应行，保持"索引 = 实际"一致。2026-04-18 已做过一次大整理，把原先散落在根目录的 5 个 md 归入了 `03/04/05` 三个模块，目前索引与磁盘一致。
 
+## Quartz 前端站同步规则
+
+本知识库**同时是一个 Quartz 4 前端站的内容源**——`~/Desktop/quartz-preview/quartz/content` 已经软链到本目录（`ln -s /Users/xxddd/Desktop/与AI交流AI`）。这意味着：
+
+**KB 改动 → Web 站自动同步**：
+- 任何 `.md` 文件的新增 / 修改 / 删除，Quartz `build --serve` 进程会在 1-2 秒内 hot-rebuild
+- 验证方式：`curl -s -o /dev/null -w "%{http_code}\n" http://localhost:8080/路径`
+- 在浏览器中刷新页面也会立刻看到变化
+
+**前端站访问入口**：`http://localhost:8080/`（服务由 `cd ~/Desktop/quartz-preview/quartz && npx quartz build --serve` 启动并常驻；如果未运行可手动重启）
+
+**新增笔记后必做的验证（这是同步链路的端到端检查）**：
+
+1. 笔记落盘到对应模块目录后
+2. `curl` 一下新笔记的 URL 是否 200（注意中文路径要 `urllib.parse.quote`，文件名空格会被 Quartz 转成 `-` 短横线）
+3. 如果新笔记被其他笔记引用，再 curl 一下被引用页确认 Backlinks 是否多了一条
+4. 把命令输出贴给用户做证据（按表演性完成防御要求）
+
+**index.md vs README.md 的职责分工**：
+- `index.md`（Quartz 首页 hero 卡片）—— **只在 Quartz 站显示**，含 ✨ AI Knowledge Hub 标签 + 4 个统计数字 + 模块导航
+- `README.md`（GitHub 浏览索引）—— GitHub / IDE 里看的完整索引表
+- 两者**各司其职，不要互相 copy**。新增笔记同时更新 README 索引（必须）+ 如果数字到了下一个量级（如 70+/100+）再更新 index.md 的统计（可选）
+
+**Quartz 已 ignore 的路径**（在 `~/Desktop/quartz-preview/quartz/quartz.config.ts` 的 `ignorePatterns` 里）：
+- `.claude` / `.obsidian` / `_templates` / `claude code skills知识` / `CLAUDE.md`
+- README.md 会被渲染到 `/README` 路径（作为普通笔记）
+
+**什么时候需要重启 `npx quartz build --serve`**：
+- 改了 `quartz.config.ts` / `quartz.layout.ts` —— Quartz 一般会自动 hard rebuild
+- 改了 `quartz/styles/custom.scss` —— 通常 hot-reload，浏览器刷新即可
+- 改了 `package.json` 或装新依赖 —— 必须重启
+- 进程崩了或被 `pkill` —— 必须重启
+
+**临时文件不要放 KB 根目录**：Quartz watch 软链监听到 KB 根的任何文件创建/删除都会触发 rebuild。如果在 KB 根目录创建后又 `mv` 走（例如截图、临时测试 .md），Quartz 在 unlink 阶段可能找不到旧资源而崩溃。所以：
+- Playwright 截图等临时输出 → 放 `~/Desktop/quartz-preview/screenshots/` 或 `/tmp/`，**不要放 KB 根**
+- 用 `_sync_test_*.md` 测试 hot-reload 时，**先停 watch 或在 build 完成后再 mv**
+
+**注意：本节描述的是当前已配置好的状态**。如果未来 `quartz-preview` 目录被删 / 软链断了 / 端口冲突，恢复流程见 `~/Desktop/quartz-preview/` 内的备注；本规则不负责"如何从零安装 Quartz"。
+
 ## 本地 Claude 配置
 
 `.claude/settings.local.json` 仅声明了三项权限白名单：`WebFetch(domain:linux.do)`、`WebSearch`、`Bash(python3 *)`。不要在未经用户同意下改动此文件。
