@@ -353,6 +353,7 @@ strategy:
 
 ## § 9. 与本知识库其他章节的关联
 
+- **研发总纲**:[软件工程产品研发 SOP](软件工程产品研发SOP.md) 把 CI/CD 放在"阶段 6：质量门禁与自动化验证"中,说明它在从需求到上线的完整产品研发流程里承担什么角色
 - **配套实战**:[静态站点生成器与 Quartz 部署实战](静态站点生成器与Quartz部署实战.md) § 4 "三种部署路线对比"提到了 GitHub Pages / Cloudflare Pages 路线——本笔记就是把"自动 build & 部署"这个机制单独讲透
 - **概念铺垫**:[云服务交付模型](云服务交付模型.md) 讲 IaaS / PaaS / SaaS——GitHub Actions / Cloudflare Pages 这些"CI/CD 平台"实际是 **PaaS 在"开发流水线"场景的产品化**
 - **基础环境**:[GitHub项目入门/程序小白概念扫盲手册](GitHub项目入门/程序小白概念扫盲手册.md) 讲了 npm / Docker / git 等本笔记假设你已经会的基础工具

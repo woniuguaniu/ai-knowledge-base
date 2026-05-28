@@ -467,6 +467,7 @@ claude --dangerously-skip-permissions
 | Harness 工程深度解剖 | [Harness工程与Agent解剖.md](Harness工程与Agent解剖.md) | 5 大机制都属于 Harness 范畴；那篇讲架构 |
 | Agent 演进史 | [Agent发展轨迹四阶段.md](Agent发展轨迹四阶段.md) | 第三阶段→第四阶段（Context → Harness）的具体落地体现 |
 | 多 CLI 联动 | [多CLI联动.md](../05_技术基础/多CLI联动.md) | CLI 章节的深入扩展 |
+| **MCP 实战案例** | [Claude调用Codex协作实战案例.md](../05_技术基础/Claude调用Codex协作实战案例.md) | 本文 § 四 MCP 机制的完整配置流程 + 用户级 vs 项目级 + 首次授权 + 常见问题排查 |
 | MCP 词条 | [程序员黑话速查.md](../05_技术基础/程序员黑话速查.md) | MCP 简短定义速查 |
 | Agent 安全攻防 | [Agent安全攻防.md](Agent安全攻防.md) | MCP 投毒等攻击手法对应到本文的 MCP 章节 |
 | **Function Calling 与 MCP 工程指南** | [Function Calling与MCP工程指南.md](Function%20Calling与MCP工程指南.md) | 本文 § 四 讲 MCP 的"装/查/删 + 实战例子",那篇讲 FC 原理 + 御三家接口对比 + MCP 工程实战(写 Server / 接 LiteLLM) |

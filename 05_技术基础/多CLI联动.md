@@ -430,6 +430,7 @@ claude mcp add codex -s user ...  ← 所有项目都启用
 | 关联点 | 文档 | 关系 |
 |--------|------|------|
 | 程序员术语速查 | [程序员黑话速查](程序员黑话速查.md) | 本文用到的 MCP / patch / async 等术语都在那里有解释 |
+| **实战案例** | [Claude调用Codex协作实战案例](Claude调用Codex协作实战案例.md) | 本文"玩法 B:MCP 互调"的完整配置流程 + 首次授权 + 常见问题排查 |
 | Harness 工程 | [Harness工程与Agent解剖](../06_Agent工程/Harness工程与Agent解剖.md) | 多 CLI 联动是 Harness 在"多模型"维度的扩展 |
 | Agent 发展轨迹 | [Agent发展轨迹四阶段](../06_Agent工程/Agent发展轨迹四阶段.md) | 多 Agent 协作是第四阶段 Harness Engineering 的高级形态 |
 | Eval 体系 | [Eval测评体系](../06_Agent工程/Eval测评体系.md) | 玩法 C（三方投票）是 Eval 的低成本实现 |
