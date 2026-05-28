@@ -93,6 +93,7 @@
 | GitHub 项目入门（概念地图） | [GitHub项目入门/程序小白概念扫盲手册.md](05_技术基础/GitHub项目入门/程序小白概念扫盲手册.md) | 配套概念手册：软件工程全景图（按使用场景）、npm/pnpm/yarn 对比、MIT/Fork、命令参数、Docker/Nginx、容器化、pnpm + Docker 共用机制、缩写表、编程语言识别图鉴、Git 常用命令实战图解 |
 | GitHub 项目入门（速查卡） | [GitHub项目入门/五看一跑_小白工程运行部署学习文档.md](05_技术基础/GitHub项目入门/五看一跑_小白工程运行部署学习文档.md) | 30 秒口令版：五看一跑（README/类型/scripts/环境/部署/本地跑）+ 排错四件套 + 实战模板，临时回忆流程时翻 |
 | **Git 进阶速查**（rebase / stash / reflog） | [GitHub项目入门/Git进阶速查.md](05_技术基础/GitHub项目入门/Git进阶速查.md) | **概念扫盲手册第十二章的进阶补充**:`日常 90% 场景之外的 10%`——**6 大进阶命令实战**:① **`stash`** 临时藏起未提交改动(改一半切分支救命)② **`reflog`** 救命找回被 reset/删分支误删的 commit(90 天内可救)③ **`rebase`** 整理 commit 历史(`pull --rebase` + `rebase -i HEAD~N` 交互式 squash/reword)④ **`--force-with-lease`** 安全强推 vs 危险的裸 `--force` ⑤ **`cherry-pick`** 挑樱桃式合单个 commit ⑥ **`tag`** 版本号管理(发版 v1.0.0 必备);进阶速查图 + 5 条铁律 + 实战练习 |
+| **静态站点生成器与 Quartz 部署实战** ⭐新增 | [静态站点生成器与Quartz部署实战.md](05_技术基础/静态站点生成器与Quartz部署实战.md) | **SSG 范式入门 + Quartz 完整部署 SOP**:**静态站点生成器(SSG)** 与动态站对比(类比"餐厅现炒 vs 便利店饭团")+ 工作流**四角色**(作者/生成器/产物/Web 服务器)+ Quartz `quartz.config.ts` 关键字段速览(`baseUrl` / `ignorePatterns` / `transformers` / `emitters`)+ **三种部署路线对比**(自有 VPS+rsync / **Cloudflare Pages** / 服务器自 build)+ **本知识库部署到 `kingrich.top/knowledge-base/quartz/` 的完整 7 步实战**(改 baseUrl / build / SSH / **rsync 上传** / **nginx `try_files` 配置** / **子路径斜杠 301 重定向** / `curl` 验证)+ **子路径部署"恰好兼容"机制**(Quartz 内部资源用相对路径,无需 nginx rewrite)+ **`deploy.sh` 一键脚本** + **7 大常见报错速查**(`rsync: 未找到命令` / 404 / 样式乱 / 中文路径 / `baseUrl` 没改导致 sitemap 全是 localhost 等)+ **9 大主流 SSG 横向对比**(Hugo / Jekyll / Astro / Eleventy / Docusaurus / MkDocs / VitePress / Next.js)+ 19 项术语速查 |
 
 ### 06 Agent 工程
 
@@ -108,7 +109,7 @@
 | Claude Code 实战速查 | [Claude Code 实战速查.md](06_Agent工程/Claude%20Code%20实战速查.md) | **日常使用速查手册**：CC 启停 + 17 个常用指令分类速查（基础/模型/项目/扩展）+ 3 家国产模型 API 直连配置（GLM 4.5 / Kimi K2 / Qwen3 Coder）+ 4 种接入方案对比 + 「秋瓷团」5 角色一日工作流案例 + 5 类场景的 MCP 应用图鉴（视频/笔记/Word/面试/论文）+ 5 大踩坑提醒 + 高频命令一览 |
 | Multi-Agent 工程实战与 Persona 设计 | [Multi-Agent工程实战与Persona设计.md](06_Agent工程/Multi-Agent工程实战与Persona设计.md) | **7 人 AI 团队全自动炒股案例**(LINUX DO @Oking 2026-05-17 文章 + 2026-05-19 整合):**Persona 文件**结构化定义(YAML 模板 + 词源记忆法 `per-`+`-sona`=戴面具变身)、R&D 流水线时间表(06:00→12:00→18:00→次日09:00)、**四大工程原则**(不问只做 / 任务二分法脚本vsAI / 模型分级 / 共享真相源 Single Source of Truth)、三大踩坑(手续费 bug 让 500 笔交易作废 / 本地状态≠真实执行的 API 鬼影 / 多 Agent 数据漂移)、Multi-Agent 入门 5 条建议;素材评分 8/10,可商榷点已批注 |
 | LLM 典型失败模式 | [LLM典型失败模式.md](06_Agent工程/LLM典型失败模式.md) | **「能讲 ≠ 能做、做了 ≠ 真做」**：4 层 14 种 failure mode 分类表（知识层 / 执行层 / 元认知层 / 推理层 / 安全层）+ 三大重点专题（**表演性完成 / 跳步 / 自我汇报偏差**）含定义/案例/根因/识别红旗/机制层防御 + Goodhart's Law 在 LLM 自我汇报场景的具象推论 + 实战 checklist；源自 2026-05-19 真实犯错复盘（同日探索日志） |
-| **Claude Code `/goal` 命令** ⭐新增 | [Claude Code goal命令.md](06_Agent工程/Claude%20Code%20goal命令.md) | **Anthropic 2026-05-12 v2.1.139 引入的长任务原语**：设可衡量的完成条件，Claude 跨多轮自动循环到达成；**独立 Haiku 评估器**每轮判断目标是否满足——"被评估者不能自评"原则的工程化落地；含**机制图**（主 Claude 干活 ↔ Haiku 评估循环）+ 4 个实战例子（测试套件 / lint 修复 / 知识库整理 / 跨文件迁移）+ 4000 字符限制 + 成本警示（一日可烧几十美元）+ 完成条件可衡量性设计原则 + **与 OpenAI Codex /goal 对比**（4 月底先发，5 月跟进）+ **与自建 agent Stop hook 对比**（主动 vs 被动 / 整任务 vs 单消息）|
+| **Claude Code `/goal` 命令** ⭐新增 | [Claude Code goal命令.md](06_Agent工程/Claude%20Code%20goal命令.md) | **Anthropic 2026-05-12 v2.1.139 引入的长任务原语**：设可衡量的完成条件，Claude 跨多轮自动循环到达成；**独立 Haiku 评估器**每轮判断目标是否满足——"被评估者不能自评"原则的工程化落地；含**机制图**（主 Claude 干活 ↔ Haiku 评估循环）+ 4 个实战例子（测试套件 / lint 修复 / 知识库整理 / 跨文件迁移）+ 4000 字符限制 + 成本警示（一日可烧几十美元）+ 完成条件可衡量性设计原则 + **与 OpenAI Codex /goal 对比**（4 月底先发，5 月跟进）|
 
 ---
 
@@ -149,5 +150,6 @@
 
 ---
 
-*最后更新: 2026-05-26（新增 `06_Agent工程/Claude Code goal命令.md`：Anthropic v2.1.139 长任务原语完整解析，含 Haiku 独立评估器机制 / 实战 4 例 / 与 Codex 对比 / 与自建 agent hook 对比；3 处反向回填：`Claude Code 实战速查.md` 加新命令行 / `Claude Code 扩展生态.md` 加交叉引用 / `LLM典型失败模式.md` 加官方机制层防御）*
+*最后更新: 2026-05-28(新增 `05_技术基础/静态站点生成器与Quartz部署实战.md`:把这次部署知识库到 `kingrich.top/knowledge-base/quartz/` 的实战流程沉淀成 SSG 范式入门 + 三种部署路线对比 + 完整 7 步 SOP + 常见报错速查;3 处反向回填:`云服务交付模型.md` 加 PaaS vs IaaS 实战对照 / `程序员黑话速查.md` 加 SSG 术语关联 / `GitHub项目入门/程序小白概念扫盲手册.md` 加"想发布笔记站"的进阶指引)*
+*上次更新: 2026-05-26（新增 `06_Agent工程/Claude Code goal命令.md`：Anthropic v2.1.139 长任务原语完整解析，含 Haiku 独立评估器机制 / 实战 4 例 / 与 Codex 对比；3 处反向回填：`Claude Code 实战速查.md` 加新命令行 / `Claude Code 扩展生态.md` 加交叉引用 / `LLM典型失败模式.md` 加官方机制层防御）*
 *上次更新: 2026-05-25(填补作者 @flymyd 的 5 个待填坑,新增 5 篇 Claude 原创补充笔记:`03_应用实践/LLM推理引擎选型.md` + `03_应用实践/HomeLab到中小企业LLM部署架构.md` + `03_应用实践/Embedding-Reranker-向量数据库.md` + `05_技术基础/NVIDIA驱动-CUDA-PyTorch工程基础.md` + `06_Agent工程/Function Calling与MCP工程指南.md`;每篇均含「作者声明 + 局限性」节明确标注非作者原稿;含 9 处反向回填确保双向引用)*

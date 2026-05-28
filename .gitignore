@@ -11,6 +11,7 @@
 .claude/todos/
 .claude/cache/
 .claude/file-history/
+.claude/skills/
 
 # Python 缓存与字节码
 __pycache__/
