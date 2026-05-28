@@ -470,6 +470,7 @@ claude --dangerously-skip-permissions
 | MCP 词条 | [程序员黑话速查.md](../05_技术基础/程序员黑话速查.md) | MCP 简短定义速查 |
 | Agent 安全攻防 | [Agent安全攻防.md](Agent安全攻防.md) | MCP 投毒等攻击手法对应到本文的 MCP 章节 |
 | **Function Calling 与 MCP 工程指南** | [Function Calling与MCP工程指南.md](Function%20Calling与MCP工程指南.md) | 本文 § 四 讲 MCP 的"装/查/删 + 实战例子",那篇讲 FC 原理 + 御三家接口对比 + MCP 工程实战(写 Server / 接 LiteLLM) |
+| **`/goal` 长任务原语** | [Claude Code goal命令.md](Claude%20Code%20goal命令.md) | 本文讲的 5 大扩展机制是"给 CC 装能力"；`/goal`（2026-05-12 新增）是**不同层的机制**——它改变 Claude 的工作节奏（一问一答 → 目标驱动循环），靠独立 Haiku 评估器判断终止 |
 
 ---
 
