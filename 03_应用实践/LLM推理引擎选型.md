@@ -5,6 +5,7 @@
 > ⚠️ **本篇为 Claude 原创补充笔记**,非 LINUX DO @flymyd 原稿(详见末尾「作者声明」)。
 > 📌 **填坑提示**:[本地部署模型量化选型.md § 1](本地部署模型量化选型.md) 末尾标注"推理引擎不在本篇范围",本篇就是填这个坑。
 > **适用时间**：截至 2026-05-29 的知识库整理版本。推理引擎生态更新很快，生产部署前应重新确认各项目的版本、硬件支持矩阵和已知 issue。
+> 🏷️ **型号命名说明**：Qwen3 稠密模型只有 0.6B/1.7B/4B/8B/14B/32B(**没有 7B**，8B 是最接近的那档)，本文示例统一用 `Qwen3-8B`。文中 `bartowski/…`、`mlx-community/…` 等社区量化仓库路径仅作示例，**实际请以 HuggingFace / Ollama 上的最新仓库名为准**。
 
 ---
 
@@ -16,7 +17,7 @@
 - [3. 各引擎详解](#3-各引擎详解)
   - [3.1 vLLM:服务端王者](#31-vllm服务端王者)
   - [3.2 SGLang:结构化输出与高吞吐双王](#32-sglang结构化输出与高吞吐双王)
-  - [3.3 llama.cpp:CPU/边缘/HomeLab 之王](#33-llamacppcpu边缘homelab-之王)
+  - [3.3 llama.cpp:CPU/边缘/HomeLab 之王](#33-llamacppcpu--边缘--homelab-之王)
   - [3.4 Ollama:小白友好包装](#34-ollama小白友好包装)
   - [3.5 LMDeploy:国产推理引擎](#35-lmdeploy国产推理引擎)
   - [3.6 TensorRT-LLM:NVIDIA 官方最高性能](#36-tensorrt-llmnvidia-官方最高性能)
@@ -156,7 +157,7 @@ PagedAttention:
 ```bash
 pip install vllm
 python -m vllm.entrypoints.openai.api_server \
-  --model Qwen/Qwen3-7B \
+  --model Qwen/Qwen3-8B \
   --port 8000 \
   --tensor-parallel-size 1
 ```
@@ -191,7 +192,7 @@ SGLang 是 LMSys 团队(也是 Vicuna / Chatbot Arena 团队)的新作,**两大�
 ```bash
 pip install "sglang[all]"
 python -m sglang.launch_server \
-  --model-path Qwen/Qwen3-7B \
+  --model-path Qwen/Qwen3-8B \
   --port 8000
 ```
 
@@ -252,13 +253,13 @@ cmake -B build -DGGML_CUDA=ON   # 或 -DGGML_METAL=ON(Apple)
 cmake --build build --config Release -j
 
 # 2. 下载 GGUF 模型
-huggingface-cli download bartowski/Qwen3-7B-Instruct-GGUF Qwen3-7B-Instruct-Q4_K_M.gguf
+huggingface-cli download bartowski/Qwen3-8B-GGUF Qwen3-8B-Q4_K_M.gguf
 
 # 3. 跑(命令行交互)
-./build/bin/llama-cli -m Qwen3-7B-Instruct-Q4_K_M.gguf -p "你好"
+./build/bin/llama-cli -m Qwen3-8B-Q4_K_M.gguf -p "你好"
 
 # 4. 跑(OpenAI 兼容 API server)
-./build/bin/llama-server -m Qwen3-7B-Instruct-Q4_K_M.gguf --port 8080
+./build/bin/llama-server -m Qwen3-8B-Q4_K_M.gguf --port 8080
 ```
 
 ### 3.4 Ollama:小白友好包装
@@ -269,7 +270,7 @@ huggingface-cli download bartowski/Qwen3-7B-Instruct-GGUF Qwen3-7B-Instruct-Q4_K
 
 Ollama 不是新推理引擎——它**底层就是 llama.cpp 的封装**。但它做了三件让小白爽到飞起的事:
 
-1. **Docker 式模型管理**:`ollama pull qwen3:7b` / `ollama run qwen3:7b` / `ollama list`
+1. **Docker 式模型管理**:`ollama pull qwen3:8b` / `ollama run qwen3:8b` / `ollama list`
 2. **后台 daemon 模式**:开机自启,后台运行,随时调用
 3. **跨平台一键安装**:Windows / macOS / Linux 都有官方安装包
 
@@ -294,18 +295,18 @@ curl -fsSL https://ollama.com/install.sh | sh        # Linux
 # 或下载 Mac/Windows 安装包
 
 # 2. 拉模型
-ollama pull qwen3:7b
+ollama pull qwen3:8b
 ollama pull deepseek-r1:14b
 ollama pull llama3.1:8b
 
 # 3. 交互
-ollama run qwen3:7b
+ollama run qwen3:8b
 
 # 4. API 调用(OpenAI 兼容)
 curl http://localhost:11434/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "qwen3:7b",
+    "model": "qwen3:8b",
     "messages": [{"role": "user", "content": "你好"}]
   }'
 ```
@@ -342,7 +343,7 @@ curl http://localhost:11434/v1/chat/completions \
 
 ```bash
 pip install lmdeploy
-lmdeploy serve api_server Qwen/Qwen3-7B \
+lmdeploy serve api_server Qwen/Qwen3-8B \
   --server-port 8000 \
   --backend turbomind
 ```
@@ -419,12 +420,12 @@ pip install mlx-lm
 
 # 推理
 python -m mlx_lm.generate \
-  --model mlx-community/Qwen3-7B-Instruct-4bit \
+  --model mlx-community/Qwen3-8B-4bit \
   --prompt "你好"
 
 # OpenAI 兼容 server(需额外安装)
 pip install mlx-server
-mlx-server --model mlx-community/Qwen3-7B-Instruct-4bit
+mlx-server --model mlx-community/Qwen3-8B-4bit
 ```
 
 ---
@@ -512,7 +513,7 @@ vLLM / SGLang / TensorRT-LLM 都支持,但需要小模型(draft model)配套。
 
 ## 6. 实战部署示例
 
-### 6.1 单卡 4090 + Qwen 7B + vLLM(高并发 API 服务)
+### 6.1 单卡 4090 + Qwen3 8B + vLLM(高并发 API 服务)
 
 ```bash
 # 1. 装 vLLM(需 CUDA 12.1+)
@@ -520,7 +521,7 @@ pip install vllm
 
 # 2. 启动 OpenAI 兼容 server
 python -m vllm.entrypoints.openai.api_server \
-  --model Qwen/Qwen3-7B-Instruct \
+  --model Qwen/Qwen3-8B \
   --port 8000 \
   --max-model-len 32768 \
   --gpu-memory-utilization 0.92 \
@@ -530,7 +531,7 @@ python -m vllm.entrypoints.openai.api_server \
 curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "Qwen/Qwen3-7B-Instruct",
+    "model": "Qwen/Qwen3-8B",
     "messages": [{"role": "user", "content": "你好"}]
   }'
 ```
@@ -588,11 +589,11 @@ cmake -B build -DGGML_CUDA=ON
 cmake --build build -j
 
 # 下载 Qwen 32B 的 Q4_K_M GGUF(约 19 GB)
-huggingface-cli download bartowski/Qwen3-32B-Instruct-GGUF Qwen3-32B-Instruct-Q4_K_M.gguf
+huggingface-cli download bartowski/Qwen3-32B-GGUF Qwen3-32B-Q4_K_M.gguf
 
 # 启动 server(P40 没有 Tensor Core,但 24G 显存够大)
 ./build/bin/llama-server \
-  -m Qwen3-32B-Instruct-Q4_K_M.gguf \
+  -m Qwen3-32B-Q4_K_M.gguf \
   --port 8080 \
   -ngl 99   # 所有层卸载到 GPU
 ```

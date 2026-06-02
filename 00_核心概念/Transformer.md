@@ -129,7 +129,7 @@ def self_attention(Q, K, V):
    │  + LayerNorm │
    └─────────────┘
         ↓
-   （重复 N 层，GPT-4 大约有 100+ 层）
+   （重复 N 层，大模型通常几十到上百层，GPT-4 的具体层数官方未公开）
         ↓
 输出: 预测下一个词 / 理解语义
 ```
@@ -165,6 +165,11 @@ output = LayerNorm(x + Sublayer(x))
 FFN(x) = ReLU(x × W1 + b1) × W2 + b2
 ```
 两层全连接网络，中间维度通常是隐藏层的 4 倍。
+
+> 💡 上面是 **2017 原版 Transformer** 的写法，现代大模型（LLaMA / Qwen / DeepSeek 等）已普遍换成三件套：
+> - **Pre-LN** 取代 Post-LN：归一化挪到子层**之前**(`x + Sublayer(LN(x))`)，训练更稳、能堆得更深
+> - **RMSNorm** 取代 LayerNorm：去掉均值中心化，只按均方根缩放，更快
+> - **SwiGLU** 取代 ReLU FFN：门控激活，同等算力下效果更好(中间维度也常调成约 8/3 倍而非 4 倍)
 
 ---
 

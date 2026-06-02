@@ -372,7 +372,7 @@ LLM:广州今天 22 度,多云,建议带件外套。
   └──────────┘  └──────────┘
 ```
 
-### 3.4 MCP 协议提供的三类原语
+### 3.4 MCP 协议的核心原语(Server 端三件套)
 
 MCP 不只能调函数(Tools),还有更多:
 
@@ -386,13 +386,23 @@ MCP 不只能调函数(Tools),还有更多:
 > - **Tools = 动作**(写文件、发邮件、调 API)
 > - **Resources = 数据**(读文件、查数据库快照、看监控指标)
 
+> 🧩 **不止"三类"**:上面 3 类是 **Server 端**对外暴露的原语。MCP 还有 **Client 端**原语(由 Host 反向提供给 Server):
+> - **Sampling**:Server 反过来请求 Host 帮它调用 LLM(让 Server 自己也能"用模型"做子任务)
+> - **Roots**:Host 告诉 Server 它允许访问的文件系统根目录范围
+> - **Elicitation**:Server 运行中向用户追加索取信息(spec 2025-06 新增)
+>
+> 所以严格说 MCP 不止三类原语,只是 Tools / Resources / Prompts 是最常打交道的 Server 端三件套。
+
 ### 3.5 传输方式
 
-| Transport | 适用 | 特点 |
+| Transport | 适用 | 状态 |
 |---|---|---|
-| **stdio** | 本地命令行工具 | 最简单,启动子进程 |
-| **HTTP + SSE** | 远程服务 | 支持跨网络 |
-| **WebSocket** | 实时双向 | 较少用 |
+| **stdio** | 本地命令行工具 | ✅ 官方标准,启动子进程,最简单 |
+| **Streamable HTTP** | 远程服务 | ✅ 官方标准(spec 2025-03-26 起),单端点 POST/GET,可选 SSE 流式 |
+| ~~HTTP + SSE~~(双端点) | 远程服务(旧) | ⚠️ **已弃用**,2024-11 旧方案,仅为向后兼容保留 |
+| WebSocket | 实时双向 | 🚧 **尚非官方标准**,仅提案中(SEP-1288, in-review) |
+
+> 📌 MCP 远程传输已从早期的 **HTTP+SSE(双端点)** 迁移到 **Streamable HTTP(单端点)**——spec 2025-03-26 起把 SSE 标为 deprecated,只为兼容老客户端保留。**新项目直接用 Streamable HTTP**;WebSocket 至今(2026 年中)仍是 in-review 提案,不是官方传输层。
 
 ---
 
