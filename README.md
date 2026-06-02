@@ -15,9 +15,22 @@
 ├── 04_探索日志/           # 按日期归档的探索记录（YYYY-MM-DD_主题.md）
 ├── 05_技术基础/           # AI 之外的技术基础（Shell、系统、软件工程）
 ├── 06_Agent工程/          # Harness Engineering、Agent 架构、Claude Code 源码分析
+├── CHANGELOG.md            # 知识库变更记录
+├── ROADMAP.md              # 待探索主题与补全路线
 ├── claude code skills知识/ # Claude Skills 课件与截图素材
 └── _templates/            # 笔记模板
 ```
+
+---
+
+## 模块入口
+
+| 模块 | 入口 | 适合什么时候看 |
+|---|---|---|
+| 02 提示词工程 | [02_提示词工程/README.md](02_提示词工程/README.md) | 系统学习 Prompt Engineering |
+| 03 应用实践 | [03_应用实践/README.md](03_应用实践/README.md) | 做选型、接 API、RAG、本地部署或业务方案 |
+| 05 技术基础 | [05_技术基础/README.md](05_技术基础/README.md) | 补 Shell、GitHub、部署、CI/CD、硬件和研发 SOP |
+| 06 Agent 工程 | [06_Agent工程/README.md](06_Agent工程/README.md) | 学 Agent 架构、MCP、Eval、安全和 Claude Code 生态 |
 
 ---
 
@@ -83,7 +96,7 @@
 | swap 内存 | [swap内存处理技术.md](05_技术基础/swap内存处理技术.md) | Linux 交换分区原理与处理 |
 | **NVIDIA 显卡架构与 AI 算力** | [NVIDIA显卡架构与AI算力.md](05_技术基础/NVIDIA显卡架构与AI算力.md) | **LLM 时代懂显卡**：NVIDIA 架构演进(Fermi → Kepler → Maxwell → Pascal → Volta → Turing → Ampere → Hopper → Ada → **Blackwell**) + **算力单位辨析(TFLOPS / TOPS / TIPS)** + **Tensor Core 代际演进**(各代 FP16/BF16/FP8/FP4/INT8 倍率全表 + 累加精度 + 结构化稀疏) + 显存进化(GDDR → HBM3e) + **"老黄刀法"工厂比喻**(算力 = 生产速度 / 位宽 = 车道数 / 带宽 = 运输能力) + **打游戏 vs LLM 推理 vs LLM 训练的瓶颈差异**(为什么 4060Ti 128bit 跑 LLM 拉胯) + SLI/NVLink 完整代际表(A6000 vs 3090 桥不通用警告) + 显卡选购决策树 + 8 类作者未覆盖方向(AMD/Intel/国产昇腾/Apple Silicon/TPU 等) |
 | **NVIDIA 驱动 / CUDA / cuDNN / PyTorch** ⭐新增 | [NVIDIA驱动-CUDA-PyTorch工程基础.md](05_技术基础/NVIDIA驱动-CUDA-PyTorch工程基础.md) | **五层版本依赖链解剖**(Driver → CUDA Toolkit → cuDNN → PyTorch / TensorFlow)+ **Driver API vs Runtime API** 辨析(nvidia-smi 显示的 CUDA != nvcc --version)+ **驱动与 CUDA 兼容矩阵速查** + Ubuntu/Windows/WSL2 安装命令 + **PyTorch 与 CUDA 对应矩阵** + Apple Silicon MPS 后端 + **7 类典型报错速查表**(`The NVIDIA driver too old` / `no kernel image` / `Could not load libcudnn` 等)+ **一键自检 Python 脚本** + 三平台从零到能跑命令 |
-| **软件工程产品研发 SOP** ⭐新增 | [软件工程产品研发SOP.md](05_技术基础/软件工程产品研发SOP.md) | **从拿到需求到完成产品的完整科学流程**:需求价值判断 → 需求澄清与业务建模 → 产品 Spec 与验收标准 → 技术选型与架构设计 → 实施计划与任务拆分 → **TDD 红绿重构** → 质量门禁与 CI/CD → 上线/回滚/监控 → 真实用户反馈迭代;含全流程 ASCII 图、每阶段输入/输出/验收证据表、AI 协作下防"表演性完成"规则、民宿运营系统案例映射 |
+| **软件工程产品研发 SOP** ⭐新增 | [软件工程产品研发SOP.md](05_技术基础/软件工程产品研发SOP.md) | **从拿到需求到完成产品的完整科学流程**:需求价值判断 → 需求澄清与业务建模 → **需求基线/变更处理/拒绝话术** → 产品 Spec 与验收标准 → 技术选型与架构设计 → 实施计划与任务拆分 → **锚点估算 / Spike 探路 / TDD 红绿重构** → 质量门禁与 CI/CD → 上线/回滚/监控 → **30 分钟/2 小时/24 小时上线守护** → **P0-P3 问题分级** → 真实用户反馈迭代;含全流程 ASCII 图、每阶段输入/输出/验收证据表、AI 协作下防"表演性完成"规则、民宿运营系统案例映射 |
 | 软件架构 | [软件架构设计详解.md](05_技术基础/软件架构设计详解.md) | 软件架构设计原则与实践 |
 | 程序员黑话速查 | [程序员黑话速查.md](05_技术基础/程序员黑话速查.md) | **持续生长型**术语速查：API / async / Canary Token / diff / DLP / GCG Attack / hack / HITL / MCP / N-version programming / patch / Reasoning Effort / Spotlighting / stdin-stdout-stderr / unified diff patch ……<br>**2026-05-16 新增 4 族**：☁️ 云服务（**SaaS / IaaS / PaaS / FaaS / BaaS / DBaaS / MaaS / Serverless / On-premise**）+ 📋 需求采购（**MVP / PoC / PRD / BRD / SRS / RFI / RFP / RFQ / SOW**）+ 💰 商业模式（**B2B / B2C / Freemium / PMF / MRR / ARR / GA**）+ 🧑‍💻 独立创业（**gap / OPC / Solopreneur / Indie Hacker / Digital Nomad**） |
 | 云服务交付模型 | [云服务交付模型.md](05_技术基础/云服务交付模型.md) | **披萨打比方专题**：On-premise → IaaS → PaaS → SaaS 的 **9 层责任栈对比**（应用 / 数据 / 运行时 / 中间件 / OS / 虚拟化 / 服务器 / 存储 / 网络），含代表产品、真实场景、优缺点、4 大误区、选型框架、OPC / Indie Hacker 的典型技术栈；进阶讲 FaaS / BaaS / Serverless / DBaaS / MaaS / AaaS 全家福；附"上云演进 30 秒史" |
@@ -91,9 +104,9 @@
 | 内部工具选型方法论 | [内部工具选型方法论.md](05_技术基础/内部工具选型方法论.md) | **PM 视角实战框架**：先做"内部工具 vs 产品级 App"定性判断（7 题速测）→ 4 种实现形态横向对比（低代码 / 小程序 / H5 / 原生 App）→ 选型决策树 → **"两步走"战略**（低代码先跑半年再评估自研）→ 成本估算模型 → 需求评审 6 类风险（合规 / 平台限制 / 灰度 / 权限粒度 / 查重主键 / 附件膨胀）→ 场景速查表 + 5 大主流低代码平台对比；源自民宿运营管理系统选型实战 |
 | 逆向 API 的二分定位方法 | [逆向API的二分定位方法.md](05_技术基础/逆向API的二分定位方法.md) | **黑盒接口分析通用方法论**：抓基准请求 → 单字段删减 → 改值找边界 → 复测 ≥ 2 次 → 输出最小必需集；三大陷阱（把"恰好能跑"当成协议本意 / 状态码被中间层改写 / 灰度让结论矛盾）+ 5 个可迁移场景（Prompt 调试 / bug 复现 / 依赖冲突 / CSS / 慢 SQL）+ 完整案例骨架（脱敏自 AnyRouter 逆向分析）|
 | GitHub 项目入门（实操指南） | [GitHub项目入门/小白入门-GitHub项目部署使用指南.md](05_技术基础/GitHub项目入门/小白入门-GitHub项目部署使用指南.md) | 以 gpt_image_playground 为样本，从零开始的 7 步部署流程：识别项目类型、装环境、装依赖、配置、启动、上线；含小白排错四件套、高效求助提问模板、30 秒口令速记 |
-| GitHub 项目入门（概念地图） | [GitHub项目入门/程序小白概念扫盲手册.md](05_技术基础/GitHub项目入门/程序小白概念扫盲手册.md) | 配套概念手册：软件工程全景图（按使用场景）、npm/pnpm/yarn 对比、MIT/Fork、命令参数、Docker/Nginx、容器化、pnpm + Docker 共用机制、缩写表、编程语言识别图鉴、Git 常用命令实战图解 |
+| GitHub 项目入门（概念地图） | [GitHub项目入门/程序小白概念扫盲手册.md](05_技术基础/GitHub项目入门/程序小白概念扫盲手册.md) | 配套概念手册入口，正文已拆到 `概念扫盲/` 分卷：工程全景、核心名词、开源协议、GitHub 协作、终端参数、Docker/Nginx、容器化、缩写表、pnpm 与 Docker、语言识别、Git 命令实战 |
 | GitHub 项目入门（速查卡） | [GitHub项目入门/五看一跑_小白工程运行部署学习文档.md](05_技术基础/GitHub项目入门/五看一跑_小白工程运行部署学习文档.md) | 30 秒口令版：五看一跑（README/类型/scripts/环境/部署/本地跑）+ 排错四件套 + 实战模板，临时回忆流程时翻 |
-| **Git 进阶速查**（rebase / stash / reflog） | [GitHub项目入门/Git进阶速查.md](05_技术基础/GitHub项目入门/Git进阶速查.md) | **概念扫盲手册第十二章的进阶补充**:`日常 90% 场景之外的 10%`——**6 大进阶命令实战**:① **`stash`** 临时藏起未提交改动(改一半切分支救命)② **`reflog`** 救命找回被 reset/删分支误删的 commit(90 天内可救)③ **`rebase`** 整理 commit 历史(`pull --rebase` + `rebase -i HEAD~N` 交互式 squash/reword)④ **`--force-with-lease`** 安全强推 vs 危险的裸 `--force` ⑤ **`cherry-pick`** 挑樱桃式合单个 commit ⑥ **`tag`** 版本号管理(发版 v1.0.0 必备);进阶速查图 + 5 条铁律 + 实战练习 |
+| **Git 进阶速查**（rebase / stash / reflog） | [GitHub项目入门/Git进阶速查.md](05_技术基础/GitHub项目入门/Git进阶速查.md) | **概念扫盲 Git 分卷的进阶补充**:`日常 90% 场景之外的 10%`——**6 大进阶命令实战**:① **`stash`** 临时藏起未提交改动(改一半切分支救命)② **`reflog`** 救命找回被 reset/删分支误删的 commit(90 天内可救)③ **`rebase`** 整理 commit 历史(`pull --rebase` + `rebase -i HEAD~N` 交互式 squash/reword)④ **`--force-with-lease`** 安全强推 vs 危险的裸 `--force` ⑤ **`cherry-pick`** 挑樱桃式合单个 commit ⑥ **`tag`** 版本号管理(发版 v1.0.0 必备);进阶速查图 + 5 条铁律 + 实战练习 |
 | **静态站点生成器与 Quartz 部署实战** ⭐新增 | [静态站点生成器与Quartz部署实战.md](05_技术基础/静态站点生成器与Quartz部署实战.md) | **SSG 范式入门 + Quartz 完整部署 SOP**:**静态站点生成器(SSG)** 与动态站对比(类比"餐厅现炒 vs 便利店饭团")+ 工作流**四角色**(作者/生成器/产物/Web 服务器)+ Quartz `quartz.config.ts` 关键字段速览(`baseUrl` / `ignorePatterns` / `transformers` / `emitters`)+ **三种部署路线对比**(自有 VPS+rsync / **Cloudflare Pages** / 服务器自 build)+ **本知识库部署到 `kingrich.top/knowledge-base/quartz/` 的完整 7 步实战**(改 baseUrl / build / SSH / **rsync 上传** / **nginx `try_files` 配置** / **子路径斜杠 301 重定向** / `curl` 验证)+ **子路径部署"恰好兼容"机制**(Quartz 内部资源用相对路径,无需 nginx rewrite)+ **`deploy.sh` 一键脚本** + **7 大常见报错速查**(`rsync: 未找到命令` / 404 / 样式乱 / 中文路径 / `baseUrl` 没改导致 sitemap 全是 localhost 等)+ **9 大主流 SSG 横向对比**(Hugo / Jekyll / Astro / Eleventy / Docusaurus / MkDocs / VitePress / Next.js)+ 19 项术语速查 |
 | **CI/CD 与 GitHub Actions** ⭐新增 | [CI-CD与GitHub-Actions.md](05_技术基础/CI-CD与GitHub-Actions.md) | **"推一次代码自动构建测试部署通知"的机制讲透**:**CI(持续集成)/ CD(持续交付/部署)** 定义辨析(Delivery 等人按按钮 vs Deployment 直接上线)+ **"不睡觉的实习生"类比** + **8 大 CI 工具横评**(GitHub Actions / GitLab CI / Jenkins / CircleCI / Travis / Drone / Tekton / Cloudflare Pages 等)+ **GitHub Actions 触发流水线机制图**(push → 监听事件 → 派发任务 → 启动临时 VM → 跑 yaml → 销毁 → 通知)+ **完整可工作的 workflow yaml**(以 Quartz 部署 GitHub Pages 为案例,逐行白话注释)+ **CI 能跑什么的 8 大阶段**(拉代码/装环境/静态检查/安全扫描/构建/测试/打镜像/部署/发版/通知)+ **触发器类型速查**(`push` / `pull_request` / `schedule` / `workflow_dispatch` / `release` 等 10+ 种)+ **5 大踩坑**(secrets 泄露 / `fetch-depth: 0` / 缓存优化 / matrix builds 滥用 / main 分支调试)+ **进阶概念**(artifact / environment / OIDC / self-hosted runner / reusable workflow / GitOps)+ 21 项术语速查 |
 | **Claude 调用 Codex 协作实战案例** ⭐新增 | [Claude调用Codex协作实战案例.md](05_技术基础/Claude调用Codex协作实战案例.md) | **MCP 双模型协作完整配置流程**:通过 **MCP 协议**把 Codex 注册为 Claude 的工具,让 Claude 自动调用 Codex 进行代码 review / 生成 / 优化 → **5 步配置全流程**(环境检查 / `claude mcp add codex -s user` 注册 / 验证 / 测试 / 首次授权)+ **用户级 vs 项目级对比**(全局可用 vs 项目特定)+ **首次授权流程详解**(权限提示 / `always` vs `y` vs `never` / 授权记录位置)+ **3 个实战测试场景**(Codex review 代码 / 生成原型 / 双模型争辩)+ **5 大常见问题排查**(MCP 连接失败 / 非交互模式无法授权 / Claude 不调用 Codex / 模型不存在 / 删除配置)+ **进阶:配置 CLAUDE.md 自动协作**(触发条件 / 争辩规则 / 兜底机制)+ 与[多CLI联动](05_技术基础/多CLI联动.md)"玩法 B:MCP 互调"配套 |
@@ -125,6 +138,7 @@
 - 选定要探索的主题
 - 判断归属：已有模块 → 进模块目录；一次性探索 → 按 `YYYY-MM-DD_主题.md` 放入 `04_探索日志/`
 - 复制 `_templates/探索记录模板.md` 作为起点
+- 正式主题笔记优先复制 `_templates/正式笔记模板.md`
 - **写完后同步更新本 README 对应的索引表**
 
 ### 2. 复习回顾
@@ -137,22 +151,21 @@
 在笔记中使用相对链接建立知识关联：
 
 ```markdown
-参见 [Transformer](../00_核心概念/Transformer.md) 的基础概念
+参见 [Transformer](00_核心概念/Transformer.md) 的基础概念
 ```
+
+如果笔记位于子目录内，再按所在层级增加 `../`。
+
+### 4. 维护记录
+
+- 近期变更见 [CHANGELOG.md](CHANGELOG.md)
+- 待探索主题和结构优化路线见 [ROADMAP.md](ROADMAP.md)
 ---
 
 ## 待探索主题
 
-- [ ] 位置编码（Positional Encoding）
-- [ ] Layer Normalization
-- [ ] RLHF（人类反馈强化学习）
-- [ ] GPT 系列演进
-- [ ] Claude 的架构特点
-- [ ] LLaMA 开源模型
-- [x] ~~Agent 智能体~~ → 已新建 `06_Agent工程/`，首篇笔记《Harness 工程与 Agent 解剖》已落盘
+待探索主题已迁移到 [ROADMAP.md](ROADMAP.md)，避免 README 同时承担索引、路线图和变更日志三类职责。
 
 ---
 
-*最后更新: 2026-05-28(同日新增 3 篇笔记 → ① `05_技术基础/静态站点生成器与Quartz部署实战.md`:把这次部署知识库到 `kingrich.top/knowledge-base/quartz/` 的实战流程沉淀成 SSG 范式入门 + 三种部署路线对比 + 完整 7 步 SOP + 常见报错速查 ② `05_技术基础/CI-CD与GitHub-Actions.md`:"推一次代码自动构建测试部署通知"的机制讲透,含 workflow yaml 详解 + 5 大踩坑 + 8 大 CI 工具横评 ③ `05_技术基础/Claude调用Codex协作实战案例.md`:通过 MCP 协议实现双模型协作的完整配置流程(5 步配置 / 用户级 vs 项目级 / 首次授权 / 3 个实战场景 / 5 大常见问题排查 / 进阶自动协作配置);共 7 处反向回填 → SSG 篇:`云服务交付模型.md` 加 PaaS vs IaaS 对照 / `程序员黑话速查.md` 加 SSG 术语 / `程序小白概念扫盲手册.md` 加进阶指引;CI/CD 篇:`静态站点生成器与Quartz部署实战.md` 加配套引用 / `程序员黑话速查.md` 加 CI/CD 术语;MCP 协作篇:`多CLI联动.md` 加实战案例引用 / `Claude Code 扩展生态.md` 加 MCP 实战案例链接)*
-*上次更新: 2026-05-26（新增 `06_Agent工程/Claude Code goal命令.md`：Anthropic v2.1.139 长任务原语完整解析，含 Haiku 独立评估器机制 / 实战 4 例 / 与 Codex 对比；3 处反向回填：`Claude Code 实战速查.md` 加新命令行 / `Claude Code 扩展生态.md` 加交叉引用 / `LLM典型失败模式.md` 加官方机制层防御）*
-*上次更新: 2026-05-25(填补作者 @flymyd 的 5 个待填坑,新增 5 篇 Claude 原创补充笔记:`03_应用实践/LLM推理引擎选型.md` + `03_应用实践/HomeLab到中小企业LLM部署架构.md` + `03_应用实践/Embedding-Reranker-向量数据库.md` + `05_技术基础/NVIDIA驱动-CUDA-PyTorch工程基础.md` + `06_Agent工程/Function Calling与MCP工程指南.md`;每篇均含「作者声明 + 局限性」节明确标注非作者原稿;含 9 处反向回填确保双向引用)*
+*最后更新: 2026-05-29（结构整改：拆出 CHANGELOG / ROADMAP，修复 README 示例断链，补模块入口与提示词框架速查索引。）*

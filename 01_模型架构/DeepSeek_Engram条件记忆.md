@@ -3,6 +3,8 @@
 > 来源：DeepSeek 2026 年 1 月发表
 > 论文：[Conditional Memory via Scalable Lookup](https://arxiv.org/abs/2601.07372)
 > 代码：[github.com/deepseek-ai/Engram](https://github.com/deepseek-ai/Engram)
+>
+> 阅读位置：这篇适合在看完 [Dense 与 MoE 架构对比](../00_核心概念/Dense与MoE架构对比.md) 后阅读。MoE 解决“让谁来算”，Engram 进一步讨论“哪些内容根本不该重复算，直接记住即可”。
 
 ---
 

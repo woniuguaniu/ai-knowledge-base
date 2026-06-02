@@ -23,7 +23,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
    - `05_技术基础/` —— AI 之外的通用技术笔记（Shell、系统、软件工程等）
    - `claude code skills知识/` —— `.pptx` 与截图素材，不是 Markdown 笔记，**一般不动**
    - `_templates/` —— 笔记模板
-   - 根目录**不应该**再有散落的 `.md`（除 `README.md` / `CLAUDE.md`）。如果发现有，通常意味着该归类到上面某个模块。
+   - 根目录只允许维护入口类 `.md`：`README.md` / `index.md` / `CHANGELOG.md` / `ROADMAP.md` / `CLAUDE.md`。其它无编号 `.md` 通常意味着该归类到上面某个模块。
 
 2. **`02_提示词工程/`** = 自成一套的完整教程子项目
    - 该子目录**自带** `CLAUDE.md`、`README.md`、`.claude/settings.local.json`
@@ -34,7 +34,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **模块目录**：`NN_中文主题名/`（两位数字 + 下划线 + 中文），例如 `00_核心概念`、`01_模型架构`
 - **模块内的笔记**：`主题名.md`（如 `Transformer.md`）；`02_提示词工程/` 子项目内额外有 `NN_主题.md` 的二级编号
 - **探索日志**：`YYYY-MM-DD_主题.md`，这是 `_templates/探索记录模板.md` 规定的格式。新建探索日志时应复制该模板。
-- **根目录散文件**：无编号的 `.md`，一般是一次性总结/速查，不强制归类
+- **根目录入口文件**：只放知识库总览、站点首页、维护规则、变更记录和路线图。一次性总结 / 速查应归入对应模块，不再放根目录。
 
 ## 新增内容时的决策树
 
@@ -44,6 +44,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 2. 是一次性探索记录？→ 按 `YYYY-MM-DD_主题.md` 命名放进 `04_探索日志/`，复制 `_templates/探索记录模板.md`
 3. 属于尚未存在的新类别？→ **先和用户确认**是否开新模块目录（下一编号 `06_主题/`），不要擅自建目录搞乱结构
 4. `02_提示词工程/` 内部的新增必须遵守它的 `01_` ~ `10_` 编号体系，不要插入乱序编号
+
+正式主题笔记优先复制 `_templates/正式笔记模板.md`，至少包含：一句话定位、目录、正文、与本知识库其他章节的关联、来源与局限性、最后更新。
 
 ## 基于截图/图片整理笔记的规则
 
