@@ -509,6 +509,8 @@ docker run -d --gpus all --rm -p 9400:9400 \
 
 ### 7.3 LLM 专用观测:Langfuse
 
+> 📎 该观测**哪些 Agent 维度、为什么**（Trace / Span、每步 token、工具调用成败、成本工程）见 [Agent 可观测性与成本工程](../06_Agent工程/Agent可观测性与成本工程.md)；本节侧重监控栈**怎么搭**。
+
 普通 APM 看不到的 LLM 特殊维度:
 - 每个请求的 **完整 prompt + completion**(开发环境必备)
 - **每模型成本对比**

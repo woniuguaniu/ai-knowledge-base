@@ -2,6 +2,8 @@
 
 本模块收录 Agent 的概念、架构、评测、安全、工具调用和 Claude Code 生态。它适合从“什么是 Agent”一路读到“如何工程化维护 Agent 系统”。
 
+> 🗺️ **想先看一张总览地图**——Agent 架构师该掌握哪 8 个能力域、按哪 6 个能力边界阶段学——看 [Agent架构师能力地图与学习路线.md](Agent架构师能力地图与学习路线.md)（本模块导航总纲，每项能力都映射到下面的具体笔记）。
+
 ## 推荐阅读顺序
 
 1. [什么是Agent.md](什么是Agent.md)：建立 Agent 的基础心智模型。
@@ -15,6 +17,9 @@
 
 | 分组 | 笔记 |
 |---|---|
+| 总纲 / 能力地图 | [Agent架构师能力地图与学习路线.md](Agent架构师能力地图与学习路线.md) |
+| 长程任务 / 状态管理 | [长程任务原语-Session-Workspace-Checkpoint-Resume.md](长程任务原语-Session-Workspace-Checkpoint-Resume.md) |
+| 可观测 / 成本 / 记忆 | [Agent可观测性与成本工程.md](Agent可观测性与成本工程.md)、[Agent记忆体系.md](Agent记忆体系.md) |
 | 入门与演进 | [什么是Agent.md](什么是Agent.md)、[Agent发展轨迹四阶段.md](Agent发展轨迹四阶段.md) |
 | 架构与工具调用 | [Harness工程与Agent解剖.md](Harness工程与Agent解剖.md)、[Function Calling与MCP工程指南.md](Function%20Calling与MCP工程指南.md) |
 | 质量与失败模式 | [Eval测评体系.md](Eval测评体系.md)、[LLM典型失败模式.md](LLM典型失败模式.md) |

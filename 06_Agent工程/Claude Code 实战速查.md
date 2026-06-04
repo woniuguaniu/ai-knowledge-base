@@ -92,6 +92,8 @@
 > 💡 **3 个最常用**：`/clear`（重开）、`/compact`（瘦身）、`/agents`（管分身）
 > 💡 **2 个救命**：`/rewind`（撤销）、`/resume`（恢复）
 > 💡 **1 个秘密武器**：`/btw`（临时聊）
+>
+> 📎 `/resume` `/rewind` `/compact` `/goal` 这些命令背后是 4 个**长程任务原语**（Session / Workspace / Checkpoint / Resume）——原理见 [长程任务原语](长程任务原语-Session-Workspace-Checkpoint-Resume.md)。
 
 ---
 

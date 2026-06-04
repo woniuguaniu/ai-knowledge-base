@@ -477,6 +477,7 @@ LangChain 用户 → LangSmith（无缝集成）
 | Token 经济 | [上下文窗口与Token计费](../00_核心概念/上下文窗口与Token计费.md) | Cost 指标的物理基础 |
 | Multi-Agent 中的 Eval 角色 | [Multi-Agent 工程实战与 Persona 设计](Multi-Agent工程实战与Persona设计.md) | 7 人团队中的"复盘官"实际上就是在跑 LLM-as-Judge + 离线 Eval,可对照本文的四大类 Eval 看真实工程实现 |
 | LLM 失败模式与 Goodhart's Law 的具象 | [LLM 典型失败模式](LLM典型失败模式.md) | 本文讲"度量层"问题，该文讲"度量对象本身"会因 Goodhart's Law 表演性完成；两者必须搭配阅读 |
+| Agent 可观测性与成本 | [Agent可观测性与成本工程](Agent可观测性与成本工程.md) | Eval 回答"跑得对吗"；那篇讲运行时 Trace / 成本，且线上 Trace → Eval 样本是数据飞轮闭环 |
 
 ---
 

@@ -597,6 +597,7 @@ results = qdrant.search(
 ## 6. 与本知识库其他章节的关联
 
 - **RAG 入门**:[RAG/RAG学习笔记.md](RAG/RAG学习笔记.md)——RAG 的概念入门 + 搜索 API(Tavily / Exa)选型,**本文是它的"自建 RAG 三件套"深度补全**
+- **知识层范式升级(LLM Wiki)**:[RAG/LLM-Wiki知识库架构.md](RAG/LLM-Wiki知识库架构.md)——本文讲"用什么工具检索"(基础设施层),那篇讲"知识本身怎么组织"(LLM Wiki 范式:三层架构 + 页面化/层级/双向链接/实体关系/语义导航);**本文 § 8.3 声明未涉及的 GraphRAG / 知识图谱 RAG / Agentic RAG,正好由那篇的「实体关系」与「语义导航」两节补上**
 - **真实案例**:[宠物CT影像AI辅助诊断方案.md](宠物CT影像AI辅助诊断方案.md)——医疗 RAG 的实战方案(用 BiomedCLIP + Milvus/Qdrant)
 - **Medprompt 启发**:[Medprompt方法论解析.md](Medprompt方法论解析.md)——动态 few-shot 本质就是"检索示例题"的 RAG
 - **LLM 接入**:[LLM 接口规范实战.md](LLM接口规范实战.md)——RAG 的 LLM 调用部分
@@ -663,8 +664,8 @@ results = qdrant.search(
 | **个人 benchmark** | 没有亲自跑过 7 大向量库的 100 万级压测,**性能数据来自各官方 benchmark + MTEB 榜** |
 | **超大规模(10 亿+)** | 本文止步于亿级,**Twitter / Google 级别的 RAG 架构**未涉及 |
 | **法律 / 医疗等垂直领域** | 不同领域的 best practice 差异大(医学要 BiomedCLIP / 法律要 lex-emb),**没逐一展开** |
-| **GraphRAG / 知识图谱 RAG** | 微软 GraphRAG 等"图 + RAG" 新范式未涉及 |
-| **Agentic RAG** | "Agent 决定检索什么 / 什么时候检索" 的高级 RAG 未涉及 |
+| **GraphRAG / 知识图谱 RAG** | 微软 GraphRAG 等"图 + RAG" 新范式未涉及（→ 见 [RAG/LLM-Wiki知识库架构.md](RAG/LLM-Wiki知识库架构.md) 的「实体关系」节） |
+| **Agentic RAG** | "Agent 决定检索什么 / 什么时候检索" 的高级 RAG 未涉及（→ 见 [RAG/LLM-Wiki知识库架构.md](RAG/LLM-Wiki知识库架构.md) 的「语义导航」节） |
 | **多模态 RAG** | 文本 RAG 是主体,**图像 / 视频 / 音频 RAG** 的特殊处理未展开 |
 | **评测方法** | RAGAS、TruLens 等专业评测框架未深入 |
 

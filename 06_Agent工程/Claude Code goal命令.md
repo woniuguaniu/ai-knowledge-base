@@ -228,6 +228,7 @@ Claude 会自己改代码 → 跑测试 → 看哪些没过 → 再改，循环�
 | LLM 典型失败模式 | [LLM典型失败模式.md](LLM典型失败模式.md) | `/goal` 的"独立评估器"设计是对**自我汇报偏差**的工程化防御 |
 | Eval 测评体系 | [Eval测评体系.md](Eval测评体系.md) | `/goal` 的 Haiku 评估器本质是 **LLM-as-Judge** 在生产环境的落地——同样的模式在 Eval 测评里讨论过 |
 | Harness 工程 | [Harness工程与Agent解剖.md](Harness工程与Agent解剖.md) | `/goal` 是 Harness 在"长任务自治"维度的新机制——给 Agent 加了"目标驱动循环"的控制流 |
+| 长程任务原语 | [长程任务原语-Session-Workspace-Checkpoint-Resume.md](长程任务原语-Session-Workspace-Checkpoint-Resume.md) | `/goal` 是 Resume（续跑）原语的「目标驱动循环」形态；那篇系统讲 Session / Workspace / Checkpoint / Resume 四原语与状态外置纪律 |
 | 多 CLI 联动 | [../05_技术基础/多CLI联动.md](../05_技术基础/多CLI联动.md) | Codex 先有 `/goal`、Anthropic 跟进——是多 CLI 时代功能互鉴的典型案例 |
 
 ---
