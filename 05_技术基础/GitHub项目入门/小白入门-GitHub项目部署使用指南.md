@@ -141,6 +141,8 @@ gpt_image_playground/
 
 > **看完 `scripts` 部分就知道：要启动 → 敲 `npm run dev`**
 
+> 💡 上面 `"test": "vitest run"` 里的 **Vitest** 是前端单元测试框架，它和 e2e、`.spec` 测试文件的区别见 [前端测试栈速查](../前端测试栈速查.md)。
+
 ---
 
 ## 第二部分：四种部署方式详解

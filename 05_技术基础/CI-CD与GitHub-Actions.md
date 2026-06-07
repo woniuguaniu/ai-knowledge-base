@@ -242,6 +242,8 @@ GitHub Actions 的强大之处在于 **Marketplace 上有 1 万+ 个现成的 Ac
 | **发版** | 打 tag / 发包 / 写 changelog | `npm publish` / `gh release create` / semantic-release |
 | **通知** | 告诉团队 | Slack / 钉钉 / 飞书 webhook / 邮件 |
 
+> 💡 上表"测试"一行里的单元 / e2e 测试在前端具体用什么工具（Vitest / Playwright）、`.spec` 文件怎么回事，见 [前端测试栈速查](前端测试栈速查.md)。
+
 ### 5.1 几个有趣的"非传统"用法
 
 - **定时跑**:每天凌晨 3 点跑一遍数据备份脚本(用 `on: schedule: cron`)
