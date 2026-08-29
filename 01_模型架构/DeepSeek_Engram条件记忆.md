@@ -135,4 +135,30 @@ DeepSeek 发现了一个"黄金比例"：
 
 ---
 
+## 来源与局限性
+
+### 来源
+
+正文中出现的出处标记：
+
+- 来源：DeepSeek 2026 年 1 月发表
+- 论文：Conditional Memory via Scalable Lookup https://arxiv.org/abs/2601.07372
+- 参考资料：论文原文 arXiv:2601.07372 https://arxiv.org/abs/2601.07372
+- 参考资料：GitHub 代码 https://github.com/deepseek-ai/Engram
+- 参考资料：DeepSeek 技术路线图解析 https://mesuvash.github.io/blog/2026/deepseek-v3/
+
+- 正文引用的外部域名：`arxiv.org`、`github.com`、`mesuvash.github.io`、`theoutpost.ai`
+
+> 本节由脚本依据正文的出处标记自动归纳，**未经逐句人工复核**。下表只陈述可统计的客观事实，不代表对内容质量的判断；如与正文冲突，以正文为准。
+
+### 局限性
+
+| 维度 | 客观情况 |
+|---|---|
+| 时效性 | 含约 4 处具体版本号/型号表述；文件最后修改于 2026-06-02 |
+| 覆盖范围 | 全文约 2k 字，覆盖范围以正文目录为准，未展开的边界情况请另行查证 |
+| 实战验证 | 正文含约 0 处实测/复现/踩坑类表述（自动统计，仅供参考；具体哪些结论经过动手验证需读正文判断） |
+
+---
+
 *最后更新：2026-06-02（据 git 提交历史回填，非内容重新审校日期）*

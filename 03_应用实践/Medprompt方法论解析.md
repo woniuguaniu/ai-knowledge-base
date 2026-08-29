@@ -205,4 +205,30 @@ Medprompt 用 20 次集成意味着一道题要调用 20 次 API。成本是普�
 
 ---
 
+## 来源与局限性
+
+### 来源
+
+正文中出现的出处标记：
+
+- 来源：微软研究院 microsoft/promptbase https://github.com/microsoft/promptbase
+- 论文：Can Generalist Foundation Models Outcompete Special-Purpose Tuning?（2023）
+- 参考资料：论文原文：Can Generalist Foundation Models Outcompete Special-Purpose Tuning? https://arxiv.org/abs/2311.16452
+- 参考资料：微软博客：The Power of Prompting https://www.microsoft.com/en-us/research/blog/the-power-of-prompting/
+- 参考资料：代码实现：github.com/microsoft/promptbase https://github.com/microsoft/promptbase
+
+- 正文引用的外部域名：`github.com`、`arxiv.org`、`www.microsoft.com`、`learn.microsoft.com`
+
+> 本节由脚本依据正文的出处标记自动归纳，**未经逐句人工复核**。下表只陈述可统计的客观事实，不代表对内容质量的判断；如与正文冲突，以正文为准。
+
+### 局限性
+
+| 维度 | 客观情况 |
+|---|---|
+| 时效性 | 含约 10 处具体版本号/型号表述；文件最后修改于 2026-05-25 |
+| 覆盖范围 | 全文约 4k 字，覆盖范围以正文目录为准，未展开的边界情况请另行查证 |
+| 实战验证 | 正文含约 0 处实测/复现/踩坑类表述（自动统计，仅供参考；具体哪些结论经过动手验证需读正文判断） |
+
+---
+
 *最后更新：2026-05-25（据 git 提交历史回填，非内容重新审校日期）*
