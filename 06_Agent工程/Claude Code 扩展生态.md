@@ -499,3 +499,7 @@ claude --dangerously-skip-permissions
 | **渐进式披露** | Progressive Disclosure | 按需加载指令，不塞满 system prompt |
 | **Smithery** | — | 主流的 MCP 应用商店 |
 | **`--dangerously-skip-permissions`** | — | 跳过所有权限询问（高危）|
+
+---
+
+*最后更新：2026-08-29（据 git 提交历史回填，非内容重新审校日期）*

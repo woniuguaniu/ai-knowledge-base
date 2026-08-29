@@ -229,3 +229,7 @@ git reset --hard <reflog里的hash>  # 救回来
 # 练习 3：交互式 rebase
 git rebase -i HEAD~3               # 看见编辑器后直接 :q 退出（不实际改）
 ```
+
+---
+
+*最后更新：2026-05-06（据 git 提交历史回填，非内容重新审校日期）*

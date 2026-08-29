@@ -369,3 +369,7 @@ Action: 输出最终答案
 | **Perception** | 感知 | Agent 接收输入信息的环节 |
 | **Reasoning** | 推理 | Agent 用 LLM 做决策的环节 |
 | **Action** | 行动 | Agent 执行操作的环节 |
+
+---
+
+*最后更新：2026-05-25（据 git 提交历史回填，非内容重新审校日期）*

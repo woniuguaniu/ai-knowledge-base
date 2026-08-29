@@ -930,3 +930,7 @@ chunk 4: {"arguments":"州\"}"}
 - **想给自己用**:写个 MCP Server,接 Claude Desktop / Cursor / Claude Code,**马上能用**
 - **想给团队 / 公司用**:看 LiteLLM 的 MCP 集成 / LangChain 的 MCP 适配,**统一接入更省事**
 - **想做研究 / 评测**:BFCL(Berkeley Function-Calling Leaderboard)是当前最权威的 FC benchmark
+
+---
+
+*最后更新：2026-08-29（据 git 提交历史回填，非内容重新审校日期）*

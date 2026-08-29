@@ -394,3 +394,7 @@ strategy:
 ---
 
 *创建时间:2026-05-28(继 SSG 部署实战笔记后,把"GitHub Actions / CI/CD" 这个概念单独拆出来讲透。本笔记定位是"以 GitHub Actions + Quartz 部署为主案例的 CI/CD 入门",其他 CI 工具如 GitLab CI / Jenkins 只做横评,不展开。后续若需扩展:可加 § 11 安全专题(SAST/DAST/SCA/supply chain attack)、§ 12 GitOps 进阶等。)*
+
+---
+
+*最后更新：2026-06-07（据 git 提交历史回填，非内容重新审校日期）*

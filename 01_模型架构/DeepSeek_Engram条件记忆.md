@@ -132,3 +132,7 @@ DeepSeek 发现了一个"黄金比例"：
 - [GitHub 代码](https://github.com/deepseek-ai/Engram)
 - [DeepSeek 技术路线图解析](https://mesuvash.github.io/blog/2026/deepseek-v3/)
 - [Engram 条件记忆深度分析](https://theoutpost.ai/news-story/deep-seek-unveils-engram-conditional-memory-to-slash-gpu-waste-and-bypass-hbm-constraints-22959/)
+
+---
+
+*最后更新：2026-06-02（据 git 提交历史回填，非内容重新审校日期）*

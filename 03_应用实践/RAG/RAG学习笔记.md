@@ -108,3 +108,7 @@ RAG 系统中"检索"部分需要搜索能力，以下是两个常用的搜索 A
 - **RAG 用到的多模态调用**:[LLM接口规范实战.md](../LLM接口规范实战.md)——OpenAI 兼容接口的 `content` 数组、图片 Base64 编码、Gemini `parts` 格式等
 - **自建 RAG 的三件套深度补全**:[Embedding-Reranker-向量数据库.md](../Embedding-Reranker-向量数据库.md)——Embedding 模型选型 + 7 大向量库横评 + Reranker 精排 + 完整 RAG Pipeline 示例
 - **RAG 知识层的范式升级（LLM Wiki / PageIndex）**:[LLM-Wiki知识库架构.md](LLM-Wiki知识库架构.md)——把"切块 + 向量召回"升级为"入库时编译成结构化词条 / 层次树索引"，含三层架构 Raw→Wiki→Schema + 页面化/层级目录/双向链接/实体关系/自动摘要/自动索引/语义导航七大能力；新增 PageIndex 案例说明结构化长文档深度检索可用 LLM 推理导航替代传统向量 Top-K，但不等于所有场景都该扔掉向量数据库
+
+---
+
+*最后更新：2026-08-29（据 git 提交历史回填，非内容重新审校日期）*

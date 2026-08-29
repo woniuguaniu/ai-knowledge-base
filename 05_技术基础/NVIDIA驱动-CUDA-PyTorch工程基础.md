@@ -587,3 +587,7 @@ python -c "import torch; print(torch.backends.mps.is_available())"
 - **怎么用 Docker 跑 GPU 工作流** → 推荐 NVIDIA Container Toolkit 官方文档
 - **CUDA 编程入门** → 推荐《CUDA C 编程权威指南》或 NVIDIA 官方 CUDA Samples
 - **GPU profiling 与性能优化** → 推荐 Nsight Systems / Nsight Compute 官方文档
+
+---
+
+*最后更新：2026-05-25（据 git 提交历史回填，非内容重新审校日期）*

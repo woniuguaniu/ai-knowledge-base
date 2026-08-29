@@ -713,3 +713,7 @@ query + 文档树索引 → LLM 判断相关节点 → 读取原文页 → 不�
 - **想做结构化长文档深度问答**:先看 [RAG/LLM-Wiki知识库架构.md](RAG/LLM-Wiki知识库架构.md) 的 PageIndex 案例,评估树索引 / 语义导航是否比向量 Top-K 更合适
 - **想做研究 / 评测**:RAGAS 是当前主流的 RAG 评测框架
 - **关注前沿**:微软 GraphRAG、Anthropic Contextual Retrieval、CRAG(Corrective RAG)是 2025 年值得关注的新方向
+
+---
+
+*最后更新：2026-08-29（据 git 提交历史回填，非内容重新审校日期）*

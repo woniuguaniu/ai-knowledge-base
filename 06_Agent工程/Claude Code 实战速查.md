@@ -349,3 +349,7 @@ claude mcp remove <name>
 /btw     /memory  /rewind   /simplify  /status
 /logout  /exit
 ```
+
+---
+
+*最后更新：2026-06-04（据 git 提交历史回填，非内容重新审校日期）*

@@ -202,3 +202,7 @@ Medprompt 用 20 次集成意味着一道题要调用 20 次 API。成本是普�
 - 代码实现：[github.com/microsoft/promptbase](https://github.com/microsoft/promptbase)
 - 微软提示词工程入门：[Introduction to Prompt Engineering](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/prompt-engineering)
 - 微软高级提示词指南：[Advanced Prompt Engineering](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/advanced-prompt-engineering)
+
+---
+
+*最后更新：2026-05-25（据 git 提交历史回填，非内容重新审校日期）*

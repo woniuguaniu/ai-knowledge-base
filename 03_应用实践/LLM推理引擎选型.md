@@ -677,3 +677,7 @@ huggingface-cli download bartowski/Qwen3-32B-GGUF Qwen3-32B-Q4_K_M.gguf
 - **个人玩家不要走极端**:别一上来就 TensorRT-LLM,Ollama 或 vLLM 够你玩好几年
 - **国内 toB**:LMDeploy 是不错的"国货之光",但 vLLM 也完全胜任
 - **教学用**:llama.cpp 的代码最容易读懂,适合"想理解推理引擎到底干了什么"的学习者
+
+---
+
+*最后更新：2026-06-03（据 git 提交历史回填，非内容重新审校日期）*

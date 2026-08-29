@@ -695,3 +695,7 @@ client = OpenAI(base_url="https://api.your-company.com/v1")
 - **小工作室**:LiteLLM + vLLM 是最实用的组合,**LiteLLM 的免费版功能足够覆盖大部分需求**
 - **中小企业**:**多花点时间在 LiteLLM 的策略配置上**(用户管理 / 限流 / 预算),硬件可以渐进扩展
 - **超大规模**:本文不够用,需要专门的 MLOps 团队,**推荐参考 NVIDIA NIM、Anyscale、Modal 等商业方案**
+
+---
+
+*最后更新：2026-06-04（据 git 提交历史回填，非内容重新审校日期）*

@@ -244,3 +244,7 @@ Claude 会自己改代码 → 跑测试 → 看哪些没过 → 再改，循环�
 - Anthropic 官方文档
 - 社区评测博客（explainx.ai / amitray.com / smolkin.org / geeky-gadgets.com）
 - 2026-05-26 与 Claude 会话中的搜索整合
+
+---
+
+*最后更新：2026-06-04（据 git 提交历史回填，非内容重新审校日期）*
