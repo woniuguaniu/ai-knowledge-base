@@ -435,6 +435,7 @@ Thoughtworks 的 Birgitta Böckeler 提出的 Harness 设计框架：
 
 | 相关章节 | 关联点 |
 |---------|-------|
+| [Skill工程化设计与失效防御](Skill工程化设计与失效防御.md) | 那篇的四道防线（Session Discipline / 薄壳 / SessionStart hook / PreToolUse hook）全部属于 harness 层，是本文 Guides 与 Sensors 框架的具体落地 |
 | [00_核心概念/上下文窗口与Token计费](../00_核心概念/上下文窗口与Token计费.md) | Harness 的"记忆层"核心就是上下文工程；Prompt Caching 是降低 Harness 运行成本的关键 |
 | [02_提示词工程/](../02_提示词工程/) | Prompt Engineering 是 Harness Engineering 的**最内层**——这篇笔记解释了为什么提示词工程是"必要但不充分"的 |
 | [03_应用实践/RAG/](../03_应用实践/RAG/) | RAG 本质是"记忆层"的一种具体实现——把外部知识喂进上下文 |

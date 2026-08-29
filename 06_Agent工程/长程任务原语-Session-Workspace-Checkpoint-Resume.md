@@ -183,6 +183,7 @@
 
 | 文档 | 关系 |
 |---|---|
+| [Skill工程化设计与失效防御](Skill工程化设计与失效防御.md) | 那篇的 Task Anchor（Goal / Boundaries / Done When）解决长程任务中的**目标漂移**，与本文的 Session / Checkpoint 原语互补 |
 | [Agent架构师能力地图与学习路线](Agent架构师能力地图与学习路线.md) | 本文补它学习路线 **阶段 ⑤** 的空洞；互为正向引用 |
 | [Claude Code 实战速查](Claude%20Code%20实战速查.md) | 那篇列 `/resume` `/rewind` `/compact` 等**命令**，本文讲这些命令背后的**原语与原理** |
 | [上下文窗口与Token计费](../00_核心概念/上下文窗口与Token计费.md) | Session 易失性的物理根源 + "默认 ~95% 自动压缩"机制 |

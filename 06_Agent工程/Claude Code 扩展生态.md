@@ -465,6 +465,7 @@ claude --dangerously-skip-permissions
 
 | 主题 | 文档 | 关系 |
 |---|---|---|
+| Skill 怎么写好 | [Skill工程化设计与失效防御.md](Skill工程化设计与失效防御.md) | **互补视角**：本文讲 Skill 是什么、怎么装（使用者）；那篇讲怎么写、怎么防它在长会话里失效（设计者） |
 | Agent 是什么 | [什么是Agent.md](什么是Agent.md) | 本文是 CC 这一具体 Agent 的扩展机制；那篇讲 Agent 通用概念 |
 | Harness 工程深度解剖 | [Harness工程与Agent解剖.md](Harness工程与Agent解剖.md) | 5 大机制都属于 Harness 范畴；那篇讲架构 |
 | Agent 演进史 | [Agent发展轨迹四阶段.md](Agent发展轨迹四阶段.md) | 第三阶段→第四阶段（Context → Harness）的具体落地体现 |

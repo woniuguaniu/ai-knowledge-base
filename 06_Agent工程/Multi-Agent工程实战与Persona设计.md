@@ -417,6 +417,7 @@ AI 擅长**推理和决策**,但**完全不会**:
 
 本文档与已有笔记形成的**知识网**:
 
+- **[Skill 工程化设计与失效防御.md](Skill工程化设计与失效防御.md)** — 那篇的子 Agent 派发协议（干净上下文 worker + 五字段合约 Goal/Inputs/Outputs/Forbidden Zones/Acceptance + 两阶段 review）是本文多 Agent 协作的**一种具体落地形态**；其中「worker 基本对了、剩下 10% 我在主上下文补」被明确列为最污染主上下文的反模式。
 - **[什么是 Agent.md](什么是Agent.md) § 8.2** — 给出了"单 Agent vs 多 Agent"的**抽象对比**;本文是该节的**实战延伸**,展示多 Agent 真正长什么样。
 - **[Harness 工程与 Agent 解剖.md](Harness工程与Agent解剖.md) § Agent 五层架构** — 编排层 / 记忆层 / 大模型 / 执行层 / 反馈层,本文的"共享真相源"对应记忆层,"任务二分法"对应执行层与大模型的分工。
 - **[Agent 发展轨迹四阶段.md](Agent发展轨迹四阶段.md)** — 多 Agent 协作是第四阶段 Harness Engineering 的高级形态,本文是该阶段的**具体落地例**。

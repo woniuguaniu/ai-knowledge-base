@@ -23,6 +23,7 @@
 | 可观测 / 成本 / 记忆 | [Agent可观测性与成本工程.md](Agent可观测性与成本工程.md)、[Agent记忆体系.md](Agent记忆体系.md) |
 | 入门与演进 | [什么是Agent.md](什么是Agent.md)、[Agent发展轨迹四阶段.md](Agent发展轨迹四阶段.md)、[Loop Engineering与四代演化.md](Loop%20Engineering与四代演化.md) |
 | 架构与工具调用 | [Harness工程与Agent解剖.md](Harness工程与Agent解剖.md)、[Function Calling与MCP工程指南.md](Function%20Calling与MCP工程指南.md) |
+| Skill 编写与失效防御 | [Skill工程化设计与失效防御.md](Skill工程化设计与失效防御.md) |
 | Coding Agent 设计 | [极简可控的Coding-Agent设计-pi.md](极简可控的Coding-Agent设计-pi.md) |
 | 协作方式与技术债 | [Vibe Coding与技术债治理.md](Vibe%20Coding与技术债治理.md) |
 | 质量与失败模式 | [Eval测评体系.md](Eval测评体系.md)、[LLM典型失败模式.md](LLM典型失败模式.md) |
