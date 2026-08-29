@@ -592,12 +592,46 @@ results = qdrant.search(
 
 **最佳实践**:**先 RAG,实在搞不定再 Fine-tuning**(或两者结合)。
 
+### 5.7 向量库什么时候不是首选
+
+本文主线讲的是自建 RAG 的三件套，但这不等于"所有检索都应该先上向量数据库"。2026-06-18 补充的 PageIndex 案例正好提醒一个边界：**结构化长文档深度问答**和**大规模文档库粗召回**是两类问题。
+
+**PageIndex 是什么**：VectifyAI 开源的 Vectorless / Reasoning-based RAG 框架，不做传统 `chunk + embedding + vector DB`，而是先把长 PDF / Markdown 编译成**层次树索引**（标题、摘要、页码范围、子节点），查询时让 LLM 在树上推理该读哪些节点，再读取对应原文。
+
+```text
+传统向量 RAG:
+query → embedding → 向量库 Top-K → Reranker → LLM
+
+PageIndex:
+query + 文档树索引 → LLM 判断相关节点 → 读取原文页 → 不够再导航 → LLM
+```
+
+**它解决的不是向量库的"性能问题"，而是相似度检索的"相关性问题"**：
+
+| 向量 RAG 易出问题的场景 | PageIndex 的思路 |
+|---|---|
+| 查询是意图，答案是表格/脚注/附录，二者语义不相似 | 先看文档结构，再推理去哪找 |
+| 表格标题、数据行、脚注被 chunk 切开 | 用页面 / 节点保持结构边界 |
+| 年报里同一个术语出现几十次，Top-K 排名难分 | 让 LLM 根据章节摘要和上下文判断相关性 |
+| "详见附录 G" 这类跨页引用 | 沿树结构 / 引用路径继续导航 |
+
+**但不要把它理解成"扔掉向量数据库"**：
+
+| 场景 | 推荐路线 |
+|---|---|
+| 10 万篇短文档 / FAQ / 网页 / 工单搜索 | BM25 + Vector + Reranker，向量库仍是主力 |
+| 单份或少量结构化长文档：年报、合同、监管文件、技术手册 | PageIndex / 树索引 / 语义导航更值得试 |
+| 大规模文档库里先找文档，再对单份文档深读 | **混合方案**：向量 / 关键词粗召回文档，PageIndex 深度抽取答案 |
+| 高并发亚秒级问答 | 向量库更现实；PageIndex 多轮 LLM 推理成本和延迟更高 |
+
+> ⚠️ PageIndex 相关传播里常见的 "FinanceBench 98.7%" 来自 Mafin2.5 在金融文档问答基准上的结果。这个结果有参考价值，但不能直接外推到杂乱网页、客服 FAQ、多租户知识库或所有企业 RAG 场景。
+
 ---
 
 ## 6. 与本知识库其他章节的关联
 
 - **RAG 入门**:[RAG/RAG学习笔记.md](RAG/RAG学习笔记.md)——RAG 的概念入门 + 搜索 API(Tavily / Exa)选型,**本文是它的"自建 RAG 三件套"深度补全**
-- **知识层范式升级(LLM Wiki)**:[RAG/LLM-Wiki知识库架构.md](RAG/LLM-Wiki知识库架构.md)——本文讲"用什么工具检索"(基础设施层),那篇讲"知识本身怎么组织"(LLM Wiki 范式:三层架构 + 页面化/层级/双向链接/实体关系/语义导航);**本文 § 8.3 声明未涉及的 GraphRAG / 知识图谱 RAG / Agentic RAG,正好由那篇的「实体关系」与「语义导航」两节补上**
+- **知识层范式升级(LLM Wiki)**:[RAG/LLM-Wiki知识库架构.md](RAG/LLM-Wiki知识库架构.md)——本文讲"用什么工具检索"(基础设施层),那篇讲"知识本身怎么组织"(LLM Wiki 范式:三层架构 + 页面化/层级/双向链接/实体关系/语义导航);**本文 § 5.7 的 PageIndex 案例**正好说明"什么时候向量库不是首选",但结论是混合路线而不是全盘替代
 - **真实案例**:[宠物CT影像AI辅助诊断方案.md](宠物CT影像AI辅助诊断方案.md)——医疗 RAG 的实战方案(用 BiomedCLIP + Milvus/Qdrant)
 - **Medprompt 启发**:[Medprompt方法论解析.md](Medprompt方法论解析.md)——动态 few-shot 本质就是"检索示例题"的 RAG
 - **LLM 接入**:[LLM 接口规范实战.md](LLM接口规范实战.md)——RAG 的 LLM 调用部分
@@ -627,6 +661,8 @@ results = qdrant.search(
 | **Hybrid Search** | 混合检索 = 关键词 + 向量 |
 | **BM25** | 经典关键词检索算法,常和向量检索互补 |
 | **RRF** | Reciprocal Rank Fusion,合并多个检索结果的算法 |
+| **Vectorless RAG** | 不用向量库做主检索,改用结构索引 / LLM 推理导航等方式 |
+| **PageIndex** | 一种 Vectorless / Reasoning-based RAG:把长文档编译成层次树索引,让 LLM 在树上导航 |
 | **Matryoshka** | 套娃维度,同一个 embedding 可在不同维度使用 |
 | **ColBERT** | 后期交互检索范式,bge-m3 支持 |
 | **Faithfulness** | RAG 评测维度:回答是否忠于检索内容 |
@@ -664,8 +700,8 @@ results = qdrant.search(
 | **个人 benchmark** | 没有亲自跑过 7 大向量库的 100 万级压测,**性能数据来自各官方 benchmark + MTEB 榜** |
 | **超大规模(10 亿+)** | 本文止步于亿级,**Twitter / Google 级别的 RAG 架构**未涉及 |
 | **法律 / 医疗等垂直领域** | 不同领域的 best practice 差异大(医学要 BiomedCLIP / 法律要 lex-emb),**没逐一展开** |
-| **GraphRAG / 知识图谱 RAG** | 微软 GraphRAG 等"图 + RAG" 新范式未涉及（→ 见 [RAG/LLM-Wiki知识库架构.md](RAG/LLM-Wiki知识库架构.md) 的「实体关系」节） |
-| **Agentic RAG** | "Agent 决定检索什么 / 什么时候检索" 的高级 RAG 未涉及（→ 见 [RAG/LLM-Wiki知识库架构.md](RAG/LLM-Wiki知识库架构.md) 的「语义导航」节） |
+| **GraphRAG / 知识图谱 RAG** | 微软 GraphRAG 等"图 + RAG" 新范式未深入（→ 见 [RAG/LLM-Wiki知识库架构.md](RAG/LLM-Wiki知识库架构.md) 的「实体关系」节） |
+| **Agentic / Vectorless RAG** | PageIndex 这类"让 LLM 决定检索路径"的高级 RAG 只在 § 5.7 做边界说明,端到端实现仍需看原项目和 [RAG/LLM-Wiki知识库架构.md](RAG/LLM-Wiki知识库架构.md) 的「语义导航」节 |
 | **多模态 RAG** | 文本 RAG 是主体,**图像 / 视频 / 音频 RAG** 的特殊处理未展开 |
 | **评测方法** | RAGAS、TruLens 等专业评测框架未深入 |
 
@@ -674,5 +710,6 @@ results = qdrant.search(
 - **想 30 分钟跑起来 RAG**:Chroma + bge-m3,本文 § 4 的代码改改就能用
 - **想给公司搭中型 RAG**:Qdrant + bge-m3 + bge-reranker-v2-m3,**这是当前最实用的组合**
 - **想要企业级 RAG**:Milvus 集群 + bge-m3 + bge-reranker + Hybrid Search,配 LangChain / LlamaIndex
+- **想做结构化长文档深度问答**:先看 [RAG/LLM-Wiki知识库架构.md](RAG/LLM-Wiki知识库架构.md) 的 PageIndex 案例,评估树索引 / 语义导航是否比向量 Top-K 更合适
 - **想做研究 / 评测**:RAGAS 是当前主流的 RAG 评测框架
 - **关注前沿**:微软 GraphRAG、Anthropic Contextual Retrieval、CRAG(Corrective RAG)是 2025 年值得关注的新方向

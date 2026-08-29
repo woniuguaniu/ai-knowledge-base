@@ -318,7 +318,7 @@ Step 4: 想深入？读 Anthropic 官方博客
 
 | 关联点 | 文档 | 关系 |
 |--------|------|------|
-| Harness 工程深度解剖 | [Harness工程与Agent解剖](Harness工程与Agent解剖.md) | 本文是"史观"，那篇是"工程解剖"，互补阅读 |
+| Harness 工程深度解剖 | [Harness工程与Agent解剖](Harness工程与Agent解剖.md) | 本文是"史观"，那篇是"工程解剖"，互补阅读；那篇 § 1.1 的**词源考据时间线**（Mitchell Hashimoto → OpenAI → Anthropic → 源码泄露催化）相当于本文第四阶段的"断代史"细节 |
 | Token / Context 窗口 | [上下文窗口与Token计费](../00_核心概念/上下文窗口与Token计费.md) | 第三阶段 Context Engineering 的物理基础 |
 | RAG 检索增强 | [RAG学习笔记](../03_应用实践/RAG/RAG学习笔记.md) | Context Engineering 的核心实现技术 |
 | Transformer 基础 | [Transformer](../00_核心概念/Transformer.md) | 所有阶段的最底层"引擎" |

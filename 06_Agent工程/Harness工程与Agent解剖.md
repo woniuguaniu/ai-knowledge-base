@@ -38,6 +38,41 @@
 
 **一句话判断法**：如果你把这个模块里的 LLM 从 Claude 换成 GPT-5 再换成本地 Qwen，它还能工作——那这个模块就是 Harness 的一部分。
 
+### 1.1 词源考据：这个词是怎么在 2026 年初出现的
+
+> 本小节与 § 1.2 源自中文社区词源考据长文《什么是 Harness Engineering：聊聊最近爆火的技术词》（2026 年年中，作者自述综合 linux.do 20+ 帖子与多篇一手文献）。文中时间与事件以该文考据为准。
+
+这个词不是某一家公司发明的，而是**两个月内四个标志性事件把它推成了公共话题**：
+
+| 时间 | 事件 | 贡献 |
+|------|------|------|
+| **2026-02-05** | HashiCorp 联合创始人 **Mitchell Hashimoto** 发表博客《My AI Adoption Journey》，提出 **"Engineer the harness"** | 首次正式亮相。核心思路：每次发现 Agent 犯错，就改一次外围环境（工具、规则、脚手架），让它永远不再犯同样的错——改的不是 prompt，也不是模型权重 |
+| **2026-02-11** | OpenAI 工程博客《Harness Engineering: Leveraging Codex in an Agent-First World》（Ryan Lopopolo） | 让术语**出圈的具体案例**：AGENTS.md 保持 100 行以内当目录而非百科全书、执行计划当一流工件纳入版本控制、自定义 linter 的报错里直接嵌修复指令、CI 当 Agent 输出的质量闸门 |
+| **2026-03-24** | Anthropic 发表长时运行 Agent 的 harness 研究《Effective harnesses for long-running agents》 | 进阶方案：planner-generator-evaluator 三代理架构、`progress.txt` 记录跨 session 状态、执行计划与已完成计划都纳入版本控制 |
+| **2026-03-31** | 安全研究员 Chaofan Shou 发现 Claude Code npm 包因构建配置失误经 source map 泄露完整源码（披露推文超 1700 万次浏览） | **催化剂**：讨论从博客与二手经验层面，进入"逐行对照一个生产级系统"层面（详见 § 3） |
+
+Anthropic 那篇研究里有一句被广泛引用的话，值得单独记住：
+
+> 每一个 harness 组件都编码了一个关于"模型自身做不到什么"的假设，而这些假设值得反复检验：它们可能本来就是错的，也可能随着模型进步很快过时。
+
+**前传：swyx 的 IMPACT 框架（2025-03）**——早在上面这条时间线开始前近一年，知名开发者 swyx 就提出过几乎同构的说法，当时叫 **"agent engineering"**，配套 **IMPACT 六维框架**：**I**ntent（用户意图→指令设计）、**M**emory（跨 session 记忆→上下文治理）、**P**lanning（任务拆解→规划）、**A**uthority（自主边界→权限判定）、**C**ontrol Flow（LLM 驱动的控制流→运行时循环）、**T**ools（工具集→工具系统）。六个维度与 2026 年的核心议题几乎完全重合，但当时没有出圈——说明**问题意识早已酝酿，只差一个好比喻、一组具体案例和一个催化事件**。
+
+**为什么爆发在 2026 年初**：主要矛盾变了。2023–2024 年瓶颈是"模型能不能用"（prompt engineering 是主话题）；2024–2025 年瓶颈是"怎么把合适的信息喂给模型"（context engineering 是主话题）；2025 年底起，单次推理质量不再是主要瓶颈，出问题的地方变成**长期运行中的系统性失败**——修 A 坏 B、半路耗光上下文、跨 session 失忆、把自己的实现判为通过。这些需要运行时纪律、制度化约束、外部验证，于是 harness engineering 成为主话题。演化史观的完整展开见 [Agent 发展轨迹四阶段](Agent发展轨迹四阶段.md)。
+
+⚠️ **考据的局限**：该文时间线没有提到 Martin Fowler / Thoughtworks 这条线（本文 § 1 定义与 § 5 Guides/Sensors 框架的来源）。两条线不冲突——按该文自己的结论，这个词是"**一场群体性的命名过程**"：Mitchell 的个人实践、swyx 的早期框架、OpenAI 的工程报告、Anthropic 的研究、Thoughtworks 的方法论、源码泄露事件，共同构成了它的诞生环境。正因为它不是某一家的发明，才会出现下面三种解释口径并存的局面。
+
+### 1.2 三种解释口径：马具派、工作空间派、约束执行派
+
+社区对这个词的解读大致分三派。三派不矛盾，只是**重心和适用场合不同**：
+
+| 口径 | 核心立场 | 适合谁用 | 风险 |
+|------|---------|---------|------|
+| **马具派** | 模型是赤兔马，harness 是马镫和缰绳；同一匹赤兔马，会骑的人手里是战神，不会骑的人手里是摔伤事故 | 写教程开场、向不熟 AI 的读者解释 | 隐喻自带"被动驾驭"意味，一部分开发者觉得贬低了模型 |
+| **工作空间派** | harness 是给模型的**工作环境**：定义协作边界与协议，让模型在稳定、可交互、可反馈的环境里持续工作；本质是 context engineering 的延伸 | 从零搭 Agent 产品的工程师向同事解释自己在做什么 | 容易过于乐观，淡化"模型会犯错，且错误在 shell / 文件系统 / Git 里留下真实后果" |
+| **约束执行派** | **模型是整个系统里最不稳定的部件**，不天然值得信任；harness 是一整套制度化控制平面——"**代理系统的关键能力是约束执行**" | 生产环境 Agent 系统的负责人，说服管理层给"看起来像补丁"的基础设施投时间 | 听起来最悲观，但最接近 Claude Code 源码在实现上呈现的态度 |
+
+如果只能选一种当默认理解，**约束执行派最稳妥**（该考据文的立场，本笔记认同）：系统是给未来的自己写的，未来总会遇到今天没看见的故障，约束结构比漂亮比喻更管用。本文 § 5 的 Guides/Sensors、§ 6 的权限闸门，本质都是约束执行派的具体化。
+
 ---
 
 ## 2. 三层工程的递进关系
@@ -59,11 +94,34 @@ Harness Engineering
 
 **这也解释了为什么提示词工程不够用**：单靠调整 prompt，解决不了"工具失败要重试"、"上下文爆掉要压缩"、"并发调用要编排"这些工程问题。
 
+### 2.1 修正视角：三层楼板，不是三代拳王
+
+"递进阶梯"有个副作用：容易让人以为 prompt engineering 已经过时、被 context engineering 取代，后者又被 harness engineering 取代。更准确的说法是**同一栋建筑的三层楼板**——每一层都还在，只是关注点从"一句话怎么措辞"扩展到了"整个运行环境怎么组织"：
+
+- prompt engineering 的原则没有过时，它变成了大系统里的**子模块**——system prompt、工具描述、给 LLM 消费的错误信息，全都要写好 prompt
+- harness 里每个组件都依然依赖好的上下文选择
+- 阶梯论真正描述的是**瓶颈的迁移**（模型弱时措辞是瓶颈 → 中等时上下文拼装是瓶颈 → 很强时外围工程结构是瓶颈，见 § 1.1），不是技术的代际淘汰
+
+### 2.2 别混淆：另一个"三层"——通用 / 项目 / 任务 harness
+
+⚠️ 本节的"三层"与上面的"三层工程递进"**不是一回事**：上面按"工程学科的包含关系"分层，本节按"**harness 与具体项目的关联程度**"分层（这个划分最早在 linux.do 的讨论帖里被清晰表达）。它回答一个非常实际的问题：**我到底该操心哪一层？**
+
+| 层 | 与项目的关系 | 包含什么 | 谁来做 |
+|----|------------|---------|--------|
+| **通用 harness 层** | 弱相关，属于 Agent runtime / framework 的通用能力 | 终端交互、tool loop、权限系统、记忆、线程持久化、context compaction、hook 机制、任务调度 | Claude Code / Codex / OpenCode 等工具已经做好——**选一个合适的就行，不用自己造** |
+| **项目 harness 层** | 强相关，但不是业务功能本身 | AGENTS.md / CLAUDE.md、仓库知识布局、架构边界定义、lint 规则、质量标准、依赖选择原则、文档索引 | **开发者自己搭，是长期值得投入的主战场** |
+| **任务 harness 层** | 只和当前这次具体工作相关 | planner-generator-evaluator 三代理、跨 session 交接文档、特定任务的 QA prompt、Playwright 检查脚本 | 临时搭、用完可拆——为一次特别复杂的工作提供额外支架 |
+
+这个划分能防一个常见误解：**写了一个 CLAUDE.md ≠ 做了 harness engineering**。CLAUDE.md 只是项目层的入口，它替代不了通用层的运行时问题（那是工具的职责），也替代不了任务层的具体编排（那是具体活儿的职责）。三层各司其职，少了任何一层会出问题，混为一谈也会出问题。
+
+- 通用层的极简实践案例见 [极简可控的 Coding Agent 设计（pi）](极简可控的Coding-Agent设计-pi.md)——把通用层压到 4 个工具、<1000 token 系统提示词也能站住
+- 任务层"定目标 + 定时驱动"的进一步演化见 [Loop Engineering 与四代演化](Loop%20Engineering与四代演化.md)
+
 ---
 
 ## 3. 为什么这个概念一夜爆红：Claude Code 泄露事件
 
-**2026 年 3 月**，Anthropic 在发布 Claude Code v2.1.88 npm 包时，因打包错误意外泄露了**约 51.2 万行 TypeScript 源码**（1900 个文件，完整未混淆的 source map）。几小时内相关镜像仓库飙到 5 万星。
+**2026 年 3 月 31 日**，安全研究员 **Chaofan Shou** 发现：Anthropic 在发布 Claude Code v2.1.88 npm 包时，因打包错误意外泄露了**约 51.2 万行 TypeScript 源码**（1900 个文件，完整未混淆的 source map）。披露推文获得超 **1700 万次浏览**，几小时内相关镜像仓库飙到 5 万星。
 
 人们打开一看，震惊整个 AI 圈——**这根本不是"LLM 的薄壳调用层"**，而是一整套工程精密的系统：
 
@@ -77,7 +135,7 @@ Harness Engineering
 
 几天后，OpenAI 跟进公布：一个 3 人团队用"harness engineering"方法，产出了**百万行代码库，人均每天 3.5 个 PR，零手动敲代码**。
 
-**关键影响**：这个泄露让 "Harness Engineering" 这个术语**一夜之间成为行业通用词汇**——它只是给开发者早已在做的事命了一个名。
+**关键影响——泄露不是词源，是催化剂**：泄露发生前，这个术语已经由 Mitchell Hashimoto 和 OpenAI 在 2 月带火（见 § 1.1），但讨论大多停留在博客、推文和二手经验层面。泄露之后，人们第一次可以**逐行对照一个年化收入十亿美元级的生产 Agent 系统**——控制面在哪一层、query loop 怎么运转、工具权限如何校验、上下文怎么压缩、错误如何恢复。看完源码的普遍反应是：让 Claude Code 比裸调模型强那么多的，不是模型本身，是外面那一圈脚手架。围绕 harness engineering 的讨论，到这时候才真正开始深入。
 
 ---
 
@@ -314,6 +372,23 @@ Thoughtworks 的 Birgitta Böckeler 提出的 Harness 设计框架：
 - 工具内部做**并发安全**处理
 - 每个工具有**明确的权限等级**（read / write / destructive）
 
+### 7.6 全景对照：harness 的"八大器官系统"
+
+把几篇有代表性的文章对齐看（词源见 § 1.1），大家其实在同一套"器官系统"上打转。下表可以当作 harness 组件的**完整性自查清单**——审视自己的 Agent 系统时逐行问"这个器官有没有、归谁管"：
+
+| # | 器官 | 管什么 | 本文对应章节 / 补充 |
+|---|------|--------|-------------------|
+| 1 | **System prompt 与指令分层** | 不是"你是一个有帮助的助手"式人格设定，是**分层的运行时规章**：身份 / 工具权限 / 工程约束分段书写、按优先级组装、层与层有清楚的覆盖关系 | § 5.1 Guides。把 prompt 当控制面的一部分而不是文字魔法，是与传统 prompt engineering 的明确分界 |
+| 2 | **Query loop（运行时主循环）** | Agent 不是"请求-响应"问答，是带状态的循环体：messages、tool use context、compact tracking、turn count | § 4.1 编排层。没有这个循环，Agent 只是带工具的 chatbot |
+| 3 | **工具系统** | 工具不是模型能力的自然延伸，是**受管执行单元**：被调度、被授权、被限制并发、被审计 | § 7.5。高风险工具（如 Bash）要施加高密度行为规约 |
+| 4 | **上下文治理** | 工作记忆、长期记忆、压缩策略、跨轮会话状态。context compact 不是可选优化，是长时运行 Agent 的**生存器官** | § 5.5.1 / § 5.5.2。认知角度的展开见 [Agent 记忆体系](Agent记忆体系.md) |
+| 5 | **权限与沙箱** | 决定模型犯错时**后果的范围**：宿主机还是 Docker 沙箱、自动执行还是高危弹窗、任意路径还是限定项目目录 | § 6 权限闸门。Codex 走得更远，把审批做成独立的 execpolicy 模块（Policy / Rule / Evaluation / Decision，接近一门小政策语言） |
+| 6 | **错误恢复** | **失败是日常天气，不是异常**：超 token、prompt too long、工具拒绝、用户打断、hook 阻塞、API 重试——失败路径要当主路径设计 | § 7.4 纠错循环 + § 5.5.3 失败类型→恢复策略对照表 |
+| 7 | **多代理编排与验证** | 实现者天然倾向相信自己的改动"差不多行了"，模型更是如此——**验证要成为独立阶段，最好由独立代理承担** | § 7.2 子代理。呼应 [LLM 典型失败模式](LLM典型失败模式.md) 的"自我汇报偏差" |
+| 8 | **本地规则与 hook** | CLAUDE.md / AGENTS.md 项目级配置 + pre-commit / session-start 等生命周期钩子：把"组织习惯"写进系统，新人不用重学项目规矩 | § 2.2 项目 harness 层 |
+
+八个器官不是独立模块，是一个循环系统：prompt 定义行为协议 → query loop 负责执行 → 工具系统决定能触碰什么 → 上下文治理决定记忆如何流动 → 权限决定错误后果的范围 → 恢复机制处理错误本身 → 多代理把不确定性分区 → 本地规则把经验沉淀下来。**少了任何一个，系统就在那个方向上漏风**。
+
 ---
 
 ## 8. 为什么 Harness 是新的 AI 护城河
@@ -366,6 +441,9 @@ Thoughtworks 的 Birgitta Böckeler 提出的 Harness 设计框架：
 | [05_技术基础/软件架构设计详解.md](../05_技术基础/软件架构设计详解.md) | Harness Engineering 本质是"软件架构"在 AI 时代的新分支——分层、关注点分离、可替换性等原则同样适用 |
 | [Multi-Agent 工程实战与 Persona 设计](Multi-Agent工程实战与Persona设计.md) | 五层架构的多 Agent 落地案例:**记忆层**对应"共享真相源",**编排层**对应"R&D 流水线",**执行层**对应"任务二分法"(脚本 vs AI) |
 | [Function Calling 与 MCP 工程指南](Function%20Calling与MCP工程指南.md) | **执行层**的具体实现——工具调用协议、御三家差异、MCP "USB 化"工具生态 |
+| [极简可控的 Coding Agent 设计（pi）](极简可控的Coding-Agent设计-pi.md) | **极简派落地案例**:pi 是一个真实 harness,把"可观测/状态外置/上下文工程"做到极致——系统提示词 < 1000 token、只留 4 个工具,反向印证 Harness 工程"控制什么进上下文"的核心命题 |
+| [Loop Engineering 与四代演化](Loop%20Engineering与四代演化.md) | **Harness 之后的下一跃迁**：Loop 把"目标定义 + 定时驱动"叠在 harness 之上；§ 2.2 的任务 harness 层正是 Loop 的作业面 |
+| [Agent 发展轨迹四阶段](Agent发展轨迹四阶段.md) | § 1.1 的"瓶颈迁移"（prompt → context → harness）是那篇四阶段史观的另一种讲法，两文互为印证 |
 
 ---
 
@@ -373,6 +451,11 @@ Thoughtworks 的 Birgitta Böckeler 提出的 Harness 设计框架：
 
 ### 权威一手资料
 - Martin Fowler / Thoughtworks — [Harness engineering for coding agent users](https://martinfowler.com/articles/harness-engineering.html)（Böckeler 的 Guides/Sensors 框架原文）
+- Mitchell Hashimoto — 《My AI Adoption Journey》（2026-02-05，"Engineer the harness" 的首次提出）
+- OpenAI（Ryan Lopopolo）— 《Harness Engineering: Leveraging Codex in an Agent-First World》（2026-02-11，让术语出圈的工程报告）
+- Anthropic — 《Effective harnesses for long-running agents》（2026-03-24，长时运行 harness 研究）
+- swyx — agent engineering / IMPACT 框架（2025-03，harness engineering 的前传）
+- Viv Trivedy（LangChain）— 《The Anatomy of an Agent Harness》（"Agent = Model + Harness" 公式的推广来源）
 - Firecrawl — [What Is an Agent Harness?](https://www.firecrawl.dev/blog/what-is-an-agent-harness)
 - HumanLayer — [Skill Issue: Harness Engineering for Coding Agents](https://www.humanlayer.dev/blog/skill-issue-harness-engineering-for-coding-agents)
 
@@ -383,6 +466,7 @@ Thoughtworks 的 Birgitta Böckeler 提出的 Harness 设计框架：
 
 ### 中文深度解读
 - 张涵东 — [Harness Engineering: From Claude Code Internals](https://zhanghandong.github.io/harness-engineering-from-cc-to-ai-coding/en/)
+- 《什么是 Harness Engineering：聊聊最近爆火的技术词》（2026 年年中词源考据长文，本文 § 1.1 / § 1.2 / § 2.1 / § 2.2 / § 7.6 的主要来源；无公开链接，原文以 PDF 存档）
 
 ---
 
@@ -399,8 +483,11 @@ Thoughtworks 的 Birgitta Böckeler 提出的 Harness 设计框架：
 | Skills | 技能 / 渐进式披露 | 按需加载指令，不把所有东西塞进 system prompt |
 | Sub-agent | 子代理 | 派生的、运行小任务的子 Agent |
 | Permission Gate | 权限闸门 | 工具执行前的权限判定点 |
+| Query Loop | 运行时主循环 | 带状态的循环体（messages / 压缩追踪 / 轮次计数），Agent 与 chatbot 的分界 |
+| IMPACT | swyx 六维框架 | Intent / Memory / Planning / Authority / Control Flow / Tools，2025 年的 harness 前传 |
+| execpolicy | 执行策略模块 | Codex 把工具审批与执行限制做成的独立政策引擎 |
 
 ---
 
-*最后更新: 2026-04-22*
+*最后更新: 2026-07-06（新增 § 1.1 词源考据时间线 + swyx IMPACT 前传、§ 1.2 三种解释口径、§ 2.1 三层楼板视角、§ 2.2 通用/项目/任务三层划分、§ 7.6 八大器官对照；修正 § 3 "泄露=词源"叙事为"泄露=催化剂"。来源：《什么是 Harness Engineering：聊聊最近爆火的技术词》考据文）*
 *归属模块: 06_Agent工程*

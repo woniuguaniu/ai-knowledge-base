@@ -194,6 +194,7 @@ LLM 按 **Token（词元，模型计长度和算钱的最小单位）** 收费�
 | [Claude Code goal 命令](Claude%20Code%20goal命令.md) | 长任务自治的成本警示（一天烧几十美元）是本文成本工程的现实动机 |
 | [长程任务原语](长程任务原语-Session-Workspace-Checkpoint-Resume.md) | 上下文压缩既是省钱手段，也是长程任务的状态管理手段 |
 | [各家 LLM 模型特点速查](../03_应用实践/各家LLM模型特点速查.md) / [LLM-API 选型方法论](../03_应用实践/LLM-API选型方法论.md) | 模型分级省钱要先认识各家模型的能力 / 价格档位 |
+| [极简可控的 Coding Agent 设计：pi](极简可控的Coding-Agent设计-pi.md) | **工具级实践案例**：pi 把"可观测性优先"做到极致（拒绝 SubAgent 黑盒、用 tmux 换后台 bash），是本文方法论的一个具体工具取向 |
 
 ---
 
