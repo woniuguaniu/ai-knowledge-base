@@ -28,10 +28,14 @@
 
 | 模块 | 入口 | 适合什么时候看 |
 |---|---|---|
+| 00 核心概念 | [00_核心概念/README.md](00_核心概念/README.md) | 想搞懂 Transformer、注意力、训练流程、Token 计费这些底层原理 |
+| 01 模型架构 | [01_模型架构/README.md](01_模型架构/README.md) | 想看具体模型（如 DeepSeek）在标准架构上改了什么 |
 | 02 提示词工程 | [02_提示词工程/README.md](02_提示词工程/README.md) | 系统学习 Prompt Engineering |
 | 03 应用实践 | [03_应用实践/README.md](03_应用实践/README.md) | 做选型、接 API、RAG、本地部署或业务方案 |
+| 04 探索日志 | [04_探索日志/README.md](04_探索日志/README.md) | 想回看某天探索的完整过程与踩坑，而非沉淀后的结论 |
 | 05 技术基础 | [05_技术基础/README.md](05_技术基础/README.md) | 补 Shell、GitHub、部署、CI/CD、硬件和研发 SOP |
 | 06 Agent 工程 | [06_Agent工程/README.md](06_Agent工程/README.md) | 学 Agent 架构、MCP、Eval、安全和 Claude Code 生态 |
+| 07 文生图与文生视频 | [07_文生图与文生视频/README.md](07_文生图与文生视频/README.md) | 写文生图提示词、了解视觉生成工作流 |
 
 ---
 
