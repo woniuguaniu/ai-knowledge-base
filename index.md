@@ -25,7 +25,7 @@ title: "首页"
 
 ---
 
-## 七大模块
+## 八大模块
 
 [**00 核心概念**](00_核心概念/) — Transformer、注意力机制、训练技术、Dense vs MoE、上下文窗口
 
@@ -39,7 +39,9 @@ title: "首页"
 
 [**05 技术基础**](05_技术基础/) — Shell、GitHub、NVIDIA、云服务、多 CLI
 
-[**06 Agent 工程**](06_Agent工程/) — Harness、Claude Code、MCP、SubAgent、Multi-Agent
+[**06 Agent 工程**](06_Agent工程/) — Harness、Claude Code、MCP、Skill 设计、Multi-Agent
+
+[**07 文生图与文生视频**](07_文生图与文生视频/) — 文生图提示词结构、视觉生成工作流
 
 ---
 

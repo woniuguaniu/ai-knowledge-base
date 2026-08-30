@@ -18,8 +18,8 @@
 | GitHub 项目入门 | [GitHub项目入门/小白入门-GitHub项目部署使用指南.md](GitHub项目入门/小白入门-GitHub项目部署使用指南.md)、[GitHub项目入门/程序小白概念扫盲手册.md](GitHub项目入门/程序小白概念扫盲手册.md)、[GitHub项目入门/五看一跑_小白工程运行部署学习文档.md](GitHub项目入门/五看一跑_小白工程运行部署学习文档.md)、[GitHub项目入门/Git进阶速查.md](GitHub项目入门/Git进阶速查.md) |
 | 部署与交付 | [云服务交付模型.md](云服务交付模型.md)、[静态站点生成器与Quartz部署实战.md](静态站点生成器与Quartz部署实战.md)、[CI-CD与GitHub-Actions.md](CI-CD与GitHub-Actions.md) |
 | AI 硬件与环境 | [NVIDIA显卡架构与AI算力.md](NVIDIA显卡架构与AI算力.md)、[NVIDIA驱动-CUDA-PyTorch工程基础.md](NVIDIA驱动-CUDA-PyTorch工程基础.md) |
-| 软件工程与产品 | [软件工程产品研发SOP.md](软件工程产品研发SOP.md)、[软件架构设计详解.md](软件架构设计详解.md)、[内部工具选型方法论.md](内部工具选型方法论.md) |
-| 工具链与协作 | [多CLI联动.md](多CLI联动.md)、[Claude调用Codex协作实战案例.md](Claude调用Codex协作实战案例.md)、[逆向API的二分定位方法.md](逆向API的二分定位方法.md) |
+| 软件工程与产品 | [软件工程产品研发SOP.md](软件工程产品研发SOP.md)、[软件架构设计详解.md](软件架构设计详解.md)、[内部工具选型方法论.md](内部工具选型方法论.md)、[前端测试栈速查.md](前端测试栈速查.md) |
+| 工具链与协作 | [多CLI联动.md](多CLI联动.md)、[Claude调用Codex协作实战案例.md](Claude调用Codex协作实战案例.md)、[逆向API的二分定位方法.md](逆向API的二分定位方法.md)、[Apifox.md](Apifox.md) |
 | 术语速查 | [程序员黑话速查.md](程序员黑话速查.md) |
 
 ## 边缘笔记怎么用

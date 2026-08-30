@@ -18,7 +18,7 @@
 | LLM 选型与接入 | [LLM-API选型方法论.md](LLM-API选型方法论.md)、[各家LLM模型特点速查.md](各家LLM模型特点速查.md)、[LLM接口规范实战.md](LLM接口规范实战.md) |
 | 本地部署与推理 | [本地部署模型量化选型.md](本地部署模型量化选型.md)、[LLM推理引擎选型.md](LLM推理引擎选型.md)、[HomeLab到中小企业LLM部署架构.md](HomeLab到中小企业LLM部署架构.md) |
 | RAG 与检索 | [Embedding-Reranker-向量数据库.md](Embedding-Reranker-向量数据库.md)、[RAG/RAG学习笔记.md](RAG/RAG学习笔记.md)、[RAG/LLM-Wiki知识库架构.md](RAG/LLM-Wiki知识库架构.md) |
-| 业务案例 | [宠物CT影像AI辅助诊断方案.md](宠物CT影像AI辅助诊断方案.md)、[数据分析建模（二手车经验）.md](数据分析建模（二手车经验）.md)、[Medprompt方法论解析.md](Medprompt方法论解析.md) |
+| 业务案例 | [宠物CT影像AI辅助诊断方案.md](宠物CT影像AI辅助诊断方案.md)、[数据分析建模（二手车经验）.md](数据分析建模（二手车经验）.md)、[Medprompt方法论解析.md](Medprompt方法论解析.md)、[AI量化交易系统化实践.md](AI量化交易系统化实践.md) |
 | 多模态与数字人 | [虚拟形象与数字人技术全景.md](虚拟形象与数字人技术全景.md) |
 
 ## 边缘笔记怎么用
