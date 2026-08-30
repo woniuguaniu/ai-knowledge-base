@@ -70,6 +70,39 @@ pi 的态度是：**这些都不能接受**。它的设计原则是「你必须�
 | **`/tree` 会话树导航** | 整个会话是一棵树，可跳到任意历史节点继续、在分支间切换，全部历史保留在单个文件里 |
 | **HTML 导出 / `/share`** | 会话可导出 HTML 或上传成私有 gist，事后完整复盘 |
 
+#### `/tree` 为什么好用——机制与真实用法
+
+上表只说了 `/tree` 是"会话树导航"，但它的价值需要展开才看得出来（社区里常说好用、少有人说清为什么）：
+
+**机制**：从会话的**任意节点**——user message、assistant message，甚至某条 tool result——拉出一个 branch，**该 branch 自动携带这个节点之前的全部上下文**，并可选择 summary 或 no summary（有实践者表示一般选 no summary，保真度更高）。
+
+**它省掉的是"重新认识项目"的沉没成本**：
+
+```
+传统做法：任务 A 做完 → 开新 session 做任务 B
+         → 模型重新读项目结构、重新理解代码 → 又烧一遍 token
+
+/tree ：在"模型刚读完项目结构"那个节点拉 branch
+         → 每个 branch 都自带「干净但已了解项目」的上下文
+         → 各自独立开发不同功能，互不污染，全部留在同一个 transcript 里
+```
+
+适合的场景：开发时在"模型已理解项目结构"处分叉做多个独立功能；或读一份项目/一篇文章时，就不同问题各开分支（相比 side thread，这些过程与结果会完整写进 transcript）。
+
+**这本质是 checkpoint 语义的一种变体**——[长程任务原语](长程任务原语-Session-Workspace-Checkpoint-Resume.md) 里的 Checkpoint 是"存档点"，`/tree` 是"从存档点分叉出平行世界"。
+
+#### 社区扩展补齐的可观测能力
+
+pi 核心不内置的可观测功能，社区扩展补得很齐（以下为 2026-08 的社区实践快照）：
+
+| 扩展 | 补什么 | 关键设计 |
+|---|---|---|
+| `pi-context-view` | 看不见上下文花在哪 | `/context injection` 可查看**完整 system prompt 与 tool definitions** |
+| `@narumitw/pi-btw` | 主任务跑着时想问个问题 | `/btw` 开 side thread，默认截取约 40,000 字符做背景，**独立并发请求，回答不进主上下文** |
+| `pi-workspace-history` | pi 没有 `/rewind` | 用 **shadow git**（影子仓库）回溯对话状态与文件修改，**不要求项目本身有 git** |
+
+> `pi-btw` 和 `/tree` 解决的是相邻但不同的问题：**btw 的问答不写进主 transcript**（问完即弃），**tree 的分支会完整留档**。想留证据用 tree，只想顺嘴问一句用 btw。
+
 **作者的 sub-agent 哲学（最能体现「可视化优先」）**：
 
 pi **没有内置 sub-agent 工具**，但作者不是反对 sub-agent，而是反对「看不见的 sub-agent」。他的替代方案是：让 pi 通过 bash 调用自己（`pi --print "..."`），甚至在 tmux 里起一个 pi 子会话，这样你能直接 attach 进去、看到子 agent 的全部输出、随时介入。他写了个 `/review` 自定义命令，让主 agent 派生一个 code review 子 agent——「虽然我看不到子 agent 的内部推理，但我能看到它的全部输出，这是其他 harness 都不提供的，毫无道理」。
@@ -97,11 +130,43 @@ pi 的扩展哲学一句话概括：**「让 pi 适配你的工作流，而不�
 
 换句话说：**pi 默认砍掉的那些功能（MCP、sub-agent、plan mode、权限提示），全都能通过扩展加回来，而且是按你自己的方式加。** 这就是「核心极小 + 无限可扩展」的精髓——不替你做决定，而是给你做决定的能力。
 
+#### 扩展补齐的两块基础能力（2026-08 社区实践）
+
+| 扩展 | 补什么 | 说明 |
+|---|---|---|
+| `@gotgenes/pi-permission-system` | **pi 默认 yolo 模式、没有权限管理** | 用 JSON 配置 allow / ask / deny 三态，可按 bash 命令前缀、文件路径、外部目录分别设定 |
+| `@ff-labs/pi-fff` | grep / find 太慢 | 提供 `ffgrep` / `fffind` 替代品，实践者反馈速度提升明显 |
+
+**权限配置值得学的是策略结构，而不是抄那份配置本身**：
+
+```
+默认放行 → 按风险类别逐项升级为 ask → 敏感目标直接 deny
+
+ask 的典型类别：破坏性（rm / mv / git reset --hard）、不可逆（git push / 发包 /
+                gh pr merge）、出网（curl / wget / ssh）、装包（npm i / pip install，
+                供应链风险）、嵌套 shell（bash / pwsh / zsh，会绕过前缀匹配）
+deny 的典型目标：`*.env`、`~/.ssh/*`、agent 自己的 auth.json / models.json
+```
+
+> 💡 **一个巧妙用法**：有实践者把 `grep` / `find` 设为 `deny`，**用权限系统强制模型改用更快的 ffgrep / fffind**。因为光在系统提示词里写"请用 ffgrep"，模型过几轮就会忘——**把偏好变成硬约束，比反复叮嘱可靠**。这与 [Skill工程化设计与失效防御](Skill工程化设计与失效防御.md) § 5.1 "前两层靠自觉、后两层靠物理拦截"是同一个道理。
+
+> ⚠️ **注意 `bash *` 这类条目为什么必须 ask**：权限规则按命令前缀匹配，而 `bash -c "rm -rf x"` 会把真实命令藏进参数里绕过前缀匹配。嵌套 shell 是权限系统的经典绕过路径。
+
 **系统提示词也能自定义**：
 
 - 项目级 `.pi/SYSTEM.md` 或全局 `~/.pi/agent/SYSTEM.md` 可**完全替换**默认系统提示词
 - `APPEND_SYSTEM.md` 可只追加不替换
 - 上下文文件兼容 `AGENTS.md` 和 `CLAUDE.md`（从全局到项目逐层加载并拼接）
+
+**实践中这三个文件怎么分工**（社区用法）：
+
+- **`SYSTEM.md`（完全替换）** —— 放长期不变的工作纪律。典型内容：不假设文件内容与任务范围、先用工具验证；严格待在请求范围内，不做无关重构 / 清理 / 格式化；不静默删掉明确要求，简化方案满足不了就问；回答先给结果。
+- **`APPEND_SYSTEM.md`（只追加）** —— 放可开关的增强模块。因为是追加式，**删掉文件就等于关闭**，适合放"想随时启停"的约束。
+- **`AGENTS.md` / `CLAUDE.md`** —— 放项目特定信息，跨工具通用。
+
+> 📌 一套可直接复用的编码约束（**决策阶梯 + 不可简化红线**）常被放在 `APPEND_SYSTEM.md` 里。因为它不绑定 pi、对任何 coding agent 都成立，本知识库把完整版收在 [Vibe Coding与技术债治理](Vibe%20Coding与技术债治理.md) § 5.1–5.2，这里不重复。
+
+> 💬 **顺带一个横向观察**：各家 harness 的系统提示词长度差异很大——pi 最短，Grok Build 次之，Claude Code 花较多篇幅在安全与行为规范上，Codex 则大篇幅描写形象与回复语气。**这是"普适性"与"个性化"的取舍**：面向大众的产品必须写死很多默认行为，面向单人的工具可以把这些留给用户自己填。（各家提示词可在社区收集站 phistory.cc 查看）
 
 ### 3.3 极简可控：少即是多的反共识设计
 
@@ -168,6 +233,49 @@ pi 的极简不是「做不到」，而是「**故意不做，把决定权还给
 > - 「大家反正都在跑 YOLO 模式才能干活，那为什么不把它做成默认且唯一的选项？」
 > - 「**用 sub-agent 在会话中途收集上下文，是你没提前规划的信号**。」——应该先在独立会话里收集上下文、生成 artifact（产物文件），再用新会话喂给 agent，既不污染上下文窗口，又全程可观测。
 > - 「**Bash is all you need.**」（关于后台进程，bash + tmux 就够了。）
+
+### 5.1 「No Sub-agent」这条后来被社区补上了论据
+
+pi 作者的理由是"黑盒套黑盒"（*a black box within a black box*）。2026 年社区实践者在此基础上补了两条更硬的论据：
+
+1. **有研究支持"单 Agent 常常够用"** —— arXiv《Towards a Science of Scaling Agent Systems》指出：**对工具密集、推理链长的任务，单 Agent 表现已经足够好，某些任务引入多 Agent 效果反而更差。**
+2. **subagent 的两个真优点可以分别处理**，不必整套引入：
+
+| subagent 的优点 | 不引入 subagent 时怎么办 |
+|---|---|
+| 执行任务时有**干净上下文** | 用 `/tree` 从合适节点拉分支——[`skhoroshavin/pi-supergsd`](https://github.com/skhoroshavin/pi-supergsd) 就是基于 `/tree` 实现的"伪 subagent"，轻量且全程可观测 |
+| 可**并行**处理重复任务 | **目前没有好方案**——这是极简路线真实存在的代价，社区实践者也承认还没想到理想解法 |
+
+> ⚠️ **别把结论推过头**：这条讨论的是**单次编码任务里要不要派临时子代理**，不是"多 Agent 系统没有价值"。长期存在、角色化的业务流水线是另一类系统，见 [Multi-Agent工程实战与Persona设计](Multi-Agent工程实战与Persona设计.md) § 5.6 的边界对照表。
+
+### 5.2 上下文压缩：一个值得注意的策略细节
+
+pi 的压缩策略同样可替换。社区常用 [`cortexkit/magic-context`](https://github.com/cortexkit/magic-context) 替代默认压缩，理由是原生压缩"给段提示词让模型自己总结"会丢失太多细节。
+
+其中一个设计细节值得单独记：**它选在 cache bust（缓存失效）的节点才做压缩**。
+
+> 💬 **为什么这很聪明**：prompt 缓存要求前缀一字不差，**压缩必然改写前缀、必然打掉缓存**。所以压缩的真实成本不只是那次总结的费用，还有后续全部重新计费的输入 token。等缓存本来就要失效的那一刻再压，等于把这部分成本降到零。
+>
+> 缓存机制本身见 [上下文窗口与Token计费](../00_核心概念/上下文窗口与Token计费.md)。
+
+### 5.3 生态快照（2026-08）
+
+> ⏱️ **这是一份时间切片，不是稳定清单**——pi 生态迭代很快，下表仅记录 2026 年 8 月社区讨论中被反复提到的项目。使用前请到 [pi.dev/packages](https://pi.dev/packages) 核对现状。
+
+| 类别 | 项目 | 用途 |
+|---|---|---|
+| 可观测 | `pi-context-view` | 查看上下文占用与完整 system prompt |
+| 会话 | `@narumitw/pi-btw` | side thread，问答不污染主上下文 |
+| 会话 | `pi-workspace-history` | shadow git 实现 `/rewind` 回溯 |
+| 安全 | `@gotgenes/pi-permission-system` | 补上 pi 没有的权限管理 |
+| 效率 | `@ff-labs/pi-fff` | ffgrep / fffind 替代 grep / find |
+| 上下文 | `cortexkit/magic-context` | 更保真的压缩，在 cache bust 点触发 |
+| 伪 subagent | `skhoroshavin/pi-supergsd` | 基于 `/tree` 实现干净上下文的子任务 |
+| 前端 | `BytePioneer-AI/codex-host` | 把 Codex Desktop 当 GUI 跑 pi（见 [Harness工程与Agent解剖](Harness工程与Agent解剖.md)） |
+
+**社区里仍无定论的问题**（记下来是因为它们代表真实的未决点）：TODO 类扩展对模型表现到底有没有实际提升？web-access 类扩展好不好用？trellis 这类重型方案对个人开发者是否过重？
+
+---
 
 ## 6. 常见误区
 

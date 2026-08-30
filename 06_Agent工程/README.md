@@ -19,16 +19,10 @@
 | 分组 | 笔记 |
 |---|---|
 | 总纲 / 能力地图 | [Agent架构师能力地图与学习路线.md](Agent架构师能力地图与学习路线.md) |
-| 长程任务 / 状态管理 | [长程任务原语-Session-Workspace-Checkpoint-Resume.md](长程任务原语-Session-Workspace-Checkpoint-Resume.md) |
-| 可观测 / 成本 / 记忆 | [Agent可观测性与成本工程.md](Agent可观测性与成本工程.md)、[Agent记忆体系.md](Agent记忆体系.md) |
-| 入门与演进 | [什么是Agent.md](什么是Agent.md)、[Agent发展轨迹四阶段.md](Agent发展轨迹四阶段.md)、[Loop Engineering与四代演化.md](Loop%20Engineering与四代演化.md) |
-| 架构与工具调用 | [Harness工程与Agent解剖.md](Harness工程与Agent解剖.md)、[Function Calling与MCP工程指南.md](Function%20Calling与MCP工程指南.md) |
-| Skill 编写与失效防御 | [Skill工程化设计与失效防御.md](Skill工程化设计与失效防御.md) |
-| Coding Agent 设计 | [极简可控的Coding-Agent设计-pi.md](极简可控的Coding-Agent设计-pi.md) |
-| 协作方式与技术债 | [Vibe Coding与技术债治理.md](Vibe%20Coding与技术债治理.md) |
-| 质量与失败模式 | [Eval测评体系.md](Eval测评体系.md)、[LLM典型失败模式.md](LLM典型失败模式.md) |
-| 安全 | [Agent安全攻防.md](Agent安全攻防.md) |
-| Claude Code 生态 | [Claude Code 实战速查.md](Claude%20Code%20实战速查.md)、[Claude Code 扩展生态.md](Claude%20Code%20扩展生态.md)、[Claude Code goal命令.md](Claude%20Code%20goal命令.md) |
+| 基础与演进 | [什么是Agent.md](什么是Agent.md)、[Agent发展轨迹四阶段.md](Agent发展轨迹四阶段.md)、[Loop Engineering与四代演化.md](Loop%20Engineering与四代演化.md) |
+| 运行时：架构 / 上下文 / 记忆 / 成本 | [Harness工程与Agent解剖.md](Harness工程与Agent解剖.md)、[长程任务原语-Session-Workspace-Checkpoint-Resume.md](长程任务原语-Session-Workspace-Checkpoint-Resume.md)、[Agent记忆体系.md](Agent记忆体系.md)、[Agent可观测性与成本工程.md](Agent可观测性与成本工程.md) |
+| 工具与 Coding Agent | [Function Calling与MCP工程指南.md](Function%20Calling与MCP工程指南.md)、[极简可控的Coding-Agent设计-pi.md](极简可控的Coding-Agent设计-pi.md)、[Claude Code 实战速查.md](Claude%20Code%20实战速查.md)、[Claude Code 扩展生态.md](Claude%20Code%20扩展生态.md)、[Claude Code goal命令.md](Claude%20Code%20goal命令.md) |
+| 质量与治理 | [Eval测评体系.md](Eval测评体系.md)、[LLM典型失败模式.md](LLM典型失败模式.md)、[Skill工程化设计与失效防御.md](Skill工程化设计与失效防御.md)、[Vibe Coding与技术债治理.md](Vibe%20Coding与技术债治理.md)、[Agent安全攻防.md](Agent安全攻防.md) |
 | Multi-Agent | [Multi-Agent工程实战与Persona设计.md](Multi-Agent工程实战与Persona设计.md) |
 
 ## 边缘笔记怎么用

@@ -431,6 +431,21 @@ Thoughtworks 的 Birgitta Böckeler 提出的 Harness 设计框架：
 
 ---
 
+## 9.1 旁证：GUI 与 harness 正在出现解耦原型
+
+一个佐证 harness 已是"可解剖通用架构"的信号：**社区出现了把 Codex Desktop 当通用前端、后端接不同 harness 的原型项目**。
+
+> **案例（2026-08）**：开源项目 [`BytePioneer-AI/codex-host`](https://github.com/BytePioneer-AI/codex-host) 把 Codex Desktop 作为 Host / UI 层，后端可替换为 **pi、Claude Code、Grok Build、DSH、OMP**，已实现工具调用、问题弹窗、Diff、Fork 等交互。作者的动机很朴素：喜欢 pi 但它没有官方 GUI、只能用终端，而 Codex GUI 的交互体验用惯了回不去了。
+
+**这件事的意义不在项目本身，而在它能被做出来这个事实**：
+
+- 说明各家 harness 在**工具调用、diff 呈现、权限询问、会话分叉**这几件事上的行为接口已经收敛到可以互相适配的程度——如果 harness 层不通用，这种适配层根本写不出来
+- 也是"**极简内核**"策略的一个意外红利：pi 砍掉 GUI 保持核心极小，结果反而让别人能给它接任意前端。如果它自带一套深度耦合的 TUI，这个适配会难做得多（见 [极简可控的Coding-Agent设计-pi](极简可控的Coding-Agent设计-pi.md)）
+
+> ⚠️ **别把结论推过头**：这是**出现了解耦原型**，不等于"行业已全面解耦"。样本是单个社区项目、发布仅数日，成熟度与长期维护性都未经验证。
+
+---
+
 ## 10. 与本知识库其他章节的关联
 
 | 相关章节 | 关联点 |
