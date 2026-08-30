@@ -8,7 +8,7 @@
 2. [各家LLM模型特点速查.md](各家LLM模型特点速查.md)：了解主流模型家族和适用场景。
 3. [LLM接口规范实战.md](LLM接口规范实战.md)：进入工程接入层，区分 OpenAI / Anthropic / Gemini 等接口差异。
 4. [LLM推理引擎选型.md](LLM推理引擎选型.md)：面向本地和私有化部署时看。
-5. [Embedding-Reranker-向量数据库.md](Embedding-Reranker-向量数据库.md)：做 RAG 前先看这一篇，再看 [RAG/RAG学习笔记.md](RAG/RAG学习笔记.md)；结构化长文档场景注意 § 5.7 的 PageIndex / Vectorless RAG 边界。
+5. [Embedding-Reranker-向量数据库.md](Embedding-Reranker-向量数据库.md)：做 RAG 前先看这一篇，再看 [RAG/RAG学习笔记.md](RAG/RAG学习笔记.md)；结构化长文档场景注意 [Embedding-Reranker-向量数据库.md](Embedding-Reranker-向量数据库.md) 里 PageIndex / Vectorless RAG 的适用边界。
 6. [RAG/LLM-Wiki知识库架构.md](RAG/LLM-Wiki知识库架构.md)：搭过朴素 RAG、想升级到企业级/高质量时看，理解 LLM Wiki 这套"入库时编译知识"的范式；PageIndex 案例可作为语义导航工程参照。
 
 ## 按主题分组

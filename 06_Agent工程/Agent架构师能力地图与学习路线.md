@@ -142,7 +142,7 @@ Claude 与 Codex 两个模型**不约而同**指向同一句话：
 | [Function Calling与MCP工程指南](Function%20Calling与MCP工程指南.md) | 能力域 3 + 阶段 ③：工具调用与 MCP 协议 |
 | [Claude Code 扩展生态](Claude%20Code%20扩展生态.md) | 能力域 5 + 阶段 ④：Skill / SubAgent / Hook / Plugin |
 | [Multi-Agent工程实战与Persona设计](Multi-Agent工程实战与Persona设计.md) | 能力域 5 + 阶段 ④：多 Agent 协同的真实落地案例 |
-| [Claude Code goal命令](Claude%20Code%20goal命令.md) | 能力域 4 + 阶段 ⑤：长任务自治原语（与待补全的 Session/Checkpoint/Resume 邻近） |
+| [Claude Code goal命令](Claude%20Code%20goal命令.md) | 能力域 4 + 阶段 ⑤：长任务自治原语；与[长程任务原语](长程任务原语-Session-Workspace-Checkpoint-Resume.md)的 Session / Checkpoint / Resume 配套阅读（那篇讲通用原语，本篇是产品级实现） |
 | [Eval测评体系](Eval测评体系.md) | 能力域 6/7 + 阶段 ⑥：质量控制的命根子 |
 | [Agent安全攻防](Agent安全攻防.md) | 能力域 8 + 阶段 ⑥：安全边界与攻防 |
 | [LLM典型失败模式](LLM典型失败模式.md) | 能力域 6 + 阶段 ⑥：失败识别与兜底 |

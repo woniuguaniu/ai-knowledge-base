@@ -640,7 +640,7 @@ if (reason === "SAFETY") {
 ### 7.5 真实业务场景案例
 
 - **多模态接口的实战落地**:[宠物CT影像AI辅助诊断方案.md](宠物CT影像AI辅助诊断方案.md)——DICOM 切片 → Base64 编码 → `content` 数组 → 多模态大模型分析的完整链路,以及 Gemini/GPT/Claude 三家多模态接口的实战选择
-- **Function Calling 与 MCP 完整指南**:[Function Calling与MCP工程指南.md](../06_Agent工程/Function%20Calling与MCP工程指南.md)——本文 § 1.3 提到的 `finish_reason: tool_calls` 完整时序、御三家工具调用差异、MCP 协议
+- **Function Calling 与 MCP 完整指南**:[Function Calling与MCP工程指南.md](../06_Agent工程/Function%20Calling与MCP工程指南.md)——本文提到的 `finish_reason: tool_calls` 在那篇有完整时序图、御三家工具调用差异与 MCP 协议解剖
 
 ---
 
