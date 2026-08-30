@@ -426,7 +426,7 @@ description: >
 | [Harness工程与Agent解剖](Harness工程与Agent解剖.md) | 本文的四道防线全部属于 harness 层。Prompt / Context / Harness 三要素的划分、Guides（前馈）与 Sensors（反馈）的框架在那篇有完整展开 |
 | [LLM典型失败模式](LLM典型失败模式.md) | **同一问题的两次独立发现**：本文的 Red Flags / 借口表，和那篇的表演性完成，讲的是同一类失败——Agent 声称完成但跳步、在压力下给自己找借口 |
 | [Multi-Agent工程实战与Persona设计](Multi-Agent工程实战与Persona设计.md) | **注意区分层次**：本文 § 5.3 讲的是**单次工程任务里的临时子代理**（合约派发、做完退出）；那篇讲的是**长期存在、定时运行、角色化的 Agent 团队**。两者都叫「多 Agent」但不是一回事 |
-| [长程任务原语-Session-Workspace-Checkpoint-Resume](长程任务原语-Session-Workspace-Checkpoint-Resume.md) | Task Anchor（Goal / Boundaries / Done When）解决的是长程任务里的目标漂移，与那篇的 Session / Checkpoint 原语互补 |
+| [长程任务原语-Session-Workspace-Checkpoint-Resume](长程任务原语-Session-Workspace-Checkpoint-Resume.md) | 本文 § 5.3 的**子任务合约五字段**约束的是**派给 worker 的单个子任务**；那篇 § 2.5 的 **Task Anchor**（Goal / Boundaries / Done When）约束的是**整场任务的目标**。同一思路的两种粒度 |
 | [极简可控的Coding-Agent设计-pi](极简可控的Coding-Agent设计-pi.md) | 对照阅读：pi 走的是"极简、可观测"路线，本文的方法论走的是"结构化、多层冗余"路线，两者对同一问题给出相反的取舍 |
 | [上下文窗口与Token计费](../00_核心概念/上下文窗口与Token计费.md) | 本文所有防御机制的前提是**上下文会被压缩**——压缩、滑动窗口、`/compact` 的底层机制在那篇 |
 | [Agent记忆体系](Agent记忆体系.md) | "激活优于存储"是记忆问题的一个侧面：写下来（存储）和想得起来（召回）是两件事 |
@@ -443,7 +443,7 @@ description: >
 - **原帖引用的上游材料**：
   - https://github.com/forrestchang/andrej-karpathy-skills （§ 3 的"检验句"格式出自此项目）
   - `obra/superpowers`（§ 5 的 SessionStart hook、子 Agent 派发模式借鉴自此项目）
-  - Anthropic 官方关于 Skill 编写的建议（§ 8 的"不要陈述显而易见的事"、"避免过度指令化"）
+  - Anthropic 官方关于 Skill 编写的建议（本文 § 9 常见误区表中的"过度指令化"一行即源于此）
 - **本文的取舍**：原帖含基础篇 6 节 + 进阶篇 12 节 + 附录，本文**不复述其目录**，只提取四个可迁移到 Skill 之外的核心方法（检验句、薄壳、激活优于存储、2/3 门槛），并补充了本知识库视角的关联分析。
 
 ### 局限性

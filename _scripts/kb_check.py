@@ -58,10 +58,22 @@ def collect_markdown():
     return sorted(found)
 
 
+DECODE_ERRORS = []
+
+
 def read(rel_path):
-    """读取笔记内容，读不出来时返回空串而不是抛异常"""
+    """严格按 UTF-8 读取
+
+    不能用 errors='ignore'：它会静默吞掉非法字节，让「字符损坏」检查漏报。
+    解码失败的文件记进 DECODE_ERRORS，由检查项 5 统一报出。
+    """
+    path = os.path.join(ROOT, rel_path)
     try:
-        with open(os.path.join(ROOT, rel_path), encoding='utf-8', errors='ignore') as fh:
+        with open(path, encoding='utf-8') as fh:
+            return fh.read()
+    except UnicodeDecodeError as exc:
+        DECODE_ERRORS.append((rel_path, str(exc)))
+        with open(path, encoding='utf-8', errors='replace') as fh:
             return fh.read()
     except OSError:
         return ''
@@ -151,26 +163,34 @@ def main():
     section('4. 元数据覆盖率')
     notes = [f for f in files if is_note(f) and re.match(r'^0\d_', f)
              and '概念扫盲' not in f]
-    no_date, no_source = [], []
+    no_date, no_source, no_limit = [], [], []
     for f in notes:
         tail = ''.join(texts[f].splitlines(keepends=True)[-8:])
         if not re.search(r'最后更新|探索日期|更新日期', tail):
             no_date.append(f)
+        # 必须分别检查：用「来源 or 局限」会让只写了其中一个的笔记蒙混过关
         heads = re.findall(r'^#{1,4}\s*(.+)$', texts[f], re.M)
-        if not any(('来源' in h or '局限' in h) for h in heads):
+        if not any('来源' in h for h in heads):
             no_source.append(f)
+        if not any('局限' in h for h in heads):
+            no_limit.append(f)
     print(f"笔记 {len(notes)} 篇：缺「最后更新」{len(no_date)} 篇，"
-          f"缺「来源与局限性」{len(no_source)} 篇")
+          f"缺「来源」章节 {len(no_source)} 篇，缺「局限」章节 {len(no_limit)} 篇")
     for f in no_date:
         print(f"  [缺日期] {f}")
     for f in no_source:
         print(f"  [缺来源] {f}")
-    problems_soft += len(no_date) + len(no_source)
+    for f in no_limit:
+        print(f"  [缺局限] {f}")
+    problems_soft += len(no_date) + len(no_source) + len(no_limit)
 
     # ---------- 5. 字符损坏 ----------
     section('5. UTF-8 字符损坏')
     corrupt = [(f, i + 1) for f in files
                for i, line in enumerate(texts[f].splitlines()) if '�' in line]
+    for rel_path, detail in DECODE_ERRORS:
+        print(f"  [非法 UTF-8] {rel_path}: {detail}")
+    problems_must += len(DECODE_ERRORS)
     print(f"含替换符 U+FFFD 的位置：{len(corrupt)} 处")
     for f, line_no in corrupt:
         print(f"  [损坏] {f}:{line_no}")
@@ -199,8 +219,18 @@ def main():
             continue
         links_in = {urllib.parse.unquote(u)
                     for _, u in re.findall(r'\[([^\]]*)\]\(([^)]+)\)', texts[mod_readme])}
-        own = [n for n in os.listdir(os.path.join(ROOT, module))
-               if n.endswith('.md') and n not in ENTRY_FILES]
+        # 必须递归：RAG/、GitHub项目入门/ 等子目录下的笔记也归本模块管
+        own = []
+        for sub_dir, sub_dirs, sub_files in os.walk(os.path.join(ROOT, module)):
+            sub_dirs[:] = [d for d in sub_dirs if d not in SKIP_DIRS]
+            for name in sub_files:
+                if name.endswith('.md') and name not in ENTRY_FILES:
+                    rel = os.path.relpath(os.path.join(sub_dir, name),
+                                          os.path.join(ROOT, module))
+                    # 概念扫盲等子项目有自己的 README 索引，不要求上级 README 逐篇列出
+                    if any(m in rel for m in SUBPROJECT_MARKS):
+                        continue
+                    own.append(rel)
         miss = [n for n in own if n not in links_in]
         if miss:
             print(f"  [模块 README 遗漏] {module}: {', '.join(miss)}")
@@ -212,8 +242,12 @@ def main():
     for f in files:
         # 只看二级标题：^## 后面不能再跟 #，否则会把 ### 也算进来
         h2 = re.findall(r'^##[^#]\s*(.+)$', texts[f], re.M)
+        # 「## 来源」+「## 局限性」是模板的合法拆分，不算重复；
+        # 只有同一类标题出现多次才是真重复
+        src_n = len([h for h in h2 if '来源' in h])
+        lim_n = len([h for h in h2 if '局限' in h])
         hit = [h for h in h2 if ('来源' in h or '局限' in h)]
-        if len(hit) > 1:
+        if src_n > 1 or lim_n > 1:
             dupes.append((f, hit))
     print(f"存在重复章节的笔记：{len(dupes)} 篇")
     for f, hit in dupes:
