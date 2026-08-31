@@ -1,0 +1,420 @@
+@use "./base.scss";
+
+// ============================================================
+// 纸质杂志风 v4（左 220 / 中 880 / 右 280，突出中央内容）
+// 配色：米黄底 + 赭石红单强调 + 黑字
+// ============================================================
+
+:root {
+  --cjk-sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Source Han Sans SC", "Noto Sans CJK SC", "WenQuanYi Micro Hei", sans-serif;
+  --cjk-serif: "Songti SC", "STSong", "Source Han Serif SC",
+    "Noto Serif CJK SC", "Source Han Serif CN", Georgia, serif;
+}
+
+// 1. 正文字体
+body, .page, article {
+  font-family: "Source Sans Pro", var(--cjk-sans);
+  font-size: 16px;
+}
+
+article p, article li {
+  line-height: 1.85;
+}
+
+article p {
+  margin: 0.9em 0;
+}
+
+// 2. 标题层级
+article h1,
+.center > h1,
+.article-title {
+  font-family: var(--cjk-serif);
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin: 0.4em 0 0.6em;
+  color: var(--dark);
+}
+
+article h2 {
+  font-family: var(--cjk-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 2.4em 0 0.6em;
+  color: var(--dark);
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--lightgray);
+}
+
+article h3 {
+  font-family: var(--cjk-serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 1.8em 0 0.5em;
+}
+
+article h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--darkgray);
+  margin: 1.4em 0 0.4em;
+  letter-spacing: 0.02em;
+}
+
+article h2 + h3,
+article h2 + p + h3 {
+  margin-top: 1.2em;
+}
+
+// 3. 代码字体
+code, pre, .code {
+  font-family: "IBM Plex Mono", "JetBrains Mono", var(--cjk-sans) !important;
+}
+
+pre code {
+  font-size: 0.88em;
+  line-height: 1.6;
+}
+
+// 4. 链接
+article a {
+  color: var(--dark);
+  background-color: transparent;
+  text-decoration: underline;
+  text-decoration-color: var(--lightgray);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+
+  &:hover {
+    color: var(--secondary);
+    text-decoration-color: var(--secondary);
+  }
+}
+
+// 5. callout
+blockquote {
+  border-left: 3px solid var(--darkgray);
+  background: rgba(217, 210, 194, 0.25);
+  border-radius: 0;
+  padding: 0.8em 1.3em;
+  margin: 1.4em 0;
+  color: var(--darkgray);
+  font-size: 0.96em;
+
+  p {
+    margin: 0.4em 0;
+  }
+}
+
+// 6. 表格
+article table {
+  font-size: 0.93em;
+  border-collapse: collapse;
+  margin: 1.6em 0;
+  width: 100%;
+  border-top: 2px solid var(--dark);
+  border-bottom: 2px solid var(--dark);
+
+  th {
+    background: transparent;
+    color: var(--dark);
+    font-weight: 700;
+    text-align: left;
+    padding: 0.7em 1em 0.7em 0;
+    border-bottom: 1px solid var(--dark);
+  }
+
+  td {
+    padding: 0.65em 1em 0.65em 0;
+    border-bottom: 1px solid rgba(217, 210, 194, 0.5);
+    vertical-align: top;
+  }
+
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  th:not(:last-child),
+  td:not(:last-child) {
+    padding-right: 1.4em;
+  }
+}
+
+// 7. inline code
+:not(pre) > code {
+  background: rgba(217, 210, 194, 0.4);
+  color: var(--dark);
+  padding: 0.12em 0.4em;
+  border-radius: 2px;
+  font-size: 0.88em;
+}
+
+// 8. 加粗 / 斜体
+article strong {
+  color: var(--dark);
+  font-weight: 700;
+}
+
+article em {
+  font-style: italic;
+  color: var(--darkgray);
+}
+
+// 9. 背景
+.page {
+  background: var(--light);
+}
+
+// 10. 内容区
+article {
+  background: #fffdf7;
+  border: 1px solid var(--lightgray);
+  border-radius: 2px;
+  padding: 3em 3.5em 3.5em;
+  box-shadow: none;
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1200px) {
+  article {
+    padding: 2em 2.2em 2.5em;
+  }
+}
+
+// 11. ContentMeta
+.content-meta {
+  font-family: var(--cjk-serif);
+  font-size: 0.85em;
+  color: var(--gray);
+  margin: 0.3em 0 2em;
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+// 12. 面包屑
+.breadcrumb-container {
+  font-size: 0.84em;
+  margin-bottom: 0.8em;
+  opacity: 0.85;
+
+  .breadcrumb-element a {
+    color: var(--gray);
+
+    &:hover {
+      color: var(--secondary);
+    }
+  }
+}
+
+// 13. 水平分隔线
+article hr {
+  border: 0;
+  border-top: 1px solid var(--lightgray);
+  margin: 2.5em 0;
+}
+
+// ============================================================
+// 左侧 220px：紧凑 Explorer
+// ============================================================
+.sidebar.left {
+  padding-right: 0.5em;
+}
+
+.page-title a {
+  font-family: var(--cjk-serif);
+  font-weight: 700;
+  color: var(--dark);
+  font-size: 1.1rem;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+
+  &:hover {
+    color: var(--secondary);
+  }
+}
+
+.search-button {
+  border-radius: 2px;
+  background: transparent;
+  border: 1px solid var(--lightgray);
+  font-size: 0.85em;
+  padding: 0.4em 0.6em;
+
+  &:focus {
+    outline: 1px solid var(--secondary);
+  }
+}
+
+.explorer {
+  font-size: 0.9em;
+
+  & > h2 {
+    font-family: var(--cjk-serif);
+    font-size: 0.95em;
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    color: var(--darkgray);
+    margin-bottom: 0.5em;
+    border-bottom: 0;
+  }
+
+  ul {
+    font-size: inherit;
+    line-height: 1.65;
+
+    li > a,
+    li > .folder-button {
+      line-height: 1.65;
+      color: var(--darkgray);
+      padding: 0.2em 0;
+
+      &:hover {
+        color: var(--secondary);
+      }
+    }
+
+    li {
+      padding: 0;
+    }
+  }
+
+  .folder-outer.open > .folder-container > .folder-icon {
+    color: var(--secondary);
+  }
+}
+
+// ============================================================
+// 右侧：ToC / Graph / Backlinks
+// ============================================================
+.sidebar.right {
+  padding-left: 0.5em;
+}
+
+.toc {
+  margin-top: 0;
+
+  h3 {
+    font-family: var(--cjk-sans);
+    font-size: 0.78em;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+    border-bottom: 0;
+    font-weight: 600;
+    margin: 0.5em 0;
+  }
+
+  .toc-content li {
+    margin: 0;
+  }
+
+  .toc-content li a {
+    font-size: 0.9em;
+    line-height: 1.7;
+    color: var(--darkgray);
+    padding: 0.15em 0;
+
+    &.in-view {
+      color: var(--secondary);
+      font-weight: 600;
+    }
+
+    &:hover {
+      color: var(--secondary);
+    }
+  }
+}
+
+.backlinks {
+  h3 {
+    font-family: var(--cjk-sans);
+    font-size: 0.78em;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--gray);
+    border-bottom: 0;
+    font-weight: 600;
+    margin: 1.8em 0 0.4em;
+  }
+
+  ul li {
+    margin: 0;
+  }
+
+  ul li a {
+    font-size: 0.85em;
+    line-height: 1.65;
+    color: var(--darkgray);
+    padding: 0.1em 0;
+
+    &:hover {
+      color: var(--secondary);
+    }
+  }
+}
+
+.graph-outer {
+  min-height: 200px;
+  background: #fffdf7;
+  border: 1px solid var(--lightgray);
+  border-radius: 2px;
+  padding: 0.3em;
+  margin-bottom: 1em;
+}
+
+.graph > h3 {
+  font-family: var(--cjk-sans);
+  font-size: 0.78em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--gray);
+  border-bottom: 0;
+  font-weight: 600;
+  margin: 0.5em 0;
+}
+
+// 兼容残留
+.hero-card,
+.hero-stats { display: none !important; }
+
+// ============================================================
+// 暗色模式
+// ============================================================
+[saved-theme="dark"] {
+  .page {
+    background: var(--light);
+  }
+
+  article {
+    background: #221e1a;
+    border: 1px solid var(--lightgray);
+  }
+
+  blockquote {
+    background: rgba(217, 119, 87, 0.06);
+  }
+
+  article table {
+    border-top-color: var(--darkgray);
+    border-bottom-color: var(--darkgray);
+
+    th {
+      border-bottom-color: var(--darkgray);
+    }
+  }
+
+  :not(pre) > code {
+    background: rgba(217, 119, 87, 0.12);
+    color: var(--secondary);
+  }
+
+  .graph-outer {
+    background: #221e1a;
+  }
+}

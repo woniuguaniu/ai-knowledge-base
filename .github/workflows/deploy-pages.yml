@@ -1,0 +1,99 @@
+name: 构建并部署到 GitHub Pages
+
+# 触发时机
+on:
+  push:
+    branches: [main]        # 推到 main 分支就自动跑
+  workflow_dispatch:        # 也可以在 GitHub 网页上手动点一下运行
+
+# GitHub Pages 部署需要的权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只跑一个部署，避免两次 push 撞车
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+# 说明：本 workflow 只使用下面这两个自定义常量与仓库自身内容，
+# 不消费任何来自 issue / PR / commit message 的外部输入，因此不存在注入面。
+env:
+  QUARTZ_VERSION: v4.5.2
+  SITE_BASE_URL: woniuguaniu.github.io/ai-knowledge-base
+
+jobs:
+  build:
+    name: 构建静态站点
+    runs-on: ubuntu-latest
+    steps:
+      # Quartz 靠 git 历史生成每篇笔记的「最后修改时间」，
+      # 所以必须 fetch-depth: 0 取完整历史，不能用默认的浅克隆
+      - name: 取出知识库内容
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          path: content-src
+
+      - name: 拉取 Quartz
+        run: |
+          git clone --depth 1 --branch "$QUARTZ_VERSION" \
+            https://github.com/jackyzha0/quartz.git quartz
+
+      - name: 装入笔记内容与本地定制配置
+        run: |
+          rm -rf quartz/content
+          mv content-src quartz/content
+
+          # 覆盖三个定制文件（站点标题 / 中文配色 / 纸质杂志风样式）
+          cp quartz/content/.quartz-config/quartz.config.ts   quartz/
+          cp quartz/content/.quartz-config/quartz.layout.ts   quartz/
+          cp quartz/content/.quartz-config/styles/custom.scss quartz/quartz/styles/
+
+          # 配置目录本身不是笔记，别让它出现在站点里
+          rm -rf quartz/content/.quartz-config
+
+      # 本地预览用 localhost:8080，线上要换成真实域名。
+      # 在 CI 里替换，本地配置就不用来回改了。
+      - name: 设置 baseUrl
+        run: |
+          cd quartz
+          sed -i "s|baseUrl: \"localhost:8080\"|baseUrl: \"$SITE_BASE_URL\"|" quartz.config.ts
+          echo "当前 baseUrl："
+          grep 'baseUrl' quartz.config.ts
+
+      - name: 安装 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: 安装依赖
+        run: cd quartz && npm ci
+
+      - name: 构建
+        run: cd quartz && npx quartz build
+
+      # 构建完先看一眼产物，出问题时这段日志最有用
+      - name: 检查产物
+        run: |
+          echo "产物文件数：$(find quartz/public -type f | wc -l)"
+          echo "产物体积：$(du -sh quartz/public | cut -f1)"
+          test -f quartz/public/index.html || { echo "没有生成首页，构建失败"; exit 1; }
+
+      - name: 上传产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: quartz/public
+
+  deploy:
+    name: 发布
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 部署到 GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
