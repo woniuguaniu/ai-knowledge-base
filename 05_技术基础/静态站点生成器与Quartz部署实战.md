@@ -2,6 +2,10 @@
 
 > 本笔记从 2026-05-27 把这个知识库部署到 `kingrich.top/knowledge-base/quartz/` 的实战流程提炼而来。重点是讲清楚:**Quartz 不是孤例,它属于「静态站点生成器(SSG)」这个更大的工程范式**——学会一个,其他都通。
 
+> 🔒 **本文已脱敏**（2026-08-31）：文中 `<YOUR_SERVER_IP>` 是服务器 IP、`<YOUR_SITE_DIR>` 是宝塔站点目录名，实际使用时替换成自己的值。
+>
+> **教训**：本仓库是**公开**的 GitHub 仓库，最初这两处写的是真实值。真实 IP + root 路径出现在公开仓库里，会被扫描器索引成攻击目标。**写运维类笔记时，凡是 IP、域名后台路径、账号、密钥，一律用占位符**——反正真实值你自己记得住，写进去只对攻击者有价值。
+
 ---
 
 ## § 1. 这是什么:静态站点生成器(SSG)范式
@@ -55,7 +59,7 @@
 | **源文件** | 知识库本体 | `/Users/xxddd/Desktop/与AI交流AI/` |
 | **生成器** | Quartz 4 | `~/Desktop/quartz-preview/quartz/`(通过软链读源文件) |
 | **静态产物** | 编译好的 HTML | `~/Desktop/quartz-preview/quartz/public/`(16 MB / 93 个文件) |
-| **Web 服务器** | nginx | 远端 `47.110.250.139` 上的 `/www/wwwroot/.../quartz/` |
+| **Web 服务器** | nginx | 远端 `<YOUR_SERVER_IP>` 上的 `/www/wwwroot/.../quartz/` |
 
 `content` 软链是个值得单独说的细节——它让"源文件"和"生成器"解耦,让一个知识库可以被多个生成器吃,或者一个生成器可以吃多个知识库。
 
@@ -112,7 +116,7 @@ const config: QuartzConfig = {
 
 ### 这次走的是路线 A
 
-`kingrich.top/knowledge-base/quartz` 落在用户已有的阿里云 VPS(47.110.250.139)上,宝塔面板(`/www/wwwroot/`)+ nginx。这条路线最直接,但**远端必须装 rsync**(见 § 8.1)。
+`kingrich.top/knowledge-base/quartz` 落在用户已有的阿里云 VPS(<YOUR_SERVER_IP>)上,宝塔面板(`/www/wwwroot/`)+ nginx。这条路线最直接,但**远端必须装 rsync**(见 § 8.1)。
 
 ### 怎么选?
 
@@ -180,7 +184,7 @@ grep -oE '(href|src)="[^"]+"' ~/Desktop/quartz-preview/quartz/public/index.html 
 
 第一次部署需要:
 ```bash
-ssh root@47.110.250.139
+ssh root@<YOUR_SERVER_IP>
 # 输密码登录,确认能进
 ```
 
@@ -191,7 +195,7 @@ ssh root@47.110.250.139
 ```bash
 rsync -avz --progress \
     /Users/xxddd/Desktop/quartz-preview/quartz/public/ \
-    root@47.110.250.139:/www/wwwroot/kingrichhtml/knowledge-base/quartz/
+    root@<YOUR_SERVER_IP>:/www/wwwroot/<YOUR_SITE_DIR>/knowledge-base/quartz/
 ```
 
 **参数解释**:
@@ -205,11 +209,11 @@ rsync -avz --progress \
 
 ### Step 6:nginx 配置
 
-宝塔面板的网站根目录是 `/www/wwwroot/kingrichhtml/`,在 nginx 的 server 块里加 location:
+宝塔面板的网站根目录是 `/www/wwwroot/<YOUR_SITE_DIR>/`,在 nginx 的 server 块里加 location:
 
 ```nginx
 location /knowledge-base/quartz/ {
-    alias /www/wwwroot/kingrichhtml/knowledge-base/quartz/;
+    alias /www/wwwroot/<YOUR_SITE_DIR>/knowledge-base/quartz/;
     index index.html;
     try_files $uri $uri.html $uri/ =404;
     charset utf-8;
@@ -305,7 +309,7 @@ QUARTZ_DIR="$HOME/Desktop/quartz-preview/quartz"
 CONFIG="$QUARTZ_DIR/quartz.config.ts"
 REMOTE_BASEURL="kingrich.top/knowledge-base/quartz"
 LOCAL_BASEURL="localhost:8080"
-REMOTE_TARGET="root@47.110.250.139:/www/wwwroot/kingrichhtml/knowledge-base/quartz/"
+REMOTE_TARGET="root@<YOUR_SERVER_IP>:/www/wwwroot/<YOUR_SITE_DIR>/knowledge-base/quartz/"
 
 cd "$QUARTZ_DIR"
 
