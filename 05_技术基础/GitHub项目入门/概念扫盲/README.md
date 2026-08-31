@@ -8,7 +8,7 @@
 
 | 顺序 | 分卷 | 内容 |
 |---|---|---|
-| 1 | [01_工程全景与核心名词.md](01_工程全景与核心名词.md) | 软件工程全景图、Node.js / npm / pnpm / yarn、React / Vite / src 的关系 |
+| 1 | [01_工程全景与核心名词.md](01_工程全景与核心名词.md) | 软件工程全景图、Node.js / npm / pnpm / yarn（含**「npm 和 pnpm 该用哪个」选择指南**：命令对照、幽灵依赖、按 lock 文件选择）、React / Vite / src 的关系 |
 | 2 | [02_开源协议与GitHub协作.md](02_开源协议与GitHub协作.md) | MIT 协议、常见开源协议、Fork 与 GitHub 协作 |
 | 3 | [03_终端参数与Docker基础.md](03_终端参数与Docker基础.md) | 命令参数、Docker 使用与生命周期管理 |
 | 4 | [04_Nginx与容器化部署.md](04_Nginx与容器化部署.md) | Nginx、容器 vs 虚拟机、容器化部署流程 |
