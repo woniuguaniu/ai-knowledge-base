@@ -458,7 +458,7 @@ claude mcp add codex -s user ...  ← 所有项目都启用
 |---|---|
 | 时效性 | **高**——各家 CLI（Claude Code / Codex / Gemini CLI 等）的命令、MCP 注册方式、配置文件路径都在快速变化。本文对应 2026-05 前后的状态 |
 | 覆盖范围 | 聚焦"让多个 CLI 互相调用"的几种玩法，不含各 CLI 自身的完整用法（见各自专篇） |
-| 环境依赖 | 配置示例基于 **macOS + zsh**，Windows/WSL 与其他 shell 需自行调整 |
+| 玩法层级 | 玩法 A/C/D 是 **Shell 管道与流程编排**，跨平台通用；玩法 B（MCP 互调）依赖各 CLI 的 MCP 注册方式，随版本变化最快 |
 | 实战验证 | 部分玩法（如 MCP 互调）有实测记录，见[Claude调用Codex协作实战案例](Claude调用Codex协作实战案例.md)；其余组合为方案推演，未逐一验证 |
 
 ---
