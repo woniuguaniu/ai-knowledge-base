@@ -242,11 +242,16 @@ def main():
     for f in files:
         # 只看二级标题：^## 后面不能再跟 #，否则会把 ### 也算进来
         h2 = re.findall(r'^##[^#]\s*(.+)$', texts[f], re.M)
-        # 「## 来源」+「## 局限性」是模板的合法拆分，不算重复；
-        # 只有同一类标题出现多次才是真重复
-        src_n = len([h for h in h2 if '来源' in h])
-        lim_n = len([h for h in h2 if '局限' in h])
-        hit = [h for h in h2 if ('来源' in h or '局限' in h)]
+        # 只统计「元数据章节」标题，不能拿正文标题充数：
+        # 「这套机制的局限」讲的是模型能力的局限，属正文；
+        # 「局限性」「来源与局限性」才是模板要求的元数据章节。
+        meta = [h for h in h2
+                if re.fullmatch(r'(\d+(\.\d+)*\.?\s*)?(来源|局限性|来源与局限性|'
+                                r'来源与评分|来源、评分与可商榷点|作者声明、来源与局限性)\s*',
+                                h.strip())]
+        src_n = len([h for h in meta if '来源' in h])
+        lim_n = len([h for h in meta if '局限' in h])
+        hit = meta
         if src_n > 1 or lim_n > 1:
             dupes.append((f, hit))
     print(f"存在重复章节的笔记：{len(dupes)} 篇")
