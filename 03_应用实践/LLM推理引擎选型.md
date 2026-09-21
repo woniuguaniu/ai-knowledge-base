@@ -605,6 +605,7 @@ huggingface-cli download bartowski/Qwen3-32B-GGUF Qwen3-32B-Q4_K_M.gguf
 - **前置:模型量化与精度选择**:[本地部署模型量化选型](本地部署模型量化选型.md)——选好 GGUF / AWQ / FP8 后,再用本文的引擎跑起来
 - **前置:NVIDIA 工程基础**:[NVIDIA 驱动 / CUDA / PyTorch](../05_技术基础/NVIDIA驱动-CUDA-PyTorch工程基础.md)——推理引擎跑之前,要先把驱动 / CUDA 调通
 - **前置:硬件知识**:[NVIDIA 显卡架构与 AI 算力](../05_技术基础/NVIDIA显卡架构与AI算力.md)——为什么 P40 上跑不了 FP8、为什么 5090 需要 nightly PyTorch
+- **延伸:生产级多机集群**:[大模型生产级部署与选卡估算](大模型生产级部署与选卡估算.md)——本文 § 4.4 投机解码、§ 4.5 TP/PP/EP 在对外商用场景下怎么用:TTFT / TPOT 指标、并发曲线、PD 分离、KV Cache 分级
 - **后续:部署架构**:[HomeLab 到中小企业 LLM 部署架构](HomeLab到中小企业LLM部署架构.md)——单引擎起来后,如何做负载均衡 / 多用户 / 监控
 - **前置:模型选择**:[各家 LLM 模型特点速查](各家LLM模型特点速查.md)——选哪个模型扔到推理引擎里
 - **平行:API 选型**:[LLM-API 选型方法论](LLM-API选型方法论.md)——什么场景需要自部署 vs 用 API

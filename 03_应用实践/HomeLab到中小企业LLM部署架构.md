@@ -624,6 +624,7 @@ client = OpenAI(base_url="https://api.your-company.com/v1")
 - **前置:推理引擎**:[LLM 推理引擎选型](LLM推理引擎选型.md)——本架构图里的"Layer 2"
 - **前置:硬件**:[NVIDIA 显卡架构与 AI 算力](../05_技术基础/NVIDIA显卡架构与AI算力.md)——决定能跑什么
 - **前置:工程基础**:[NVIDIA 驱动 / CUDA / PyTorch](../05_技术基础/NVIDIA驱动-CUDA-PyTorch工程基础.md)——服务器初始化必走
+- **下游:超出 500 用户 / 8 卡之后**:[大模型生产级部署与选卡估算](大模型生产级部署与选卡估算.md)——满血 MoE 对外商用的卡数估算、Blackwell / NVL72 机架、合规采购,成本表从本文 § 9.1 往上接
 - **平行:商业 API 选型**:[LLM-API 选型方法论](LLM-API选型方法论.md)——自建 vs 用 API 的决策框架
 - **下游:接入应用**:[Claude Code 实战速查](../06_Agent工程/Claude%20Code%20实战速查.md)——接 CC 用国产模型
 - **安全**:[Agent 安全攻防](../06_Agent工程/Agent安全攻防.md)——网关层的防注入 / DLP 等
