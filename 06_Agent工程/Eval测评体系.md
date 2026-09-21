@@ -478,6 +478,7 @@ LangChain 用户 → LangSmith（无缝集成）
 | Multi-Agent 中的 Eval 角色 | [Multi-Agent 工程实战与 Persona 设计](Multi-Agent工程实战与Persona设计.md) | 7 人团队中的"复盘官"实际上就是在跑 LLM-as-Judge + 离线 Eval,可对照本文的四大类 Eval 看真实工程实现 |
 | LLM 失败模式与 Goodhart's Law 的具象 | [LLM 典型失败模式](LLM典型失败模式.md) | 本文讲"度量层"问题，该文讲"度量对象本身"会因 Goodhart's Law 表演性完成；两者必须搭配阅读 |
 | Agent 可观测性与成本 | [Agent可观测性与成本工程](Agent可观测性与成本工程.md) | Eval 回答"跑得对吗"；那篇讲运行时 Trace / 成本，且线上 Trace → Eval 样本是数据飞轮闭环 |
+| 岗位视角：Eval 是最保值的护城河 | [AI 岗位图谱：FDE 与大模型应用工程师](AI岗位图谱-FDE与大模型应用工程师.md) | FDE 日常第 ⑤ 步"和客户业务专家一起建评估集"是交付验收的命门；大模型应用工程师护城河排序里"Eval 与数据闭环"排第一——模型再升级这套方法论不过期 |
 
 ---
 
