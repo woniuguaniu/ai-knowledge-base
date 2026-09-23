@@ -624,6 +624,7 @@ if (reason === "SAFETY") {
 
 - Token 与计费 → [上下文窗口与 Token 计费](../00_核心概念/上下文窗口与Token计费.md)
 - Prompt Caching(Anthropic / DeepSeek 都支持)→ 同上
+- 结构化输出的另一条路 → [决策型模型 Jev 与 System One](../01_模型架构/决策型模型Jev与System-One.md):json_schema 是让模型在逐字生成时不写出不合规的字,Jev 是架构层面只输出类型化决策、不写字、输出免费
 - 思考模型基础 → [模型训练技术速查](../00_核心概念/模型训练技术速查.md):o1 系列、R1 等
 
 ### 7.3 工程实践

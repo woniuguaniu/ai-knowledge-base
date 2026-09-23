@@ -867,6 +867,7 @@ chunk 4: {"arguments":"州\"}"}
 - **Agent 安全**:[Agent 安全攻防.md](../06_Agent工程/Agent安全攻防.md)——工具调用是主要攻击面
 - **Harness 工程**:[Harness工程与Agent解剖.md](../06_Agent工程/Harness工程与Agent解剖.md)——工具是 Agent 的"执行层"
 - **API 选型决策**:[LLM-API 选型方法论.md](../03_应用实践/LLM-API选型方法论.md)——选模型时要看是否支持 FC
+- **工具路由的另一种做法**:[决策型模型Jev与System-One.md § 6](../01_模型架构/决策型模型Jev与System-One.md#6-正确用法聪明的-if-语句)——用 Choice 选工具、Noul 判断要不要调、参数从闭集里选,官方 cookbook 有 function calling 示例
 
 ---
 
