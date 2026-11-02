@@ -5,6 +5,7 @@
 > ⚠️ **本篇为 Claude 原创补充笔记**,非 LINUX DO @flymyd 原稿(详见末尾「作者声明」)。
 > 📌 **填坑提示**:[本地部署模型量化选型.md § 1](本地部署模型量化选型.md) 末尾标注"推理引擎不在本篇范围",本篇就是填这个坑。
 > **适用时间**：截至 2026-05-29 的知识库整理版本。推理引擎生态更新很快，生产部署前应重新确认各项目的版本、硬件支持矩阵和已知 issue。
+> **局部审校（2026-11-02）**：仅修订 §4.4 投机解码的收益、草稿方法与正确性边界并补关联；其余历史性能表和支持矩阵未重新核验。
 > 🏷️ **型号命名说明**：Qwen3 稠密模型只有 0.6B/1.7B/4B/8B/14B/32B(**没有 7B**，8B 是最接近的那档)，本文示例统一用 `Qwen3-8B`。文中 `bartowski/…`、`mlx-community/…` 等社区量化仓库路径仅作示例，**实际请以 HuggingFace / Ollama 上的最新仓库名为准**。
 
 ---
@@ -461,9 +462,11 @@ mlx-server --model mlx-community/Qwen3-8B-4bit
 
 ### 4.4 Speculative Decoding(投机解码)
 
-用一个小模型"草拟"几个 token,大模型"验证"——验证通过则一次接受多个 token,**推理速度 1.5-3 倍**。
+草稿机制提出若干 token，目标模型批量验证，可减少每个有效输出 token 的目标执行成本。**没有通用的 1.5-3 倍保证**：收益依接受长度、草稿 / 验证成本、上下文、并发、缓存与调度而变，也可能变慢。
 
-vLLM / SGLang / TensorRT-LLM 都支持,但需要小模型(draft model)配套。
+不同引擎支持独立 draft model、MTP 原生预测头、n-gram 等不同方法，不一定需要另放一个完整小模型；按模型和引擎版本核对实际支持。已查阅的 [vLLM v0.29.0 文档](https://docs.vllm.ai/en/v0.29.0/features/speculative_decoding) 将中低 QPS、memory-bound 负载列为用途，因此不能把“带宽受限”直接当作关闭理由。
+
+精确投机采样的正确实现可保持**目标模型分布**，不保证逐次生成字符串相同；量化、有损路由与近似接受规则需另验正确性。专家卸载时验证可能读入更多专家，草稿也可能挤占缓存，见 [资源受限 MoE 的投机 / MTP 实验](资源受限的MoE本地部署.md#6-投机解码与-mtp-的收益条件)。
 
 ### 4.5 Tensor Parallelism / Pipeline Parallelism
 
@@ -606,6 +609,7 @@ huggingface-cli download bartowski/Qwen3-32B-GGUF Qwen3-32B-Q4_K_M.gguf
 - **前置:NVIDIA 工程基础**:[NVIDIA 驱动 / CUDA / PyTorch](../05_技术基础/NVIDIA驱动-CUDA-PyTorch工程基础.md)——推理引擎跑之前,要先把驱动 / CUDA 调通
 - **前置:硬件知识**:[NVIDIA 显卡架构与 AI 算力](../05_技术基础/NVIDIA显卡架构与AI算力.md)——为什么 P40 上跑不了 FP8、为什么 5090 需要 nightly PyTorch
 - **延伸:生产级多机集群**:[大模型生产级部署与选卡估算](大模型生产级部署与选卡估算.md)——本文 § 4.4 投机解码、§ 4.5 TP/PP/EP 在对外商用场景下怎么用:TTFT / TPOT 指标、并发曲线、PD 分离、KV Cache 分级
+- **延伸:资源受限 MoE**:[资源受限的 MoE 本地部署](资源受限的MoE本地部署.md)——专家权重卸载与 KV 分级的区别、EAR、I/O 和有损路由；不能从引擎名称推断性能
 - **后续:部署架构**:[HomeLab 到中小企业 LLM 部署架构](HomeLab到中小企业LLM部署架构.md)——单引擎起来后,如何做负载均衡 / 多用户 / 监控
 - **前置:模型选择**:[各家 LLM 模型特点速查](各家LLM模型特点速查.md)——选哪个模型扔到推理引擎里
 - **平行:API 选型**:[LLM-API 选型方法论](LLM-API选型方法论.md)——什么场景需要自部署 vs 用 API
@@ -621,7 +625,7 @@ huggingface-cli download bartowski/Qwen3-32B-GGUF Qwen3-32B-Q4_K_M.gguf
 | **Continuous Batching** | 连续批处理,新请求随时插入 batch,GPU 利用率最大化 |
 | **PagedAttention** | vLLM 原创,KV cache 按页管理,几乎零碎片 |
 | **RadixAttention** | SGLang 原创,基于 Radix Tree 的 prompt 前缀复用 |
-| **Speculative Decoding** | 投机解码,小模型草拟 + 大模型验证 |
+| **Speculative Decoding** | 投机解码，草稿机制提出候选 + 目标验证，不一定用独立小模型 |
 | **TP / PP / EP** | Tensor / Pipeline / Expert 并行,见 [§ 4.5](#45-tensor-parallelism--pipeline-parallelism) |
 | **GGUF** | Georgi Gerganov Universal Format,llama.cpp 专用模型格式 |
 | **AWQ** | Activation-aware Weight Quantization,4-bit 量化 |
@@ -659,12 +663,13 @@ huggingface-cli download bartowski/Qwen3-32B-GGUF Qwen3-32B-Q4_K_M.gguf
 - TensorRT-LLM:https://nvidia.github.io/TensorRT-LLM/
 - MLX:https://ml-explore.github.io/mlx/
 - Hugging Face TGI:https://huggingface.co/docs/text-generation-inference
+- **2026-11-02 局部核对**：[vLLM v0.29.0 Speculative Decoding](https://docs.vllm.ai/en/v0.29.0/features/speculative_decoding)，仅核对用途、草稿方法、收益与 lossless 的数值边界，支持 §4.4；不表示其他引擎已逐项核验。
 
 ### 9.3 本笔记的局限性
 
 | 维度 | 局限性 |
 |---|---|
-| **个人实测对比数据** | 笔者没有亲测 7 个引擎在同硬件下的吞吐 / 延迟,**所有"快几倍"的说法均出自各引擎官方 benchmark 或社区共识**——实际数字因模型 / 卡 / 量化 / 配置不同而异 |
+| **个人实测对比数据** | 笔者没有亲测 7 个引擎在同硬件下的吞吐 / 延迟；其余历史“快几倍”表述未逐项核对原始 benchmark 条件，不能以社区共识充当实验证据 |
 | **国内特殊版本** | 某些国产平台(如华为 MindIE / 寒武纪推理 SDK)的对比未深入 |
 | **新版本特性** | 各引擎月度更新很快,**最新功能(如某个引擎刚加的 Mamba 支持)可能在本文中未体现** |
 | **生产环境调优** | 本文聚焦"能跑起来",**生产级别的吞吐调优(如 chunked prefill / prefix cache 共享集群)** 需配合各引擎官方文档 |
@@ -681,4 +686,6 @@ huggingface-cli download bartowski/Qwen3-32B-GGUF Qwen3-32B-Q4_K_M.gguf
 
 ---
 
-*最后更新：2026-06-03（据 git 提交历史回填，非内容重新审校日期）*
+*最后更新：2026-11-02（仅补投机解码边界与关联；其余历史性能/支持矩阵未重新审校）*
+
+*资料核对：2026-11-02，仅限 §4.4 与所列 vLLM 文档；模型 / 硬件实测：未实测。*
