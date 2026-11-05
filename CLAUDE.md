@@ -62,6 +62,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 根 `README.md` 的索引表是手工维护的——任何新增/移动笔记后，都应同步更新该表的对应行，保持"索引 = 实际"一致。2026-04-18 已做过一次大整理，把原先散落在根目录的 5 个 md 归入了 `03/04/05` 三个模块，目前索引与磁盘一致。
 
+## 知识导图维护
+
+`08_知识导图/` 是全库提纲导图。底稿 `知识库导图.md` 是唯一手工维护的源文件；网页和 XMind 由脚本生成，不要手改。提炼规则见 `08_知识导图/README.md`。
+
+在 00–07 模块新增、修改、移动或删除正文笔记后，收尾前按顺序做：
+
+1. 跑 `python3 _scripts/build_mindmap.py check`，处理它报的漏收、断链和「原文已改」。
+2. 按提炼规则补写或修改这几篇在底稿里的要点；结论没变的小修改不用改要点。新增或删除笔记时，同步底稿模块标题里的篇数，以及 `08_知识导图/README.md` 和根 README 里的总数（`check` 不查这些数字）。
+3. 跑 `python3 _scripts/build_mindmap.py stamp 笔记路径…` 刷新这几篇的提炼记录。
+4. 跑 `python3 _scripts/build_mindmap.py build` 重新生成网页和 XMind，底稿和两个成品一起提交。
+
+`check` 只查结构和原文指纹，不判断要点概括得对不对。
+
 ## Quartz 前端站同步规则
 
 本知识库**同时是一个 Quartz 4 前端站的内容源**——`~/Desktop/quartz-preview/quartz/content` 已经软链到本目录（`ln -s /Users/xxddd/Desktop/与AI交流AI`）。这意味着：
