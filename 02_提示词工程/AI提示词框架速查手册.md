@@ -15,7 +15,7 @@
 | **ERA** | **E**xpectation, **R**ole, **A**ction | 期望、角色、行动 | 快速任务、日常AI交互 | 最基础的提示词模板 |
 | **TAG** | **T**ask, **A**ction, **G**oal | 任务、行动、目标 | 简单内容生成、快速原型 | 极简三步法 |
 | **APE** | **A**ction, **P**urpose, **E**xpectation | 行动、目的、期望 | 提示词优化、任务指令 | 强调"为什么"的简单框架 |
-| **RTF** | **R**equest, **T**ask, **F**ormat | 请求、任务、格式 | 数据检索、操作指南 | 重点是输出格式控制 |
+| **RTF** | **R**ole, **T**ask, **F**ormat | 角色、任务、格式 | 日常对话、数据检索、操作指南 | 重点是输出格式控制；原素材写作 **R**equest（请求） |
 | **BAB** | **B**efore, **A**fter, **B**ridge | 之前、之后、桥梁 | 营销文案、产品推广 | 讲故事框架（问题→愿景→解决方案） |
 | **PEE** | **P**oint, **E**vidence, **E**xplanation | 观点、证据、解释 | 学术写作、论文段落 | 学术论证三段式 |
 | **ELI5** | **E**xplain **L**ike **I**'m **5** | 像给5岁孩子解释 | 复杂概念简化、科普 | 用最简单的语言解释 |
@@ -39,7 +39,7 @@
 | 缩写 | 全称 | 中文含义 | 适用场景 | 一句话总结 |
 |------|------|---------|---------|-----------|
 | **RACEF** | **R**ephrase, **A**ppend, **C**ontextualize, **E**xamples, **F**ollow-up | 重述、附加、情境化、示例、跟进 | 市场研究、战略规划 | 迭代优化的高级框架 |
-| **CRISPE** | **C**larity, **R**elevance, **I**teration, **S**pecificity, **P**arameters, **E**xamples | 清晰、相关、迭代、具体、参数、示例 | 营销策划、培训设计 | 平衡精确性与创造性 |
+| **CRISPE** | **C**apacity and **R**ole, **I**nsight, **S**tatement, **P**ersonality, **E**xperiment | 能力与角色、洞察、陈述、个性、实验 | 策略分析、营销策划 | 角色＋背景＋任务＋风格＋多方案；原素材写作 Clarity, Relevance, Iteration, Specificity, Parameters, Examples |
 | **SCAMPER** | **S**ubstitute, **C**ombine, **A**dapt, **M**odify, **P**ut to another use, **E**liminate, **R**earrange | 替代、组合、适应、修改、另作他用、消除、重排 | 创意头脑风暴、产品创新 | 七种创新思维方法 |
 | **ROSES** | **R**ole, **O**bjective, **S**cenario, **E**xpected output, **S**teps | 角色、目标、场景、预期输出、步骤 | AI角色定义、对话系统 | 完整的角色扮演框架 |
 
@@ -142,7 +142,7 @@ Examples: 参考《Python for Data Analysis》风格，简洁实用
 
 ### 复杂框架（6+个字母）
 - **SCAMPER** = 奔跑（创新思维像奔跑一样快）
-- **CRISPE** = 酥脆（清晰明确像脆饼）
+- **CRISPE** = 酥脆（角色、背景、任务、风格、多方案，五样说齐才脆）
 
 ---
 
@@ -176,7 +176,8 @@ Examples: 参考《Python for Data Analysis》风格，简洁实用
 - **文档版本**：v1.0
 - **创建日期**：2026-01-15
 - **来源**：wuming-skills/prompt-engineering-skills
-- **框架总数**：57个（本文档仅包含常用的15个）
+- **框架总数**：57个（本文档仅包含常用的16个）
+- **与 08 统一（2026-11-06）**：RTF、CRISPE 两行原按原素材（wuming-skills 整理自 juuzt.ai）写作 Request / Task / Format 和 Clarity / Relevance / Iteration / Specificity / Parameters / Examples，和 [08](08_提示词模板与框架.md) 不一致。CRISPE 改按最早出处（Matt Nigh 2023-02 的 GitHub README，详见 08 的来源节）；RTF 没找到单一出处，按 08 统一为 Role / Task / Format。原素材写法留在各行备注里
 - **维护者**：悟鸣
 
 ---

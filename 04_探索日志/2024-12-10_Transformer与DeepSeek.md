@@ -57,7 +57,7 @@ DeepSeek 的创新：MLA + MoE
 
 | 创新 | 解决的问题 | 效果 |
 |------|-----------|------|
-| MLA | KV Cache 太大 | 压缩 93%+ |
+| MLA | KV Cache 太大 | 压缩 93%+（2026-11-06 注：这是 V2 对比自家 DeepSeek 67B 的降幅，口径见 [DeepSeek](../01_模型架构/DeepSeek.md#deepseek-的解决方案低秩压缩)） |
 | MoE | 参数大=计算大 | 671B 只激活 37B |
 
 ---

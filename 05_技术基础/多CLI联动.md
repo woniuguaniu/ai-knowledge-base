@@ -330,7 +330,7 @@ claude mcp add codex -s user ...  ← 所有项目都启用
 
 但指令只在某个 CLAUDE.md 里。其它项目的 codex MCP 也会被加载，浪费上下文。
 
-**修法**：用 `-s project`（项目级）。
+**修法**：只有这个项目调用 codex 时，改用 `-s project`（项目级）；如果每个项目都要调 codex，`-s user` 反而合适。两种怎么选见 [Claude调用Codex协作实战案例 § 2](Claude调用Codex协作实战案例.md#2-用户级-vs-项目级对比)。
 
 ### 4.4 综合评分
 
@@ -381,7 +381,7 @@ claude mcp add codex -s user ...  ← 所有项目都启用
 - codex 返回明显错误 → 记录但不阻塞
 
 ### MCP 作用域
-- 用 `-s project`，不要 `-s user`
+- 只在本项目用 codex → `-s project`；所有项目都要用 → `-s user`
 ```
 
 ---
