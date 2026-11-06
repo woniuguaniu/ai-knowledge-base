@@ -5,6 +5,11 @@
 ## 先选路线，再看索引
 
 - **一眼看全局**：[知识库导图](08_知识导图/README.md)——把全部笔记压缩成「模块 → 分组 → 笔记 → 要点」的**思维导图**（网页 / XMind），复习前先看骨架。
+- **学习入口**：[学习路线与能力验收](05_技术基础/学习路线与能力验收.md)——按会使用、会开发、懂原理分流；包含贯穿项目、产物与失败诊断标准。
+- **如何判断可信度**：[知识笔记证据与审校规范](05_技术基础/知识笔记证据与审校规范.md)——区分官方/研究支持、本地实测、工程经验、类比与待核验；修改日期不等于审校日期。
+- **本轮改动与边界**：[2026-09-30 审校与学习路线优化](04_探索日志/2026-09-30_知识库审校与学习路线优化.md)——记录修订范围、检查结果及尚未核验的内容。
+
+本库是持续整理的个人学习笔记，不是全量审定教材。历史自动生成的“来源与局限性”只提供维护线索，不作为正确性认证。
 
 ---
 
@@ -53,11 +58,12 @@
 
 | 主题 | 文件 | 简介 |
 |------|------|------|
+| 语言模型发展脉络 | [语言模型发展脉络.md](00_核心概念/语言模型发展脉络.md) | 通俗串联 N-gram → 神经语言模型与 Embedding → RNN / LSTM → Seq2Seq + Attention → Transformer；解释每一步的瓶颈与改进，区分表示技术和架构，含时间线、对照表、反例与自测 |
 | Transformer | [Transformer.md](00_核心概念/Transformer.md) | 大模型的核心架构 |
 | 注意力机制 | [注意力机制.md](00_核心概念/注意力机制.md) | Self-Attention 与 Multi-Head Attention |
 | 上下文窗口与 Token 计费 | [上下文窗口与Token计费.md](00_核心概念/上下文窗口与Token计费.md) | Context Window、Token 换算、Prompt Caching 与账单拆解 |
 | 模型训练技术速查 | [模型训练技术速查.md](00_核心概念/模型训练技术速查.md) | 预训练 / SFT / RLHF / DPO / **蒸馏** / RFT / RLAIF 一次讲清，含全景流水线图与"何时用哪种"判断框架；§2.6 新增 **LoRA / QLoRA 省显存微调**（低秩适配 + 4-bit 量化） |
-| 大模型如何"理解"文本 | [大模型如何理解文本.md](00_核心概念/大模型如何理解文本.md) | 从"分析文章主题"任务切入，把**词嵌入语义几何 / attention 主题词聚焦 / 层级抽象 (probing 探针实验) / 预训练见过亿万"长内容+总结"对**四层机制串起来；戳穿"理解"的真相（高维统计压缩 + 模式匹配），含 **Lost in the Middle** 实证、局限边界与术语速查 |
+| 大模型如何"理解"文本 | [大模型如何理解文本.md](00_核心概念/大模型如何理解文本.md) | 区分输入 embedding、上下文表示与整段 embedding；因果掩码、attention 解释边界、层间序列表示、训练与生成，以及 Lost in the Middle 的实验范围；含自测与论文来源，未运行模型实验 |
 | 计算机视觉与深度学习框架 | [计算机视觉与深度学习框架.md](00_核心概念/计算机视觉与深度学习框架.md) | 一次讲清 **CV / OpenCV / PyTorch / TensorFlow** 四件套：CV 是领域（含分类/检测/分割/OCR/3D重建等 10 大子任务）、OpenCV 是传统算法工具箱（瑞士军刀比喻）、PyTorch 是深度学习框架（积木箱比喻）；四者关系图 + **摄像头实时人脸检测**四阶段实战（Haar 极简版 → MTCNN 标准版 → 跳帧/缩分辨率/异步抓帧/GPU 性能优化 → 完整工程版）+ 7 大常见踩坑表 + 选型建议（torchvision/MMDet/YOLO/MONAI/Detectron2/ONNX）+ 16 项术语速查 |
 | Dense 与 MoE 架构对比 | [Dense与MoE架构对比.md](00_核心概念/Dense与MoE架构对比.md) | **以 Qwen3-32B（Dense）vs Qwen3-30B-A3B（MoE）做对照实验**：Dense/MoE 通俗类比（诊所 vs 医院、天才 vs 团队、大胃袋巨人）+ 优缺点表 + Model Card 五大参数逐项解读（嵌入词表/隐藏维度/头数/层数/专家数）+ **GQA 三类注意力对比（MHA / MQA / GQA，Q:KV 比值的工程含义）** + **YaRN 上下文外推**（尺子/古神比喻 + 宏观微观区别压缩）+ 模型参数经验值速查表；含 11 项术语速查 |
 
@@ -84,14 +90,14 @@
 | 数据分析建模 | [数据分析建模（二手车经验）.md](03_应用实践/数据分析建模（二手车经验）.md) | 二手车价格预测的建模经验总结 |
 | Medprompt 方法论解析 | [Medprompt方法论解析.md](03_应用实践/Medprompt方法论解析.md) | **微软研究院论文解读**：**不微调模型,光靠提示词组合让通用大模型在医学测试超越专用微调模型**(GPT-4 + Medprompt 在 MMLU 拿 90.10%,超过 Med-PaLM 2)；三大核心技巧(**动态少样本选择 (Dynamic Few-Shot)** + **自动生成思维链 (Self-Generated CoT)** + **选项打乱多数投票 (Choice-Shuffle Ensembling)**) + **Medprompt+ 进阶**(策略路由 + 扩大集成规模) + 4 类典型应用场景 + 成本/延迟折中考量；含"组合 > 单一"的协同效应原理 |
 | 虚拟形象与数字人技术全景 | [虚拟形象与数字人技术全景.md](03_应用实践/虚拟形象与数字人技术全景.md) | VTuber / 换脸 / 换声 / 数字人 / 云端 API 的技术解剖与实战指南 |
-| 宠物 CT 影像 AI 辅助诊断方案 | [宠物CT影像AI辅助诊断方案.md](03_应用实践/宠物CT影像AI辅助诊断方案.md) | **真实客户方案案例**:4000 份猫狗 CT(DICOM)+ 10+ 病种 + 1 人标注 + 3 个月做云端 SaaS MVP；**两阶段混合架构**——Month 1-2 用**多模态大模型 + RAG**(BiomedCLIP/RAD-DINO 向量化历史病例 + 相似检索)快速出 MVP,Month 3+ 用 **MONAI 框架训练专用检测模型**(高频病种)；完整技术栈(pydicom + SimpleITK + Milvus/Qdrant + FastAPI + cornerstone.js) + 核心提示词模板 + 3 个月周里程碑表 + 4 类风险应对 + 月成本估算 ¥3000-6000 |
+| 宠物 CT 影像 AI 辅助诊断方案 | [宠物CT影像AI辅助诊断方案.md](03_应用实践/宠物CT影像AI辅助诊断方案.md) | **未实施的研究原型设计**：数据授权与脱敏、患者级隔离、DICOM/切片信息损失、RAD-DINO 的胸片研究范围、专家真值、分病种评估、拒答与停止条件；不以 20 例或 Top3 命中率认定临床有效，不承诺三个月上线 |
 | 本地部署模型量化选型 | [本地部署模型量化选型.md](03_应用实践/本地部署模型量化选型.md) | **私有化部署模型的硬件适配地图**：5 步决策路径 + Hugging Face / ModelScope / hf-mirror 平台速览 + Model Card 字段解读 + Files 目录说明（safetensors / tokenizer / generation_config） + **config.json 字段速查表（Dense 与 MoE 双版本）** + **数据精度全景表（FP64~FP4 / INT8 / INT4，W8A8 vs W8A16 解释）** + **量化方法全景表（GGUF/GPTQ/AWQ/EXL2/HQQ/AQLM/SmoothQuant/LLM.int8/FP8/NF4/MLX 共 11 种）** + **按显卡架构对号入座（Ada/Ampere/Turing/Volta/Pascal/AMD/Apple Silicon）** + 5 大踩坑（FP8 在 Ampere、量化标号陷阱、长上下文质量、KV cache 显存、MoE 显存不省）|
 | **各家 LLM 模型特点速查** | [各家LLM模型特点速查.md](03_应用实践/各家LLM模型特点速查.md) | **选 API 前先认人**：**6 大闭源家族**（GPT / Gemini / Claude / Grok / Qwen 闭源 / 豆包）+ **10 大开源家族**（DeepSeek / Qwen 开源 / GLM / MiniMax / Kimi / Hunyuan / MiMo / LongCat / gpt-oss / Gemma）的核心定位、当前主力型号、性格画像、选型场景、踩坑提醒 + **5 张模型 ID 速查表** + **8 条作者实战金句**（"改 bug 用 codex / 新工程用 5.2"、"DeepSeek V4 需暖机"、"30B-A3B ≈ 14B Dense"等）+ A÷ / Z÷ / 牢字辈等 LD 社区黑话解释 |
 | **LLM-API 选型方法论** | [LLM-API选型方法论.md](03_应用实践/LLM-API选型方法论.md) | **领导给你一个 AI 项目时**：5 维度框架（能力 / 速度 / 稳定性 / 价格 / 合规）+ **3 场景案例**（toB/toG 展厅 AI / toC 情感陪伴 / 个人创业）+ **3 大方法论**（不可能三角 / 业务决定技术 / 够用就好）+ **选型三问**（用户是谁 / 在乎什么 / 预算多少）+ **18 家 API 提供商对比表**（阿里云百炼 / 硅基流动 / 火山方舟 / OpenRouter / Cerebras / Vertex 等）+ **限速额度换算**（RPM / TPM / 并发三道闸取最小 + 429 重试）+ 7 类作者未覆盖的补充方向（数据出境合规 / 行业垂直场景等）|
 | **LLM 接口规范实战** | [LLM接口规范实战.md](03_应用实践/LLM接口规范实战.md) | **OpenAI 兼容一把梭不再够用**：4 种主流接口（OpenAI Chat Completion / OpenAI Response API / Gemini /v1beta / Anthropic Messages API）的核心字段、流式 SSE 结构、思考模型字段、多模态格式 + **9 种 role 速查**（含 LangChain 的 human/ai、OpenAI 新出的 developer、Gemini 专属的 model）+ **4 类经典坑**（role 适配 / 御三家严格参数 / /v1 前缀 / JSON 截断）+ **4 接口横向对比速查表** + 10 类作者未覆盖的工程化补充方向 |
 | **LLM 推理引擎选型** | [LLM推理引擎选型.md](03_应用实践/LLM推理引擎选型.md) | **7 大推理引擎横评**(**vLLM** / **SGLang** / **llama.cpp** / **Ollama** / **LMDeploy** / **TensorRT-LLM** / **MLX**):一句话定位 + 选型决策树 + 各引擎详解(PagedAttention / RadixAttention / GGUF 等核心创新)+ **6 大性能优化技术**(Continuous Batching / Speculative Decoding / TP/PP/EP 并行)+ **横向对比速查表** + 5 大典型场景部署示例(单卡 4090 / 双卡 + LMDeploy / Mac MLX / Tesla P40 等) |
 | **HomeLab 到中小企业 LLM 部署架构** | [HomeLab到中小企业LLM部署架构.md](03_应用实践/HomeLab到中小企业LLM部署架构.md) | **4 层部署架构模型**(硬件 / 推理服务 / 网关 / 接入)+ **3 类典型场景**(单 GPU 1-3 用户 / 2-4 卡 10-50 用户 / 4-8 卡 50-500 用户)+ **LiteLLM 网关**配置 + Nginx / Caddy 反向代理 + **API Key 管理 + RPM/TPM/Budget 三维限流** + Prometheus/Grafana/DCGM/Langfuse 监控栈 + 容灾 + **自建 vs API 盈亏平衡分析** |
-| **大模型生产级部署与选卡估算** | [大模型生产级部署与选卡估算.md](03_应用实践/大模型生产级部署与选卡估算.md) | **从“能跑”到“对外商用”**:**四个速度指标**(TTFT / TPOT / 每用户 tok/s / 总吞吐)与**并发曲线** + **三笔账**(权重 / KV Cache / 带宽÷权重估速度)+ **TP / PP / EP / DP 与 NVLink vs PCIe** + **KV Cache 分级(显存→内存→闪存)/ PD 分离 / 投机解码** + **Blackwell / GB300 / NVL72 / H20 合规** + 8 步估算流程 + 真实商用需求案例复盘(GLM-5.3 / DeepSeek-V4 / Kimi K3 成本分档) |
+| **大模型生产级部署与选卡估算** | [大模型生产级部署与选卡估算.md](03_应用实践/大模型生产级部署与选卡估算.md) | 速度指标、权重/KV Cache/运行时开销、TP/PP/EP/DP 与互联、原生精度和兼容执行路径；强调目标负载压测。历史论坛型号、性能和成本分档待核验，不作为采购依据 |
 | **资源受限的 MoE 本地部署** | [资源受限的MoE本地部署.md](03_应用实践/资源受限的MoE本地部署.md) | 专家权重 GPU/RAM/NVMe 分级、EAR 分布诊断、I/O、Fast 有损路由与投机/MTP 收益条件；核对 5090 社区主楼，图片数表与补丁未复核，未实测 |
 | **Embedding / Reranker / 向量数据库** | [Embedding-Reranker-向量数据库.md](03_应用实践/Embedding-Reranker-向量数据库.md) | **RAG 三大基石**:**Embedding 模型选型**(BGE-M3 / GTE / Conan / OpenAI v3 / Voyage / Cohere / Jina)+ **7 大向量数据库横评**(Milvus / Qdrant / Weaviate / Chroma / pgvector / Pinecone / Faiss)+ **Reranker** 召回-精排两阶段架构 + **完整 RAG Pipeline 代码** + 切块 / Hybrid Search / 元数据过滤 / 评测 4 大指标 + **PageIndex / Vectorless RAG 边界补充**(结构化长文档深度问答可用树索引 / 语义导航,但大规模短文档仍适合向量库) |
 | **LLM Wiki 知识库架构** | [RAG/LLM-Wiki知识库架构.md](03_应用实践/RAG/LLM-Wiki知识库架构.md) | **「RAG 已死」是炒作吗?——把朴素 RAG 升级为「知识编译系统」**:三层架构(**Raw→Wiki→Schema**,查询时理解→摄入时编译)+ Wiki 层**七大能力**(**页面化 / 层级目录 / 双向链接 / 实体关系 / 自动摘要 / 自动索引 / 语义导航 Retrieval as Agent Action**)+ **PageIndex 工程案例**(Vectorless RAG、层次树索引、FinanceBench 98.7% 的适用边界)+ 动态更新双轮驱动 + 三大工程陷阱;与 [Embedding-Reranker](03_应用实践/Embedding-Reranker-向量数据库.md) 互补(那篇讲工具,这篇讲知识怎么组织) |
